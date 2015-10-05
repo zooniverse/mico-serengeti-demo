@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  subject_id: 
+  user_id: MyString
+  zooniverse_discussion_id: MyString
+  zooniverse_comment_id: MyString
+  body: MyText
+
+two:
+  subject_id: 
+  user_id: MyString
+  zooniverse_discussion_id: MyString
+  zooniverse_comment_id: MyString
+  body: MyText

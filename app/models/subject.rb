@@ -1,10 +1,16 @@
 class Subject < ActiveRecord::Base
+  has_many :comments
+
   scope :unsubmitted, -> { where(mico_status: nil) }
   scope :to_update,   -> { where("mico_status IS NOT NULL AND mico_status != 'finished'") }
   scope :finished,    -> { where(mico_status: "finished") }
 
   def finished?
     mico_status == "finished"
+  end
+
+  def status
+    (mico_status || "unprocessed").underscore
   end
 
   def regions

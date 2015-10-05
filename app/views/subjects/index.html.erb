@@ -1,7 +1,7 @@
 <div class="row">
   <div class="small-12 columns">
     <h1>Subjects#index</h1>
-    <table style="width: 100%">
+    <table style="width: 100%" id="subjects-table">
       <thead>
         <th>ID</th>
         <th>Zooniverse ID</th>
@@ -10,7 +10,7 @@
 
       <tbody>
         <% @subjects.each do |subject| %>
-          <tr id="subject-<%= subject.id %>">
+          <tr id="subject-<%= subject.id %>" class="subject-status-<%= subject.status.dasherize %>">
             <td><%= subject.id %></td>
             <td><%= link_to subject.zooniverse_id, subject %></td>
             <td><%= subject.mico_status %></td>
