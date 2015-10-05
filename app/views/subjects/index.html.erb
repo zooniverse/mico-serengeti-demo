@@ -1,0 +1,21 @@
+<div class="row">
+  <h1>Subjects#index</h1>
+
+  <table class="small-12">
+    <thead>
+      <th>ID</th>
+      <th>Zooniverse ID</th>
+      <th>Status</th>
+    </thead>
+
+    <tbody>
+      <% @subjects.each do |subject| %>
+        <tr id="subject-<%= subject.id %>">
+          <td><%= subject.id %></td>
+          <td><%= link_to subject.zooniverse_id, subject %></td>
+          <td><%= subject.mico_status %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
