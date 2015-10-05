@@ -1,8 +1,16 @@
 class Subject < ActiveRecord::Base
-
   scope :unsubmitted, -> { where(mico_status: nil) }
   scope :to_update,   -> { where("mico_status IS NOT NULL AND mico_status != 'finished'") }
   scope :finished,    -> { where(mico_status: "finished") }
+
+  def finished?
+    mico_status == "finished"
+  end
+
+  def regions
+    return [] unless finished?
+    mico_data.fetch("contentParts").map.with_index { |part, idx| Region.new(idx, part) }
+  end
 
   def submit_to_mico
     self.mico_id = SecureRandom.uuid

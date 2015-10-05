@@ -9,6 +9,8 @@ class CreateSubjects < ActiveRecord::Migration
       t.string  :mico_status
       t.string  :mico_url
       t.jsonb   :mico_data
+
+      t.timestamps null: false
     end
 
     add_index :subjects, :mico_id, unique: true

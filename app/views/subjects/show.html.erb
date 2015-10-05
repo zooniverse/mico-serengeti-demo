@@ -1,6 +1,47 @@
 <div class="row">
-  <h1>Subjects#show</h1>
-  <div id="subject">
+  <div class="small-12 columns">
+    <%= link_to "All subjects", subjects_path %>
+    <h1>Subject <%= @subject.zooniverse_id %></h1>
+    <%= link_to "(Re)Submit", mico_submit_subject_path(@subject), method: :post, class: "button" %>
+    <%= link_to "Update",     mico_update_subject_path(@subject), method: :post, class: "button" %>
+  </div>
+</div>
+
+<div class="row">
+  <div id="subject" class="small-8 columns">
     <%= image_tag @subject.image_url %>
+    <% @subject.regions.each do |region| %>
+      <%= content_tag :div, region.id, id: region.id, class: ["region"], style: "top: #{region.y}px; left: #{region.x}px; width: #{region.width}px; height: #{region.height}px" %>
+    <% end %>
+  </div>
+
+  <div id="metadata" class="small-4 columns">
+    <table style="width: 100%">
+      <thead>
+        <th>Region #</th>
+        <th>X</th>
+        <th>Y</th>
+        <th>Width</th>
+        <th>Height</th>
+      </thead>
+
+      <tbody>
+        <% @subject.regions.each do |region| %>
+          <tr>
+            <td><%= region.id %></td>
+            <td><%= region.x %></td>
+            <td><%= region.y %></td>
+            <td><%= region.width %></td>
+            <td><%= region.height %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="small-12 columns">
+    <%= debug @subject %>
   </div>
 </div>

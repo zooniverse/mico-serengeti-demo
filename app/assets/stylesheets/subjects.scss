@@ -6,6 +6,9 @@
   position: relative;
 }
 
-.subject-region {
-
+.region {
+  position: absolute;
+  background: rgba(255, 255, 0, 0.5);
+  border: 1px solid black;
+  overflow: hidden;
 }

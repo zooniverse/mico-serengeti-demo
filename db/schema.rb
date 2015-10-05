@@ -17,13 +17,15 @@ ActiveRecord::Schema.define(version: 20151005081526) do
   enable_extension "plpgsql"
 
   create_table "subjects", force: :cascade do |t|
-    t.string  "zooniverse_id"
-    t.integer "image_index"
-    t.string  "image_url"
-    t.string  "mico_id"
-    t.string  "mico_status"
-    t.string  "mico_url"
-    t.jsonb   "mico_data"
+    t.string   "zooniverse_id"
+    t.integer  "image_index"
+    t.string   "image_url"
+    t.string   "mico_id"
+    t.string   "mico_status"
+    t.string   "mico_url"
+    t.jsonb    "mico_data"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   add_index "subjects", ["mico_id"], name: "index_subjects_on_mico_id", unique: true, using: :btree
