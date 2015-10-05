@@ -30,7 +30,5 @@ class Region
     string = data.fetch("target").fetch("selector").fetch("value")
     match  = /#xywh=(?<x>-?\d+),(?<y>-?\d+),(?<width>-?\d+),(?<height>-?\d+)/.match(string)
     @rect  = HashWithIndifferentAccess[match.names.zip(match.captures.map(&:to_i))]
-  rescue
-    {x: 0, y: 0, width: 1000, height: 1000}
   end
 end

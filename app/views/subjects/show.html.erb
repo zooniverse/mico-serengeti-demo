@@ -1,7 +1,7 @@
 <div class="row">
   <div class="small-12 columns">
     <%= link_to "All subjects", subjects_path %>
-    <h1>Subject <%= @subject.zooniverse_id %></h1>
+    <h1> Subject<%= @subject.zooniverse_id %></h1>
     <%= link_to "(Re)Submit", mico_submit_subject_path(@subject), method: :post, class: "button" %>
     <%= link_to "Update",     mico_update_subject_path(@subject), method: :post, class: "button" %>
   </div>
@@ -16,6 +16,9 @@
   </div>
 
   <div id="metadata" class="small-4 columns">
+    <p>Subject Extraction Status: <span class="label"><%= @subject.status %></span></p>
+
+    <h4>Regions</h4>
     <table style="width: 100%">
       <thead>
         <th>Region #</th>
@@ -35,12 +38,27 @@
             <td><%= region.height %></td>
           </tr>
         <% end %>
+
+        <% if @subject.regions.empty? %>
+          <tr><td colspan="5">(no regions)</td></tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <h4>Comments</h4>
+    <table style="width: 100%">
+      <tbody>
+        <% @subject.comments.each do |comment| %>
+          <tr>
+            <td><%= comment.body %></td>
+          </tr>
+        <% end %>
       </tbody>
     </table>
   </div>
 </div>
 
-<div class="row">
+<div class="row debug-output">
   <div class="small-12 columns">
     <%= debug @subject %>
   </div>

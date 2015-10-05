@@ -15,7 +15,7 @@ class Subject < ActiveRecord::Base
 
   def regions
     return [] unless finished?
-    mico_data.fetch("contentParts").map.with_index { |part, idx| Region.new(idx, part) }
+    mico_data.fetch("contentParts") { [] }.map.with_index { |part, idx| Region.new(idx, part) }
   end
 
   def submit_to_mico

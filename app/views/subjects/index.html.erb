@@ -6,6 +6,8 @@
         <th>ID</th>
         <th>Zooniverse ID</th>
         <th>Status</th>
+        <th>Regions</th>
+        <th>Comments</th>
       </thead>
 
       <tbody>
@@ -14,6 +16,8 @@
             <td><%= subject.id %></td>
             <td><%= link_to subject.zooniverse_id, subject %></td>
             <td><%= subject.mico_status %></td>
+            <td><%= subject.regions.size %></td>
+            <td><%= subject.comments.count %></td>
           </tr>
         <% end %>
       </tbody>

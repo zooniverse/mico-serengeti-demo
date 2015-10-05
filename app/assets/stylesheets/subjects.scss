@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.row.debug-output {
+  margin-top: 4em;
+}
+
 #subjects-table .subject-status-submitted { background: rgba(255,255,0,0.3); }
 #subjects-table .subject-status-finished { background: rgba(0,255,0,0.2); }
 

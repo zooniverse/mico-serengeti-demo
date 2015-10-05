@@ -1,6 +1,6 @@
 class SubjectsController < ApplicationController
   def index
-    @subjects = Subject.order(:id).limit(100)
+    @subjects = Subject.order("jsonb_array_length(mico_data -> 'contentParts') DESC, comments_count DESC").limit(100)
   end
 
   def show
