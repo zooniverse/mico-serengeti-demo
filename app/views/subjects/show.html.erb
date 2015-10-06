@@ -66,6 +66,7 @@
         <% @subject.comments.each do |comment| %>
           <tr>
             <td><%= comment.body %></td>
+            <td><%= debug comment.mico_data %></td>
           </tr>
         <% end %>
       </tbody>

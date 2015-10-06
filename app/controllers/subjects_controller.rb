@@ -3,6 +3,7 @@ class SubjectsController < ApplicationController
     @subjects = Subject.all
     @subjects = @subjects.where(zooniverse_dominant_species: params["species"]) if params["species"]
     @subjects = @subjects.order("mico_status ASC, mico_data -> 'objectsFound' DESC, comments_count DESC")
+    @subjects = @subjects.limit(200)
   end
 
   def show

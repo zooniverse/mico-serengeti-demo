@@ -1,6 +1,5 @@
 <div class="row">
   <div class="small-12 columns">
-    <h1>Subjects#index</h1>
     <table style="width: 100%" id="subjects-table">
       <thead>
         <th>ID</th>
@@ -19,7 +18,7 @@
             <td><%= subject.zooniverse_dominant_species %></td>
             <td><%= subject.mico_status %></td>
             <td><%= subject.regions.size %></td>
-            <td><%= subject.comments.count %></td>
+            <td><%= subject.comments_count %></td>
           </tr>
         <% end %>
       </tbody>
