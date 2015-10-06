@@ -1,6 +1,8 @@
 class SubjectsController < ApplicationController
   def index
-    @subjects = Subject.order("jsonb_array_length(mico_data -> 'contentParts') DESC, comments_count DESC").limit(100)
+    @subjects = Subject.all
+    @subjects = @subjects.where(zooniverse_dominant_species: params["species"]) if params["species"]
+    @subjects = @subjects.order("mico_status ASC, mico_data -> 'objectsFound' DESC, comments_count DESC")
   end
 
   def show

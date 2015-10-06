@@ -6,9 +6,9 @@ namespace :import do
                              progress_mark: ' ',
                              remainder_mark: '･'
 
-    rows = CSV.read(args[:filename])
-    rows.each do |row|
-      Subject.create!(zooniverse_id: row[0], image_index: row[1], image_url: row[2])
+    CSV.foreach(args[:filename]) do |row|
+      bar.increment
+      Subject.find_or_create_by!(zooniverse_id: row[0], image_index: row[1], image_url: row[2])
     end
   end
 end
