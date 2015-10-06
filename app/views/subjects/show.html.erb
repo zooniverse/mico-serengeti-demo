@@ -1,7 +1,7 @@
 <div class="row">
   <div class="small-12 columns">
     <%= link_to "All subjects", subjects_path %>
-    <h1> Subject<%= @subject.zooniverse_id %></h1>
+    <h1><%= @subject.zooniverse_id %></h1>
     <%= link_to "(Re)Submit", mico_submit_subject_path(@subject), method: :post, class: "button" %>
     <%= link_to "Update",     mico_update_subject_path(@subject), method: :post, class: "button" %>
   </div>
