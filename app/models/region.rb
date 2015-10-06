@@ -3,32 +3,30 @@ class Region
 
   def initialize(id, data)
     @id = id
-    @data = data
+    @data = data.with_indifferent_access
   end
 
   def x
-    rect[:x]
+    data[:x]
   end
 
   def y
-    rect[:y]
+    data[:y]
   end
 
   def width
-    rect[:width]
+    data[:w]
   end
 
   def height
-    rect[:height]
+    data[:h]
   end
 
-  private
+  def confidence
+    data[:confidence].to_f
+  end
 
-  def rect
-    return @rect if @rect
-
-    string = data.fetch("target").fetch("selector").fetch("value")
-    match  = /#xywh=(?<x>-?\d+),(?<y>-?\d+),(?<width>-?\d+),(?<height>-?\d+)/.match(string)
-    @rect  = HashWithIndifferentAccess[match.names.zip(match.captures.map(&:to_i))]
+  def animal
+    data[:animal]
   end
 end

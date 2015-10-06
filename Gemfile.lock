@@ -1,5 +1,6 @@
-PATH
-  remote: ../mico-api-client
+GIT
+  remote: https://github.com/zooniverse/mico-api-client
+  revision: b01d001d9ee432a3911ce2258f53b441611057b5
   specs:
     mico-api-client (0.1.0)
       httparty
@@ -64,7 +65,7 @@ GEM
       sass (>= 3.3.0, < 3.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    httparty (0.13.5)
+    httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)

@@ -7,35 +7,44 @@
   </div>
 </div>
 
+<hr>
+
 <div class="row">
-  <div id="subject" class="small-8 columns">
-    <%= image_tag @subject.image_url %>
-    <% @subject.regions.each do |region| %>
-      <%= content_tag :div, region.id, id: region.id, class: ["region"], style: "top: #{region.y}px; left: #{region.x}px; width: #{region.width}px; height: #{region.height}px" %>
-    <% end %>
+  <div class="small-8 columns">
+    <div id="subject">
+      <%= image_tag @subject.image_url %>
+      <% @subject.regions.each do |region| %>
+        <%= content_tag :div, region.id, id: region.id, class: ["region"], style: "top: #{region.y}px; left: #{region.x}px; width: #{region.width}px; height: #{region.height}px" %>
+      <% end %>
+    </div>
+
+    <h4>Zooniverse user-data based aggregation results</h4>
+    <table style="width: 100%">
+      <tbody>
+        <th>Dominant Species</th>
+        <td><%= @subject.zooniverse_dominant_species %></td>
+      </tbody>
+    </table>
   </div>
 
   <div id="metadata" class="small-4 columns">
-    <p>Subject Extraction Status: <span class="label"><%= @subject.status %></span></p>
+    <p>Extraction Status: <span class="label"><%= @subject.status %></span></p>
 
-    <h4>Regions</h4>
     <table style="width: 100%">
       <thead>
         <th>Region #</th>
-        <th>X</th>
-        <th>Y</th>
-        <th>Width</th>
-        <th>Height</th>
+        <th>Location</th>
+        <th>Animal</th>
+        <th>Confidence</th>
       </thead>
 
       <tbody>
         <% @subject.regions.each do |region| %>
           <tr>
             <td><%= region.id %></td>
-            <td><%= region.x %></td>
-            <td><%= region.y %></td>
-            <td><%= region.width %></td>
-            <td><%= region.height %></td>
+            <td><%= region.x %>,<%= region.y %> / <%= region.width %>x<%= region.height %>px</td>
+            <td><%= region.animal %></td>
+            <td><%= region.confidence.round(4) %></td>
           </tr>
         <% end %>
 
@@ -44,7 +53,13 @@
         <% end %>
       </tbody>
     </table>
+  </div>
+</div>
 
+<hr>
+
+<div class="row">
+  <div class="small-12 columns">
     <h4>Comments</h4>
     <table style="width: 100%">
       <tbody>
@@ -58,8 +73,11 @@
   </div>
 </div>
 
+<hr>
+
 <div class="row debug-output">
   <div class="small-12 columns">
+    <h4>Debug info</h4>
     <%= debug @subject %>
   </div>
 </div>

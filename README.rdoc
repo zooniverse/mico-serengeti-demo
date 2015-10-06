@@ -1,28 +1,9 @@
-== README
+ATM The mico broker only supports one pipeline active at a time. Go to:
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+http://demo1.mico-project.eu:8080/mico-configuration/
 
-Things you may want to cover:
+to switch between `animal-detection(image-blanks)` and `serengeti-ner(text)`.
 
-* Ruby version
+Then check that the correct pipeline is up:
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+http://demo1.mico-project.eu:8080/broker/

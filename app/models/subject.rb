@@ -1,5 +1,5 @@
 class Subject < ActiveRecord::Base
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   scope :unsubmitted, -> { where(mico_status: nil) }
   scope :to_update,   -> { where("mico_status IS NOT NULL AND mico_status != 'finished'") }
@@ -13,27 +13,39 @@ class Subject < ActiveRecord::Base
     (mico_status || "unprocessed").underscore
   end
 
+  def mico_data
+    super || {}
+  end
+
   def regions
-    return [] unless finished?
-    mico_data.fetch("contentParts") { [] }.map.with_index { |part, idx| Region.new(idx, part) }
+    mico_data.fetch("objects") { [] }.map.with_index { |part, idx| Region.new(idx, part) }
+  end
+
+  def upsert_mico
+    return if finished?
+
+    if mico_id
+      update_from_mico
+    else
+      submit_to_mico
+    end
   end
 
   def submit_to_mico
-    self.mico_id = SecureRandom.uuid
-    self.mico_data = mico.submit(mico_id, image_url)
-    self.mico_status = mico_data.fetch("status")
-    self.mico_url = mico_data.fetch("contentItem")
-    self
+    detection = Mico::Api::Client::AnimalDetection.submit(image_url)
+    set_mico_attributes(detection)
   end
 
-  def update_mico_data
-    self.mico_data = mico.check(mico_id)
-    self.mico_status = mico_data.fetch("status")
-    self.mico_url = mico_data.fetch("contentItem")
-    self
+  def update_from_mico
+    detection = Mico::Api::Client::AnimalDetection.new(mico_id).reload
+    set_mico_attributes(detection)
   end
 
-  def mico
-    @mico ||= Mico::Api::Client.new
+
+  def set_mico_attributes(detection)
+    self.mico_id = detection.id
+    self.mico_data = detection.attributes
+    self.mico_status = mico_data.fetch("status")
+    self
   end
 end

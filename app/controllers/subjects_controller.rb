@@ -16,7 +16,7 @@ class SubjectsController < ApplicationController
 
   def mico_update
     @subject = Subject.find(params[:id])
-    @subject.update_mico_data
+    @subject.update_from_mico
     @subject.save!
     redirect_to @subject
   end
