@@ -70,18 +70,14 @@ namespace :import do
       ) AS subquery
       WHERE subjects.id = subquery.id;
     SQL
-  end
 
-  desc "Import subjects CSV"
-  task :subjects, [:filename] => :environment do |t, args|
-    bar = ProgressBar.create total: `wc -l #{args[:filename]}`.to_i,
-                             format: "%t [%e]: %bᗧ%i %c/%C done",
-                             progress_mark: ' ',
-                             remainder_mark: '･'
+    puts "Removing tables"
+    ActiveRecord::Base.connection.execute <<-SQL
+      DROP TABLE IF EXISTS csv_subjects;
+      DROP TABLE IF EXISTS csv_subject_species;
+      DROP TABLE IF EXISTS csv_comments;
+    SQL
 
-    CSV.foreach(args[:filename]) do |row|
-      bar.increment
-      Subject.find_or_create_by!(zooniverse_id: row[0], image_index: row[1], image_url: row[2])
-    end
+    puts "Done"
   end
 end
