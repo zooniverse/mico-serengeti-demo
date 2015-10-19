@@ -9,4 +9,6 @@ Rails.application.routes.draw do
       post :mico_update
     end
   end
+
+  root to: "subjects#index"
 end

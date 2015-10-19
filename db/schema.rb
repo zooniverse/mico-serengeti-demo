@@ -48,9 +48,9 @@ ActiveRecord::Schema.define(version: 20151016110554) do
     t.string   "mico_status"
     t.string   "mico_url"
     t.jsonb    "mico_data"
-    t.datetime "created_at",                  default: "now()", null: false
-    t.datetime "updated_at",                  default: "now()", null: false
-    t.integer  "comments_count",              default: 0,       null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.integer  "comments_count",              default: 0, null: false
     t.string   "zooniverse_dominant_species"
     t.string   "subject_group_id",                        null: false
     t.datetime "image_timestamp"
