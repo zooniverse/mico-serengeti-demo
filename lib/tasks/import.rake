@@ -7,7 +7,9 @@ namespace :import do
       CREATE TABLE csv_subjects (
         subject_id varchar(255),
         image_index integer,
-        image_url varchar(255)
+        image_url varchar(255),
+        subject_group_id varchar(255),
+        image_timestamp timestamp
       );
 
       DROP TABLE IF EXISTS csv_subject_species;
@@ -30,17 +32,19 @@ namespace :import do
 
     puts "Importing CSV files"
     ActiveRecord::Base.connection.execute <<-SQL
-      COPY csv_subjects(subject_id,image_index,image_url) FROM '#{Rails.root.join("data/subjects.csv")}' DELIMITER ',' CSV;
+      COPY csv_subjects(subject_id,image_index,image_url,subject_group_id,image_timestamp) FROM '#{Rails.root.join("data/subjects.csv")}' DELIMITER ',' CSV HEADER;
       COPY csv_subject_species(id,subject_id,species) FROM '#{Rails.root.join("data/dominant_species.csv")}' DELIMITER ',' CSV HEADER;
       COPY csv_comments(discussion_id,comment_id,subject_id,user_id,body,created_at) FROM '#{Rails.root.join("data/comments.csv")}' DELIMITER ',' CSV HEADER;
     SQL
 
     puts "Converting and inserting into destination tables"
     ActiveRecord::Base.connection.execute <<-SQL
-      INSERT INTO subjects (zooniverse_id, image_index, image_url, zooniverse_dominant_species, created_at, updated_at)
+      INSERT INTO subjects (zooniverse_id, image_index, image_url, subject_group_id, image_timestamp, zooniverse_dominant_species, created_at, updated_at)
       SELECT csv_subjects.subject_id zooniverse_id,
              csv_subjects.image_index,
              csv_subjects.image_url,
+             csv_subjects.subject_group_id,
+             csv_subjects.image_timestamp,
              csv_subject_species.species zooniverse_dominant_species,
              NOW(),
              NOW()
