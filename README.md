@@ -1,3 +1,5 @@
+# Mico demo app
+
 ### Setup
 
 ```bash
