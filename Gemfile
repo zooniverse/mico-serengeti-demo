@@ -15,6 +15,9 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 
+gem 'quiet_assets'
+gem 'que'
+gem 'que-web'
 gem 'mico-api-client', git: 'https://github.com/zooniverse/mico-api-client'
 gem 'ruby-progressbar'
 

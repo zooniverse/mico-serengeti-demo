@@ -29,6 +29,17 @@ ActiveRecord::Schema.define(version: 20151016110554) do
     t.jsonb    "mico_data"
   end
 
+  create_table "que_jobs", id: false, force: :cascade do |t|
+    t.integer  "priority",    limit: 2, default: 100,                                        null: false
+    t.datetime "run_at",                default: "now()",                                    null: false
+    t.integer  "job_id",      limit: 8, default: "nextval('que_jobs_job_id_seq'::regclass)", null: false
+    t.text     "job_class",                                                                  null: false
+    t.json     "args",                  default: [],                                         null: false
+    t.integer  "error_count",           default: 0,                                          null: false
+    t.text     "last_error"
+    t.text     "queue",                 default: "",                                         null: false
+  end
+
   create_table "subjects", force: :cascade do |t|
     t.string   "zooniverse_id"
     t.integer  "image_index"
@@ -37,9 +48,9 @@ ActiveRecord::Schema.define(version: 20151016110554) do
     t.string   "mico_status"
     t.string   "mico_url"
     t.jsonb    "mico_data"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.integer  "comments_count",              default: 0, null: false
+    t.datetime "created_at",                  default: "now()", null: false
+    t.datetime "updated_at",                  default: "now()", null: false
+    t.integer  "comments_count",              default: 0,       null: false
     t.string   "zooniverse_dominant_species"
     t.string   "subject_group_id",                        null: false
     t.datetime "image_timestamp"

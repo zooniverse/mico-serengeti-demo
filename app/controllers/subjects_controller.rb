@@ -12,8 +12,7 @@ class SubjectsController < ApplicationController
 
   def mico_submit
     @subject = Subject.find(params[:id])
-    @subject.submit_to_mico
-    @subject.save!
+    AnalyseSubjectJob.enqueue(@subject.id)
     redirect_to @subject
   end
 
