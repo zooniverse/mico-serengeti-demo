@@ -16,6 +16,6 @@ RUN bundle install --without development test
 ADD supervisord.conf /etc/supervisor/conf.d/mico-serengeti-demo.conf
 ADD ./ /rails_app
 
-EXPOSE 81
+EXPOSE 80
 
 ENTRYPOINT /rails_app/scripts/docker/start.sh
