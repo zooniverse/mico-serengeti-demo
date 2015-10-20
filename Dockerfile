@@ -3,6 +3,7 @@ FROM zooniverse/ruby:2.2.1
 WORKDIR /rails_app
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV RAILS_SERVE_STATIC_FILES true
 
 RUN apt-get update && apt-get -y upgrade && \
     apt-get install --no-install-recommends -y git curl supervisor  && \
