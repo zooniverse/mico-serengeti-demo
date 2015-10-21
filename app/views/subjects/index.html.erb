@@ -2,7 +2,6 @@
   <div class="small-12 columns">
     <table style="width: 100%" id="subjects-table">
       <thead>
-        <th>ID</th>
         <th>Zooniverse ID</th>
         <th>Zooniverse Dominant Species</th>
         <th>Status</th>
@@ -13,7 +12,6 @@
       <tbody>
         <% @subjects.each do |subject| %>
           <tr id="subject-<%= subject.id %>" class="subject-status-<%= subject.status.dasherize %>">
-            <td><%= subject.id %></td>
             <td><%= link_to subject.zooniverse_id, subject %></td>
             <td><%= subject.zooniverse_dominant_species %></td>
             <td><%= subject.mico_status %></td>
