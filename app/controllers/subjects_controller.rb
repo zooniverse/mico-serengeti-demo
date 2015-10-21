@@ -1,6 +1,7 @@
 class SubjectsController < ApplicationController
   def index
     @subjects = Subject.all
+    @subjects = @subjects.where(zooniverse_subject_id: params["subject_id"]) if params["subject_id"]
     @subjects = @subjects.where(zooniverse_dominant_species: params["species"]) if params["species"]
     @subjects = @subjects.order("mico_status ASC, mico_data -> 'objectsFound' DESC, comments_count DESC")
     @subjects = @subjects.limit(200)
