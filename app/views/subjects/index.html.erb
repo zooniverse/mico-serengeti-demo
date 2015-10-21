@@ -10,6 +10,7 @@
       </thead>
 
       <tbody>
+        <%= paginate @subjects %>
         <% @subjects.each do |subject| %>
           <tr id="subject-<%= subject.id %>" class="subject-status-<%= subject.status.dasherize %>">
             <td><%= link_to subject.zooniverse_id, subject %></td>
