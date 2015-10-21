@@ -21,6 +21,10 @@ class Subject < ActiveRecord::Base
     mico_data.fetch("objects") { [] }.map.with_index { |part, idx| Region.new(idx, part) }
   end
 
+  def thumb_url
+    image_url.gsub("standard", "thumbnail")
+  end
+
   def upsert_mico
     return if finished?
 
