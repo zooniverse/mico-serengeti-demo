@@ -2,12 +2,14 @@ class AnalyseSubjectJob < Que::Job
 
   def run(subject_id)
     subject = Subject.find(subject_id)
+    subject.update! mico_id: nil, mico_status: 'submitting'
 
     ActiveRecord::Base.transaction do
       begin
         Timeout.timeout(5.minutes) do
           until subject.finished?
             subject.upsert_mico
+            subject.save
             sleep 1
           end
         end

@@ -13,14 +13,7 @@ class SubjectsController < ApplicationController
 
   def mico_submit
     @subject = Subject.find(params[:id])
-    AnalyseSubjectJob.enqueue(@subject.id)
-    redirect_to @subject
-  end
-
-  def mico_update
-    @subject = Subject.find(params[:id])
-    @subject.update_from_mico
-    @subject.save!
-    redirect_to @subject
+    AnalyseSubjectJob.enqueue(@subject.id, priority: 1)
+    redirect_to @subject, notice: "Update enqueued but probably not yet processed. Refresh the page for status updates."
   end
 end

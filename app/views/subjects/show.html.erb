@@ -2,8 +2,6 @@
   <div class="small-12 columns">
     <%= link_to "All subjects", subjects_path %>
     <h1><%= @subject.zooniverse_id %></h1>
-    <%= link_to "(Re)Submit", mico_submit_subject_path(@subject), method: :post, class: "button" %>
-    <%= link_to "Update",     mico_update_subject_path(@subject), method: :post, class: "button" %>
   </div>
 </div>
 
@@ -14,7 +12,7 @@
     <div id="subject">
       <%= image_tag @subject.image_url %>
       <% @subject.regions.each do |region| %>
-        <%= content_tag :div, region.id, id: region.id, class: ["region"], style: "top: #{region.y}px; left: #{region.x}px; width: #{region.width}px; height: #{region.height}px" %>
+        <%= content_tag :div, region.id, id: "region-overlay-#{region.id}", class: ["region"], style: "top: #{region.y}px; left: #{region.x}px; width: #{region.width}px; height: #{region.height}px" %>
       <% end %>
     </div>
 
@@ -28,7 +26,10 @@
   </div>
 
   <div id="metadata" class="small-4 columns">
-    <p>Extraction Status: <span class="label"><%= @subject.status %></span></p>
+    <p>
+      Extraction Status: <strong><%= @subject.status %></strong><br/>
+      <%= link_to "(Re)Submit this image to Mico platform", mico_submit_subject_path(@subject), method: :post, class: "button tiny" %>
+    </p>
 
     <table style="width: 100%">
       <thead>
