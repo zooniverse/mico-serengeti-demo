@@ -11,7 +11,7 @@ namespace :report do
       total += 1
 
       expected = (subject.zooniverse_dominant_species == "blank") ? "blank" : "animal"
-      analysed = (subject.regions == 0) ? "blank" : "animal"
+      analysed = (subject.regions.size == 0) ? "blank" : "animal"
 
       counts[expected] ||= {}
       counts[expected][analysed] ||= 0
