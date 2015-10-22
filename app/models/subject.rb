@@ -1,4 +1,5 @@
 class Subject < ActiveRecord::Base
+  belongs_to :consensus, primary_key: "zooniverse_id", foreign_key: "zooniverse_id"
   has_many :comments, dependent: :destroy
 
   scope :unsubmitted, -> { where(mico_status: nil) }
