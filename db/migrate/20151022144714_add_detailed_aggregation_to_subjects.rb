@@ -1,22 +1,25 @@
 class AddDetailedAggregationToSubjects < ActiveRecord::Migration
   def change
-    add_column :subjects, :season, :string
-    add_column :subjects, :site_id, :string
-    add_column :subjects, :frames, :integer
-    add_column :subjects, :time_of_day, :string
-    add_column :subjects, :classifications, :integer
-    add_column :subjects, :crowd_says, :string
-    add_column :subjects, :total_species, :integer
-    add_column :subjects, :total_animals, :integer
-    add_column :subjects, :crowd_says_if_multi, :string
-    add_column :subjects, :retire_reason, :string
-    add_column :subjects, :counters_keys, :string
-    add_column :subjects, :counters_values, :string
-    add_column :subjects, :species_counts_keys, :string
-    add_column :subjects, :species_counts_values, :string
-    add_column :subjects, :behavior_counters_keys, :string
-    add_column :subjects, :behavior_counters_values, :string
-    add_column :subjects, :aggregate_species_names, :string
-    add_column :subjects, :aggregate_species_counts, :string
+    create_table :consensus do |t|
+      t.string  :zooniverse_id
+      t.string  :season
+      t.string  :site_id
+      t.integer :frames
+      t.string  :time_of_day
+      t.integer :classifications
+      t.string  :crowd_says
+      t.integer :total_species
+      t.integer :total_animals
+      t.string  :crowd_says_if_multi
+      t.string  :retire_reason
+      t.string  :counters_keys
+      t.string  :counters_values
+      t.string  :species_counts_keys
+      t.string  :species_counts_values
+      t.string  :behavior_counters_keys
+      t.string  :behavior_counters_values
+      t.string  :aggregate_species_names
+      t.string  :aggregate_species_counts
+    end
   end
 end

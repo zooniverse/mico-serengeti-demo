@@ -29,6 +29,28 @@ ActiveRecord::Schema.define(version: 20151022144714) do
     t.jsonb    "mico_data"
   end
 
+  create_table "consensus", force: :cascade do |t|
+    t.string  "zooniverse_id"
+    t.string  "season"
+    t.string  "site_id"
+    t.integer "frames"
+    t.string  "time_of_day"
+    t.integer "classifications"
+    t.string  "crowd_says"
+    t.integer "total_species"
+    t.integer "total_animals"
+    t.string  "crowd_says_if_multi"
+    t.string  "retire_reason"
+    t.string  "counters_keys"
+    t.string  "counters_values"
+    t.string  "species_counts_keys"
+    t.string  "species_counts_values"
+    t.string  "behavior_counters_keys"
+    t.string  "behavior_counters_values"
+    t.string  "aggregate_species_names"
+    t.string  "aggregate_species_counts"
+  end
+
   create_table "que_jobs", id: false, force: :cascade do |t|
     t.integer  "priority",    limit: 2, default: 100,                                        null: false
     t.datetime "run_at",                default: "now()",                                    null: false
@@ -54,24 +76,6 @@ ActiveRecord::Schema.define(version: 20151022144714) do
     t.string   "zooniverse_dominant_species"
     t.string   "subject_group_id",                        null: false
     t.datetime "image_timestamp"
-    t.string   "season"
-    t.string   "site_id"
-    t.integer  "frames"
-    t.string   "time_of_day"
-    t.integer  "classifications"
-    t.string   "crowd_says"
-    t.integer  "total_species"
-    t.integer  "total_animals"
-    t.string   "crowd_says_if_multi"
-    t.string   "retire_reason"
-    t.string   "counters_keys"
-    t.string   "counters_values"
-    t.string   "species_counts_keys"
-    t.string   "species_counts_values"
-    t.string   "behavior_counters_keys"
-    t.string   "behavior_counters_values"
-    t.string   "aggregate_species_names"
-    t.string   "aggregate_species_counts"
   end
 
   add_index "subjects", ["mico_id"], name: "index_subjects_on_mico_id", unique: true, using: :btree
