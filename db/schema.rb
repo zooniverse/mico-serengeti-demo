@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151022144714) do
+ActiveRecord::Schema.define(version: 20151022162530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,8 @@ ActiveRecord::Schema.define(version: 20151022144714) do
     t.string  "aggregate_species_names"
     t.string  "aggregate_species_counts"
   end
+
+  add_index "consensus", ["zooniverse_id"], name: "index_consensus_on_zooniverse_id", using: :btree
 
   create_table "que_jobs", id: false, force: :cascade do |t|
     t.integer  "priority",    limit: 2, default: 100,                                        null: false
