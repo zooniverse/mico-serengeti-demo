@@ -1,44 +1,75 @@
-class Filtering
-  def entire_dataset(subject)
-    true
+module Filtering
+  class SimpleFilter
+    def initialize(filter)
+      @filter = filter
+    end
+
+    def name
+      @filter.to_s
+    end
+
+    def check(subject)
+      send(@filter, subject)
+    end
+
+    private
+
+    def entire_dataset(subject)
+      true
+    end
+
+    def daytime(subject)
+      if subject.consensus.time_of_day
+        ["10", "11", "12", "13", "14"].include?(subject.consensus.time_of_day[0..1])
+      else
+        (10..14).include?(subject.image_timestamp.hour)
+      end
+    end
+
+    def nighttime(subject)
+      if subject.consensus.time_of_day
+        ["00", "01", "02", "03"].include?(subject.consensus.time_of_day[0..1])
+      else
+        (0..3).include?(subject.image_timestamp.hour)
+      end
+    end
+
+    def blank(subject)
+      subject.consensus.crowd_says == 'blank'
+    end
+
+    def one_animal(subject)
+      subject.consensus.total_animals == 1
+    end
+
+    def simple(subject)
+      subject.consensus.total_animals > 1 and subject.consensus.total_animals <= 5
+    end
+
+    def complex(subject)
+      subject.consensus.total_animals > 5
+    end
+
+    def single_species(subject)
+      subject.consensus.total_species == 1
+    end
+
+    def multi_species(subject)
+      subject.consensus.total_species > 1
+    end
   end
 
-  def daytime(subject)
-    return false unless subject.consensus.time_of_day
-    ["10", "11", "12", "13", "14"].include?(subject.consensus.time_of_day[0..1])
-  end
+  class SpecificSpecies
+    def initialize(species)
+      @species = species
+    end
 
-  def nighttime(subject)
-    return false unless subject.consensus.time_of_day
-    ["10", "11", "12", "13", "14"].include?(subject.consensus.time_of_day[0..1])
-  end
+    def name
+      "specific_species_#{@species}"
+    end
 
-  def blank(subject)
-    subject.consensus.crowd_says == 'blank'
-  end
-
-  def blank_or_one_animal(subject)
-    return true if blank(subject)
-    subject.consensus.total_animals == 1
-  end
-
-  def blank_or_simple(subject)
-    return true if blank(subject)
-    subject.consensus.total_animals > 1 and subject.consensus.total_animals <= 5
-  end
-
-  def blank_or_complex(subject)
-    return true if blank(subject)
-    subject.consensus.total_animals > 5
-  end
-
-  def blank_or_single_species(subject)
-    return true if blank(subject)
-    subject.consensus.crowd_says != 'blank' and subject.consensus.crowd_says != 'multi'
-  end
-
-  def blank_or_multi_species(subject)
-    return true if blank(subject)
-    subject.consensus.crowd_says == 'multi'
+    def check(subject)
+      subject.consensus.species_found_by_crowd.include?(@species)
+    end
   end
 end

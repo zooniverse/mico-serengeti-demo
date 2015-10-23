@@ -2,7 +2,65 @@
 require 'ruby-progressbar'
 
 class Report
-  attr_reader :subjects, :progress, :results, :detection, :filtering
+  SPECIES = ["steenbok",
+    "rodents",
+    "genet",
+    "gazellegrants",
+    "warthog",
+    "aardwolf",
+    "blank",
+    "ostrich",
+    "lionfemale",
+    "multi",
+    "elephant",
+    "aardvark",
+    "eland",
+    "mongoose",
+    "topi",
+    "honeybadger",
+    "gazellethomsons",
+    "cheetah",
+    "wildcat",
+    "rhinoceros",
+    "civet",
+    "lionmale",
+    "reptiles",
+    "porcupine",
+    "zorilla",
+    "serval",
+    "caracal",
+    "waterbuck",
+    "dikdik",
+    "secretarybird",
+    "hyenastriped",
+    "buffalo",
+    "duiker",
+    "wildebeest",
+    "batearedfox",
+    "hippopotamus",
+    "bushbuck",
+    "zebra",
+    "guineafowl",
+    "koribustard",
+    "cattle",
+    "hyenaspotted",
+    "impala",
+    "otherbird",
+    "leopard",
+    "hartebeest",
+    "jackal",
+    "reedbuck",
+    "hare",
+    "human",
+    "insectspider",
+    "giraffe",
+    "baboon",
+    "bat",
+    "vervetmonkey",
+    "vulture"
+  ].sort
+
+  attr_reader :subjects, :progress, :results
 
   def initialize(subjects)
     @subjects = subjects
@@ -13,24 +71,32 @@ class Report
       progress_mark: ' ',
       remainder_mark: '･'
     @results = {}
-    @detection = Detection.new
-    @filtering = Filtering.new
   end
 
   def calculate
-    total = 0
+    detectors = [Detection::AnimalPresence.new]
+    detectors += (0..10).map { |i| Detection::AnimalCount.new(i) }
+    detectors += SPECIES.map { |i| Detection::AnimalType.new(i) }
+
+    filters = []
+    filters << Filtering::SimpleFilter.new(:entire_dataset)
+    filters << Filtering::SimpleFilter.new(:daytime)
+    filters << Filtering::SimpleFilter.new(:nighttime)
+    filters << Filtering::SimpleFilter.new(:blank)
+    filters << Filtering::SimpleFilter.new(:one_animal)
+    filters << Filtering::SimpleFilter.new(:simple)
+    filters << Filtering::SimpleFilter.new(:complex)
+    filters << Filtering::SimpleFilter.new(:single_species)
+    filters << Filtering::SimpleFilter.new(:multi_species)
+    filters += SPECIES.map { |i| Filtering::SpecificSpecies.new(i) }
 
     subjects.find_each do |subject|
-      total += 1
-      test(:animal_presence, :entire_dataset, subject)
-      test(:animal_presence, :daytime, subject)
-      test(:animal_presence, :nighttime, subject)
-      test(:animal_presence, :blank, subject)
-      test(:animal_presence, :blank_or_one_animal, subject)
-      test(:animal_presence, :blank_or_simple, subject)
-      test(:animal_presence, :blank_or_complex, subject)
-      test(:animal_presence, :blank_or_single_species, subject)
-      test(:animal_presence, :blank_or_multi_species, subject)
+      detectors.each do |detector|
+        filters.each do |filter|
+          test(detector, filter, subject)
+        end
+      end
+
       progress.increment
     end
 
@@ -38,34 +104,36 @@ class Report
   end
 
   def test(detector, filter, subject)
-    result_key = "#{detector}_#{filter}"
-    results[result_key] ||= {true_positives: 0, false_positives: 0, true_negatives: 0, false_negatives: 0}
+    results[detector.name] ||= {}
+    results[detector.name][filter.name] ||= {true_positives: 0, false_positives: 0, true_negatives: 0, false_negatives: 0}
 
-     if filtering.public_send(filter, subject)
-      bucket = detection.public_send(detector, subject)
-      results[result_key][bucket] += 1
+    if filter.check(subject)
+      bucket = detector.check(subject)
+      results[detector.name][filter.name][bucket] += 1
     end
-    results
   end
 
   def csv
-    CSV.generate headers: [:what, :sample_size, :true_positives, :true_negatives, :false_positives, :false_negatives, :precision, :recall, :f1], write_headers: true do |csv|
-      results.each do |key, counters|
-        precision = counters[:true_positives] / (counters[:true_positives] + counters[:false_positives]).to_f
-        recall    = counters[:true_positives] / (counters[:true_positives] + counters[:false_negatives]).to_f
-        f1        = 2 * (precision * recall) / (precision / recall)
+    CSV.generate headers: [:detector, :filter, :sample_size, :true_positives, :true_negatives, :false_positives, :false_negatives, :precision, :recall, :f1], write_headers: true do |csv|
+      results.each do |detector_key, filters|
+        filters.each do |filter_key, counters|
+          precision = counters[:true_positives] / (counters[:true_positives] + counters[:false_positives]).to_f
+          recall    = counters[:true_positives] / (counters[:true_positives] + counters[:false_negatives]).to_f
+          f1        = 2 * (precision * recall) / (precision + recall)
 
-        csv << [
-          key,
-          counters.values.reduce(&:+),
-          counters[:true_positives],
-          counters[:true_negatives],
-          counters[:false_positives],
-          counters[:false_negatives],
-          precision,
-          recall,
-          f1
-        ]
+          csv << [
+            detector_key,
+            filter_key,
+            counters.values.reduce(&:+),
+            counters[:true_positives],
+            counters[:true_negatives],
+            counters[:false_positives],
+            counters[:false_negatives],
+            precision,
+            recall,
+            f1
+          ]
+        end
       end
     end
   end
