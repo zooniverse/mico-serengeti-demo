@@ -50,7 +50,17 @@ class Subject < ActiveRecord::Base
   def set_mico_attributes(detection)
     self.mico_id = detection.id
     self.mico_data = detection.attributes
-    self.mico_status = mico_data.fetch("status")
+
+    if mico_data.fetch("status") == "finished"
+      if mico_data.fetch("processingEnd").present?
+        self.mico_status = "finished"
+      else
+        self.mico_status = "failed"
+      end
+    else
+      self.mico_status = mico_data.fetch("status")
+    end
+
     self
   end
 end

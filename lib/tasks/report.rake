@@ -3,7 +3,7 @@ require 'time'
 namespace :report do
   desc "Print KPI measures based on analysed data"
   task :kpi => :environment do
-    subjects = Subject.finished.includes(:consensus)
+    subjects = Subject.finished.where("(mico_data->'processingEnd') != 'null'").includes(:consensus)
     report = Report.new(subjects)
     report.calculate
   end
