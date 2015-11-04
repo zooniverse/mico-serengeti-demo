@@ -33,6 +33,10 @@ module Filtering
       subject.consensus.crowd_says == 'blank'
     end
 
+    def non_blank(subject)
+      !blank(subject)
+    end
+
     def one_animal(subject)
       subject.consensus.total_animals == 1
     end

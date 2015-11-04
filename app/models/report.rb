@@ -27,6 +27,7 @@ class Report
     filters << Filtering::SimpleFilter.new(:daytime)
     filters << Filtering::SimpleFilter.new(:nighttime)
     filters << Filtering::SimpleFilter.new(:blank)
+    filters << Filtering::SimpleFilter.new(:non_blank)
     filters << Filtering::SimpleFilter.new(:one_animal)
     filters << Filtering::SimpleFilter.new(:simple)
     filters << Filtering::SimpleFilter.new(:complex)
