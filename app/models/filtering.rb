@@ -55,17 +55,46 @@ module Filtering
     end
   end
 
-  class SpecificSpecies
+  class Only
     def initialize(species)
       @species = species
     end
 
     def name
-      "specific_species_#{@species}"
+      "only_#{@species}"
     end
 
     def check(subject)
-      subject.consensus.species_found_by_crowd.include?(@species)
+      subject.consensus.crowd_says == @species
+    end
+  end
+
+  class OnlyOther
+    def initialize(species)
+      @species = species
+    end
+
+    def name
+      "only_other"
+    end
+
+    def check(subject)
+      subject.consensus.crowd_says != "multi" && !@species.include?(subject.consensus.crowd_says)
+    end
+  end
+
+
+  class MultiSpeciesIncluding
+    def initialize(species)
+      @species = species
+    end
+
+    def name
+      "multi_including_#{@species}"
+    end
+
+    def check(subject)
+      subject.consensus.crowd_says == "multi" && subject.consensus.species_found_by_crowd.include?(@species)
     end
   end
 end

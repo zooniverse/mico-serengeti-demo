@@ -1,20 +1,20 @@
 module Detection
   class Base; end
 
-  class AnimalPresence < Base
+  class Emptiness < Base
     def name
-      "animal_presence"
+      "emptiness"
     end
 
     def check(subject)
-      if actually_has_animal?(subject)
-        if mico_found_animal?(subject)
+      if actually_blank?(subject)
+        if mico_says_blank?(subject)
           :true_positives
         else
           :false_negatives
         end
       else
-        if mico_found_animal?(subject)
+        if mico_says_blank?(subject)
           :false_positives
         else
           :true_negatives
@@ -24,12 +24,12 @@ module Detection
 
     private
 
-    def actually_has_animal?(subject)
-      subject.consensus.crowd_says != "blank"
+    def actually_blank?(subject)
+      subject.consensus.crowd_says == "blank"
     end
 
-    def mico_found_animal?(subject)
-      subject.regions.size > 0
+    def mico_says_blank?(subject)
+      subject.regions.size == 0
     end
   end
 

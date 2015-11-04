@@ -18,8 +18,8 @@ class Report
   end
 
   def calculate
-    detectors = [Detection::AnimalPresence.new]
-    detectors += (0..10).map { |i| Detection::AnimalCount.new(i) }
+    detectors = [Detection::Emptiness.new]
+    detectors += (1..10).map { |i| Detection::AnimalCount.new(i) }
     detectors += SPECIES.map { |i| Detection::AnimalType.new(i) }
 
     filters = []
@@ -32,7 +32,9 @@ class Report
     filters << Filtering::SimpleFilter.new(:complex)
     filters << Filtering::SimpleFilter.new(:single_species)
     filters << Filtering::SimpleFilter.new(:multi_species)
-    filters += SPECIES.map { |i| Filtering::SpecificSpecies.new(i) }
+    filters += SPECIES.map { |i| Filtering::Only.new(i) }
+    filters += SPECIES.map { |i| Filtering::OnlyOther.new(SPECIES) }
+    filters += SPECIES.map { |i| Filtering::MultiSpeciesIncluding.new(i) }
 
     subjects.find_each do |subject|
       detectors.each do |detector|
