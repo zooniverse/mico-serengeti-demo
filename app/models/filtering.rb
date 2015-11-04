@@ -82,7 +82,7 @@ module Filtering
     end
 
     def check(subject)
-      subject.consensus.crowd_says != "multi" && !@species.include?(subject.consensus.crowd_says)
+      (["blank", "multi"] + @species).exclude? subject.consensus.crowd_says
     end
   end
 
@@ -100,4 +100,19 @@ module Filtering
       subject.consensus.crowd_says == "multi" && subject.consensus.species_found_by_crowd.include?(@species)
     end
   end
+
+  class MultiOther
+    def initialize(species)
+      @species = species
+    end
+
+    def name
+      "multi_including_none_of_the_five"
+    end
+
+    def check(subject)
+      subject.consensus.crowd_says == "multi" && (subject.consensus.species_found_by_crowd & @species).empty?
+    end
+  end
+
 end

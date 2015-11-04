@@ -32,10 +32,11 @@ class Report
     filters << Filtering::SimpleFilter.new(:simple)
     filters << Filtering::SimpleFilter.new(:complex)
     filters << Filtering::SimpleFilter.new(:single_species)
-    filters << Filtering::SimpleFilter.new(:multi_species)
     filters += SPECIES.map { |i| Filtering::Only.new(i) }
-    filters += SPECIES.map { |i| Filtering::OnlyOther.new(SPECIES) }
+    filters << Filtering::OnlyOther.new(SPECIES)
+    filters << Filtering::SimpleFilter.new(:multi_species)
     filters += SPECIES.map { |i| Filtering::MultiSpeciesIncluding.new(i) }
+    filters << Filtering::MultiOther.new(SPECIES)
 
     subjects.find_each do |subject|
       detectors.each do |detector|
