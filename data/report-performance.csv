@@ -1,0 +1,27 @@
+key,value
+latency number,1397.0
+latency sum,7588.705103999997
+latency variance,94.99235211943603
+latency standard_deviation,9.746402008917753
+latency min,2.944909
+latency max,124.379227
+latency mean,5.432143954187542
+latency mode,4.426575
+latency median,4.548292
+latency range,121.434318
+latency q1,3.593152
+latency q2,4.548292
+latency q3,4.731026
+throughput number,1394.0
+throughput sum,2160.569699999998
+throughput variance,15.989270243372504
+throughput standard_deviation,3.9986585554873906
+throughput min,0.001629
+throughput max,107.030759
+throughput mean,1.5499065279770432
+throughput mode,1.248362
+throughput median,1.3343045
+throughput range,107.02913000000001
+throughput q1,0.87102475
+throughput q2,1.3343045
+throughput q3,1.7721075000000002
