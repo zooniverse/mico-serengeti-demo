@@ -59,6 +59,7 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     debug_inspector (0.0.2)
+    descriptive_statistics (2.5.1)
     erubis (2.7.0)
     execjs (2.6.0)
     foreman (0.78.0)
@@ -193,6 +194,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   byebug
   coffee-rails (~> 4.1.0)
+  descriptive_statistics
   foreman
   foundation-rails
   jbuilder (~> 2.0)

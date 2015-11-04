@@ -10,17 +10,29 @@ namespace :report do
 
   desc "Print performance measures"
   task :performance => :environment do
-    csv = CSV.new($stdout, headers: %w(subject_id zoo_id updated_at processing_start processing_finish process_time), write_headers: true)
+    csv = CSV.new($stdout, headers: %w(key value), write_headers: true)
 
-    Subject.finished.order(updated_at: :asc).find_each do |subject|
-      a = subject.mico_data["processingBegin"]
-      b = subject.mico_data["processingEnd"]
-      if a && b
-        csv << [subject.id, subject.zooniverse_id, subject.updated_at, a, b, Time.parse(b) - Time.parse(a)]
-      else
-        csv << [subject.id, subject.zooniverse_id, subject.updated_at, a, b, nil]
+    latency = []
+    throughput = []
 
+    last_finished_at = nil
+    Subject.finished.where.not(mico_submitted_at: nil, mico_finished_at: nil).order(:mico_finished_at).each do |subject|
+      latency << subject.mico_finished_at - subject.mico_submitted_at
+
+      if last_finished_at
+        diff = subject.mico_finished_at - last_finished_at
+        throughput << diff if diff < 120 # if there's a larger gap, it wasn't a batch being processed, so skip the gap
       end
+
+      last_finished_at = subject.mico_finished_at
+    end
+
+    latency.descriptive_statistics.each do |k, v|
+      csv << ["latency #{k}", v]
+    end
+
+    throughput.descriptive_statistics.each do |k, v|
+      csv << ["throughput #{k}", v]
     end
   end
 end
