@@ -15,7 +15,11 @@ docker-compose up
 
 After this, the web interface should be running on (http://localhost:3000)[http://localhost:3000] (might be different if you're on a Mac and using VirtualBox to run Docker.
 
-You can generate a report on the KPI by running: `bin/rake report:kpi`. The performance report is available under `bin/rake report:performance`.
+### Reports
+
+After you've started the docker instance, you can generate a report on the KPI by running: `bin/rake report:kpi`. The performance report is available under `bin/rake report:performance`.
+
+
 
 
 
