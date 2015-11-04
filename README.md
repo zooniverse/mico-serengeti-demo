@@ -11,8 +11,13 @@ docker-compose build
 
 ```bash
 docker-compose up
-open "http://192.168.99.100:3000"
 ```
+
+After this, the web interface should be running on (http://localhost:3000)[http://localhost:3000] (might be different if you're on a Mac and using VirtualBox to run Docker.
+
+You can generate a report on the KPI by running: `bin/rake report:kpi`. The performance report is available under `bin/rake report:performance`.
+
+
 
 ### Mico configuration
 
