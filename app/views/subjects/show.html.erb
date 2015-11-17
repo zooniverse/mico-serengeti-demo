@@ -1,8 +1,13 @@
 <div class="row">
-  <div class="small-12 columns">
+     <div class="small-3 header-right"><p>
+      Extraction Status: <strong><%= @subject.status %></strong><br/>
+      <%= link_to "(Re)Submit this image to Mico platform", mico_submit_subject_path(@subject), method: :post, class: "button tiny" %>
+    </p>
+    </div>
+    <div class="small-8 columns">
     <%= link_to "All subjects", subjects_path %>
     <h1><%= @subject.zooniverse_id %></h1>
-  </div>
+    </div>
 </div>
 
 <hr>
@@ -100,14 +105,9 @@
   </div>
 
   <div id="metadata" class="small-4 columns">
-    <p>
-      Extraction Status: <strong><%= @subject.status %></strong><br/>
-      <%= link_to "(Re)Submit this image to Mico platform", mico_submit_subject_path(@subject), method: :post, class: "button tiny" %>
-    </p>
-
     <table id="regions-data" style="width: 100%">
       <thead>
-        <th>Region Number</th>
+        <th>Region</th>
         <!-- <th>Location</th> -->
         <th>Species</th>
         <th>Confidence</th>
