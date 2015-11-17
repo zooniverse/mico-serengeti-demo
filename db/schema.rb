@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151006122225) do
+ActiveRecord::Schema.define(version: 20151102114405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,41 @@ ActiveRecord::Schema.define(version: 20151006122225) do
     t.jsonb    "mico_data"
   end
 
+  create_table "consensus", force: :cascade do |t|
+    t.string  "zooniverse_id"
+    t.string  "season"
+    t.string  "site_id"
+    t.integer "frames"
+    t.string  "time_of_day"
+    t.integer "classifications"
+    t.string  "crowd_says"
+    t.integer "total_species"
+    t.integer "total_animals"
+    t.string  "crowd_says_if_multi"
+    t.string  "retire_reason"
+    t.string  "counters_keys"
+    t.string  "counters_values"
+    t.string  "species_counts_keys"
+    t.string  "species_counts_values"
+    t.string  "behavior_counters_keys"
+    t.string  "behavior_counters_values"
+    t.string  "aggregate_species_names"
+    t.string  "aggregate_species_counts"
+  end
+
+  add_index "consensus", ["zooniverse_id"], name: "index_consensus_on_zooniverse_id", using: :btree
+
+  create_table "que_jobs", id: false, force: :cascade do |t|
+    t.integer  "priority",    limit: 2, default: 100,                                        null: false
+    t.datetime "run_at",                default: "now()",                                    null: false
+    t.integer  "job_id",      limit: 8, default: "nextval('que_jobs_job_id_seq'::regclass)", null: false
+    t.text     "job_class",                                                                  null: false
+    t.json     "args",                  default: [],                                         null: false
+    t.integer  "error_count",           default: 0,                                          null: false
+    t.text     "last_error"
+    t.text     "queue",                 default: "",                                         null: false
+  end
+
   create_table "subjects", force: :cascade do |t|
     t.string   "zooniverse_id"
     t.integer  "image_index"
@@ -41,6 +76,10 @@ ActiveRecord::Schema.define(version: 20151006122225) do
     t.datetime "updated_at",                              null: false
     t.integer  "comments_count",              default: 0, null: false
     t.string   "zooniverse_dominant_species"
+    t.string   "subject_group_id",                        null: false
+    t.datetime "image_timestamp"
+    t.datetime "mico_submitted_at"
+    t.datetime "mico_finished_at"
   end
 
   add_index "subjects", ["mico_id"], name: "index_subjects_on_mico_id", unique: true, using: :btree

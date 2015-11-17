@@ -7,7 +7,9 @@ namespace :import do
       CREATE TABLE csv_subjects (
         subject_id varchar(255),
         image_index integer,
-        image_url varchar(255)
+        image_url varchar(255),
+        subject_group_id varchar(255),
+        image_timestamp timestamp
       );
 
       DROP TABLE IF EXISTS csv_subject_species;
@@ -30,17 +32,19 @@ namespace :import do
 
     puts "Importing CSV files"
     ActiveRecord::Base.connection.execute <<-SQL
-      COPY csv_subjects(subject_id,image_index,image_url) FROM '#{Rails.root.join("data/subjects.csv")}' DELIMITER ',' CSV;
+      COPY csv_subjects(subject_id,image_index,image_url,subject_group_id,image_timestamp) FROM '#{Rails.root.join("data/subjects.csv")}' DELIMITER ',' CSV HEADER;
       COPY csv_subject_species(id,subject_id,species) FROM '#{Rails.root.join("data/dominant_species.csv")}' DELIMITER ',' CSV HEADER;
       COPY csv_comments(discussion_id,comment_id,subject_id,user_id,body,created_at) FROM '#{Rails.root.join("data/comments.csv")}' DELIMITER ',' CSV HEADER;
     SQL
 
     puts "Converting and inserting into destination tables"
     ActiveRecord::Base.connection.execute <<-SQL
-      INSERT INTO subjects (zooniverse_id, image_index, image_url, zooniverse_dominant_species, created_at, updated_at)
+      INSERT INTO subjects (zooniverse_id, image_index, image_url, subject_group_id, image_timestamp, zooniverse_dominant_species, created_at, updated_at)
       SELECT csv_subjects.subject_id zooniverse_id,
              csv_subjects.image_index,
              csv_subjects.image_url,
+             csv_subjects.subject_group_id,
+             csv_subjects.image_timestamp,
              csv_subject_species.species zooniverse_dominant_species,
              NOW(),
              NOW()
@@ -70,18 +74,27 @@ namespace :import do
       ) AS subquery
       WHERE subjects.id = subquery.id;
     SQL
+
+    puts "Removing tables"
+    ActiveRecord::Base.connection.execute <<-SQL
+      DROP TABLE IF EXISTS csv_subjects;
+      DROP TABLE IF EXISTS csv_subject_species;
+      DROP TABLE IF EXISTS csv_comments;
+    SQL
+
+    puts "Done"
   end
 
-  desc "Import subjects CSV"
-  task :subjects, [:filename] => :environment do |t, args|
-    bar = ProgressBar.create total: `wc -l #{args[:filename]}`.to_i,
-                             format: "%t [%e]: %bᗧ%i %c/%C done",
-                             progress_mark: ' ',
-                             remainder_mark: '･'
+  desc "Import consensus results"
+  task :consensus => :environment do
+    puts "Importing consensus from csv file"
 
-    CSV.foreach(args[:filename]) do |row|
-      bar.increment
-      Subject.find_or_create_by!(zooniverse_id: row[0], image_index: row[1], image_url: row[2])
-    end
+    ActiveRecord::Base.connection.execute <<-SQL
+      DELETE FROM consensus;
+      COPY consensus(zooniverse_id,season,site_id,frames,time_of_day,classifications,crowd_says,total_species,total_animals,crowd_says_if_multi,retire_reason,counters_keys,counters_values,species_counts_keys,species_counts_values,behavior_counters_keys,behavior_counters_values,aggregate_species_names,aggregate_species_counts) FROM '#{Rails.root.join("data/consensus-detailed.csv")}' DELIMITER ',' CSV HEADER;
+    SQL
+
+    puts "Done"
   end
+
 end

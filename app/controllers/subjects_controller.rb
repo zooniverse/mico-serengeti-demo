@@ -1,9 +1,10 @@
 class SubjectsController < ApplicationController
   def index
-    @subjects = Subject.all
+    @subjects = Subject.where(image_index: 0)
+    @subjects = @subjects.where(zooniverse_subject_id: params["subject_id"]) if params["subject_id"]
     @subjects = @subjects.where(zooniverse_dominant_species: params["species"]) if params["species"]
     @subjects = @subjects.order("mico_status ASC, mico_data -> 'objectsFound' DESC, comments_count DESC")
-    @subjects = @subjects.limit(200)
+    @subjects = @subjects.page(params[:page])
   end
 
   def show
@@ -12,15 +13,7 @@ class SubjectsController < ApplicationController
 
   def mico_submit
     @subject = Subject.find(params[:id])
-    @subject.submit_to_mico
-    @subject.save!
-    redirect_to @subject
-  end
-
-  def mico_update
-    @subject = Subject.find(params[:id])
-    @subject.update_from_mico
-    @subject.save!
-    redirect_to @subject
+    AnalyseSubjectJob.enqueue(@subject.id, priority: 1)
+    redirect_to @subject, notice: "Update enqueued but probably not yet processed. Refresh the page for status updates."
   end
 end

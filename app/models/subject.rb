@@ -1,4 +1,5 @@
 class Subject < ActiveRecord::Base
+  belongs_to :consensus, primary_key: "zooniverse_id", foreign_key: "zooniverse_id"
   has_many :comments, dependent: :destroy
 
   scope :unsubmitted, -> { where(mico_status: nil) }
@@ -19,6 +20,10 @@ class Subject < ActiveRecord::Base
 
   def regions
     mico_data.fetch("objects") { [] }.map.with_index { |part, idx| Region.new(idx, part) }
+  end
+
+  def thumb_url
+    image_url.gsub("standard", "thumbnail")
   end
 
   def upsert_mico
@@ -45,7 +50,17 @@ class Subject < ActiveRecord::Base
   def set_mico_attributes(detection)
     self.mico_id = detection.id
     self.mico_data = detection.attributes
-    self.mico_status = mico_data.fetch("status")
+
+    if mico_data.fetch("status") == "finished"
+      if mico_data.fetch("processingEnd").present?
+        self.mico_status = "finished"
+      else
+        self.mico_status = "failed"
+      end
+    else
+      self.mico_status = mico_data.fetch("status")
+    end
+
     self
   end
 end
