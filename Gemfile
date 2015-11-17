@@ -5,6 +5,7 @@ gem 'rails', '4.2.4'
 gem 'puma'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
+gem 'responders', '~> 2.0'
 
 # Assets
 gem 'sass-rails', '~> 5.0'
