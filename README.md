@@ -5,6 +5,7 @@
 ```bash
 bundle install
 docker-compose build
+cp config/secrets.yml.template config/secrets.yml
 ```
 
 ### Run
