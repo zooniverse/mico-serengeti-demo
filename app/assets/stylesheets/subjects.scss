@@ -21,6 +21,10 @@ table#regions-data {
   border-collapse: collapse;
 }
 
+.left-side {
+  width:636px;
+}
+
 #subject img {
   border: 1px solid black;
   width:100%;
@@ -37,6 +41,15 @@ table#regions-data {
 .header-right {
   float: right;
   margin-right: 20px;
+}
+
+.sticky {
+  position:fixed !important;
+  top:150px;
+}
+
+div.sticky + div {
+  height:100%;
 }
 
 .highlighted-region {

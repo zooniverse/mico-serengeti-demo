@@ -13,95 +13,96 @@
 <hr>
 
 <div class="row">
-  <div class="small-8 columns">
+  <div class="small-8 columns left-side">
     <div id="subject">
       <%= image_tag @subject.image_url %>
       <% @subject.regions.each do |region| %>
         <%= content_tag :div, content_tag(:div,"#{region.id}"), id: "region-overlay-#{region.id}", :data => { :region => region.id }, class: ["region"], style: "top: #{region.y}px; left: #{region.x}px; width: #{region.width}px; height: #{region.height}px" %>
       <% end %>
     </div>
-
-    <h4>Zooniverse user-data based aggregation results</h4>
-    <table style="width: 100%">
-      <tbody>
-        <tr>
-          <th>Dominant Species</th>
-          <td><%= @subject.zooniverse_dominant_species %></td>
-        </tr>
-        <tr>
-          <th>season</th>
-          <td><%= @subject.consensus.season %></td>
-        </tr>
-        <tr>
-          <th>site_id</th>
-          <td><%= @subject.consensus.site_id %></td>
-        </tr>
-        <tr>
-          <th>frames</th>
-          <td><%= @subject.consensus.frames %></td>
-        </tr>
-        <tr>
-          <th>time_of_day</th>
-          <td><%= @subject.consensus.time_of_day %></td>
-        </tr>
-        <tr>
-          <th>classifications</th>
-          <td><%= @subject.consensus.classifications %></td>
-        </tr>
-        <tr>
-          <th>crowd_says</th>
-          <td><%= @subject.consensus.crowd_says %></td>
-        </tr>
-        <tr>
-          <th>total_species</th>
-          <td><%= @subject.consensus.total_species %></td>
-        </tr>
-        <tr>
-          <th>total_animals</th>
-          <td><%= @subject.consensus.total_animals %></td>
-        </tr>
-        <tr>
-          <th>crowd_says_if_multi</th>
-          <td><%= @subject.consensus.crowd_says_if_multi %></td>
-        </tr>
-        <tr>
-          <th>retire_reason</th>
-          <td><%= @subject.consensus.retire_reason %></td>
-        </tr>
-        <tr>
-          <th>counters_keys</th>
-          <td><%= @subject.consensus.counters_keys %></td>
-        </tr>
-        <tr>
-          <th>counters_values</th>
-          <td><%= @subject.consensus.counters_values %></td>
-        </tr>
-        <tr>
-          <th>species_counts_keys</th>
-          <td><%= @subject.consensus.species_counts_keys %></td>
-        </tr>
-        <tr>
-          <th>species_counts_values</th>
-          <td><%= @subject.consensus.species_counts_values %></td>
-        </tr>
-        <tr>
-          <th>behavior_counters_keys</th>
-          <td><%= @subject.consensus.behavior_counters_keys %></td>
-        </tr>
-        <tr>
-          <th>behavior_counters_values</th>
-          <td><%= @subject.consensus.behavior_counters_values %></td>
-        </tr>
-        <tr>
-          <th>aggregate_species_names</th>
-          <td><%= @subject.consensus.aggregate_species_names %></td>
-        </tr>
-        <tr>
-          <th>aggregate_species_counts</th>
-          <td><%= @subject.consensus.aggregate_species_counts %></td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="zoo_data">
+      <h4>Zooniverse user-data based aggregation results</h4>
+      <table style="width: 100%">
+        <tbody>
+          <tr>
+            <th>Dominant Species</th>
+            <td><%= @subject.zooniverse_dominant_species %></td>
+          </tr>
+          <tr>
+            <th>season</th>
+            <td><%= @subject.consensus.season %></td>
+          </tr>
+          <tr>
+            <th>site_id</th>
+            <td><%= @subject.consensus.site_id %></td>
+          </tr>
+          <tr>
+            <th>frames</th>
+            <td><%= @subject.consensus.frames %></td>
+          </tr>
+          <tr>
+            <th>time_of_day</th>
+            <td><%= @subject.consensus.time_of_day %></td>
+          </tr>
+          <tr>
+            <th>classifications</th>
+            <td><%= @subject.consensus.classifications %></td>
+          </tr>
+          <tr>
+            <th>crowd_says</th>
+            <td><%= @subject.consensus.crowd_says %></td>
+          </tr>
+          <tr>
+            <th>total_species</th>
+            <td><%= @subject.consensus.total_species %></td>
+          </tr>
+          <tr>
+            <th>total_animals</th>
+            <td><%= @subject.consensus.total_animals %></td>
+          </tr>
+          <tr>
+            <th>crowd_says_if_multi</th>
+            <td><%= @subject.consensus.crowd_says_if_multi %></td>
+          </tr>
+          <tr>
+            <th>retire_reason</th>
+            <td><%= @subject.consensus.retire_reason %></td>
+          </tr>
+          <tr>
+            <th>counters_keys</th>
+            <td><%= @subject.consensus.counters_keys %></td>
+          </tr>
+          <tr>
+            <th>counters_values</th>
+            <td><%= @subject.consensus.counters_values %></td>
+          </tr>
+          <tr>
+            <th>species_counts_keys</th>
+            <td><%= @subject.consensus.species_counts_keys %></td>
+          </tr>
+          <tr>
+            <th>species_counts_values</th>
+            <td><%= @subject.consensus.species_counts_values %></td>
+          </tr>
+          <tr>
+            <th>behavior_counters_keys</th>
+            <td><%= @subject.consensus.behavior_counters_keys %></td>
+          </tr>
+          <tr>
+            <th>behavior_counters_values</th>
+            <td><%= @subject.consensus.behavior_counters_values %></td>
+          </tr>
+          <tr>
+            <th>aggregate_species_names</th>
+            <td><%= @subject.consensus.aggregate_species_names %></td>
+          </tr>
+          <tr>
+            <th>aggregate_species_counts</th>
+            <td><%= @subject.consensus.aggregate_species_counts %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div id="metadata" class="small-4 columns">
@@ -209,6 +210,31 @@ $(function () {
         },500));
     }
   });
+
+  var $window = $(window);
+  var $stickyEl = $('#subject');
+  var $table = $('#regions-data')
+  var elTop = $stickyEl.offset().top;
+  var tableEnd = $table.offset().top+$table.height();
+  var $pushDownEl = $('#zoo_data');
+  var topMargin = 160;
+  var lesserTopMargin = 30;
+
+  $window.scroll(function() {
+    $stickyEl.toggleClass('sticky', ($window.scrollTop() +topMargin) > elTop && $window.scrollTop() < tableEnd);
+    //console.log($window.scrollTop() +topMargin,elTop, tableEnd);
+    console.log ('setting height to '+$table.height());
+    $pushDownEl.css('margin-top',$table.height()+$stickyEl.height()+topMargin);
+    if ($window.scrollTop() >= tableEnd)
+    {
+      $pushDownEl.css('margin-top',$table.height()-$stickyEl.height()+lesserTopMargin);
+    }
+  });
+
+
+
 });
+
+
 </script>
 
