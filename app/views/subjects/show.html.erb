@@ -12,7 +12,7 @@
     <div id="subject">
       <%= image_tag @subject.image_url %>
       <% @subject.regions.each do |region| %>
-        <%= content_tag :div, content_tag(:div,region.id), id: "region-overlay-#{region.id}", class: ["region"], style: "top: #{region.y}px; left: #{region.x}px; width: #{region.width}px; height: #{region.height}px" %>
+        <%= content_tag :div, content_tag(:div,"#{region.id}"), id: "region-overlay-#{region.id}", :data => { :region => region.id }, class: ["region"], style: "top: #{region.y}px; left: #{region.x}px; width: #{region.width}px; height: #{region.height}px" %>
       <% end %>
     </div>
 
@@ -177,6 +177,30 @@ $(function () {
     },
     mouseleave: function (e) {
         $(this).removeClass("hover");
+        var region_no = $(this).data("region");
+        var $region = $("div#region-overlay-"+region_no)
+        $region.removeClass("highlighted-region");
+        timeouts.push(window.setTimeout(function(){
+          $("div.region").show();
+        },500));
+    }
+  });
+
+  $(".region").on({
+    mouseenter: function (e) {
+        for (var i=0; i<timeouts.length; i++) {
+          clearTimeout(timeouts[i]);
+        }
+        $("div.region").hide();
+        var region_no = $(this).data("region");
+        var $region = $("div#region-overlay-"+region_no)
+        $region.show();
+        $region.addClass("highlighted-region");
+        $(".hover-row[data-region="+region_no+"]").addClass("hover");
+
+    },
+    mouseleave: function (e) {
+        $(".hover-row").removeClass("hover");
         var region_no = $(this).data("region");
         var $region = $("div#region-overlay-"+region_no)
         $region.removeClass("highlighted-region");
