@@ -1,9 +1,0 @@
-ATM The mico broker only supports one pipeline active at a time. Go to:
-
-http://demo1.mico-project.eu:8080/mico-configuration/
-
-to switch between `animal-detection(image-blanks)` and `serengeti-ner(text)`.
-
-Then check that the correct pipeline is up:
-
-http://demo1.mico-project.eu:8080/broker/

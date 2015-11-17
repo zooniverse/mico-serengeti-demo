@@ -1,27 +1,27 @@
 <div class="row">
   <div class="small-12 columns">
-    <table style="width: 100%" id="subjects-table">
-      <thead>
-        <th>ID</th>
-        <th>Zooniverse ID</th>
-        <th>Zooniverse Dominant Species</th>
-        <th>Status</th>
-        <th>Regions</th>
-        <th>Comments</th>
-      </thead>
+    <%= paginate @subjects %>
 
-      <tbody>
-        <% @subjects.each do |subject| %>
-          <tr id="subject-<%= subject.id %>" class="subject-status-<%= subject.status.dasherize %>">
-            <td><%= subject.id %></td>
-            <td><%= link_to subject.zooniverse_id, subject %></td>
-            <td><%= subject.zooniverse_dominant_species %></td>
-            <td><%= subject.mico_status %></td>
-            <td><%= subject.regions.size %></td>
-            <td><%= subject.comments_count %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <ul id="subjects-list-thumbs" class="small-block-grid-4">
+    <% @subjects.each do |subject| %>
+      <li>
+        <%= link_to(image_tag(subject.thumb_url), subject) %>
+
+        <div class="image-counter-overlay">
+          <span class="label" title="Number of regions found by the platform">
+            <i class="fa fa-eye"></i>
+            <%= subject.regions.size %>
+          </span>
+
+          <span class="label" title="Number of comments on Zooniverse Talk">
+            <i class="fa fa-comment"></i>
+            <%= subject.comments_count %>
+          </span>
+        </div>
+        Species: <%= subject.zooniverse_dominant_species %><br>
+        Status: <%= subject.mico_status %><br>
+      </li>
+    <% end %>
+    </ul>
   </div>
 </div>

@@ -6,6 +6,7 @@
 
     <title><%= content_for?(:title) ? yield(:title) : "Mico Serengeti Demo" %></title>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
@@ -13,6 +14,40 @@
   </head>
 
   <body>
+    <nav class="top-bar" data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="#">MICO Snapshot Serengeti Demo</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+      </ul>
+
+      <section class="top-bar-section">
+        <ul class="left">
+          <li><%= link_to "Overview", subjects_path %></li>
+          <li><%= link_to "Worker Queue", '/que' %></li>
+          <li><%= link_to "MICO Broker", 'http://demo1.mico-project.eu:8080/broker/' %></li>
+        </ul>
+      </section>
+    </nav>
+
+    <div id="flash-messages" class="container">
+      <div class="row">
+        <div class="small-12 columns">
+          <% if flash[:error] %>
+          <div class="alert-box alert"><%= flash[:error] %></div>
+          <% end %>
+
+          <%if flash[:notice] %>
+          <div class="alert-box info"><%= flash[:notice] %></div>
+          <% end %>
+
+          <%if flash[:alert] %>
+          <div class="alert-box warning"><%= flash[:alert] %></div>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
     <%= yield %>
 
