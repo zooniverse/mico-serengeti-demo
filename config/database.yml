@@ -24,7 +24,7 @@ default: &default
 
 development:
   <<: *default
-  host: postgres
+  host: localhost
   port: 5432
   user: micodemo
   password: micodemo
