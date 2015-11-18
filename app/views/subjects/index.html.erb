@@ -5,17 +5,34 @@
     <ul id="subjects-list-thumbs" class="small-block-grid-4">
     <% @subjects.each do |subject| %>
       <li>
-        <%= link_to(image_tag(subject.thumb_url), subject) %>
+                <span class="label unboxed-label" title="EXIF Timestamp of Image converted to UTC+3">
+            <i class="fa fa-clock-o"></i>
+            <%= subject.image_timestamp.in_time_zone("Africa/Nairobi").strftime "%Y-%m-%d %H:%M" %>
+          </span>
+          <span class="label unboxed-label" title="Site ID">
+            <i class="fa fa-map-o"></i>
+            <%= "#{subject.consensus.site_id}" %>
+          </span>
+          <span class="label unboxed-label" title="Roll Code">
+            <i class="fa fa-hdd-o"></i>
+            <%= "#{subject.consensus.roll_id}" %>
+          </span>
+        <%= link_to(image_tag(subject.thumb_url, { :title => "#{subject.zooniverse_id}:#{subject.image_index}"}), subject) %>
 
         <div class="image-counter-overlay">
           <span class="label" title="Number of regions found by the platform">
-            <i class="fa fa-eye"></i>
+            <i class="fa fa-search"></i>
             <%= subject.regions.size %>
           </span>
 
           <span class="label" title="Number of comments on Zooniverse Talk">
             <i class="fa fa-comment"></i>
             <%= subject.comments_count %>
+          </span>
+
+          <span class="label unboxed-label" title="Subject ID &amp; Frame No">
+            <i class="fa fa-map-pin"></i>
+            <%= "#{subject.zooniverse_id} - #{subject.image_index}" %>
           </span>
         </div>
         Species: <%= subject.zooniverse_dominant_species %><br>

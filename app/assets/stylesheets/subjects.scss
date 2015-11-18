@@ -10,11 +10,18 @@
 #subjects-list-thumbs li img {
   border: solid 4px #FFFFFF;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  width: 227px;
+  height: 161px;
 }
 
 #subject {
   position: relative;
   overflow: hidden;
+}
+
+.unboxed-label {
+  background-color: white;
+  color: black;
 }
 
 table#regions-data {
