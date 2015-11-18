@@ -5,9 +5,9 @@
     <ul id="subjects-list-thumbs" class="small-block-grid-4">
     <% @subjects.each do |subject| %>
       <li>
-                <span class="label unboxed-label" title="EXIF Timestamp of Image">
+                <span class="label unboxed-label" title="EXIF Timestamp of Image converted to UTC+3">
             <i class="fa fa-clock-o"></i>
-            <%= subject.image_timestamp.strftime "%Y-%m-%d %H:%M" %>
+            <%= subject.image_timestamp.in_time_zone("Africa/Nairobi").strftime "%Y-%m-%d %H:%M" %>
           </span>
           <span class="label unboxed-label" title="Site ID">
             <i class="fa fa-map-o"></i>
