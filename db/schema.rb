@@ -11,19 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151102114405) do
+ActiveRecord::Schema.define(version: 20151118105053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "comments", force: :cascade do |t|
+  create_table "comments", id: false, force: :cascade do |t|
+    t.integer  "id",                       default: "nextval('comments_id_seq'::regclass)", null: false
     t.integer  "subject_id"
     t.string   "zooniverse_user_id"
     t.string   "zooniverse_discussion_id"
     t.string   "zooniverse_comment_id"
     t.text     "body"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                                                                null: false
+    t.datetime "updated_at",                                                                null: false
     t.string   "mico_id"
     t.string   "mico_status"
     t.jsonb    "mico_data"
@@ -49,6 +50,7 @@ ActiveRecord::Schema.define(version: 20151102114405) do
     t.string  "behavior_counters_values"
     t.string  "aggregate_species_names"
     t.string  "aggregate_species_counts"
+    t.string  "roll_id"
   end
 
   add_index "consensus", ["zooniverse_id"], name: "index_consensus_on_zooniverse_id", using: :btree
