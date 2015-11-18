@@ -3,6 +3,7 @@
     <%= paginate @subjects %>
 
     <ul id="subjects-list-thumbs" class="small-block-grid-4">
+    <% if @subjects.any? %>
     <% @subjects.each do |subject| %>
       <li>
                 <span class="label unboxed-label" title="EXIF Timestamp of Image converted to UTC+3">
@@ -38,6 +39,9 @@
         Species: <%= subject.zooniverse_dominant_species %><br>
         Status: <%= subject.mico_status %><br>
       </li>
+    <% end %>
+    <% else %>
+    <li>No matching subjects found. Try removing a filter.</li>
     <% end %>
     </ul>
   </div>

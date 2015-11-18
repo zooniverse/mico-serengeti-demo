@@ -17,7 +17,7 @@ class SubjectsController < ApplicationController
     @subjects = @subjects.joins(:consensus).where(consensus: {roll_id: params["roll_id"]})             if params["roll_id"]
     @subjects = @subjects.joins(:consensus).where(consensus: {total_animals: params["total_animals"]}) if params["total_animals"]
     @subjects = @subjects.joins(:consensus).where(consensus: {total_species: params["total_species"]}) if params["total_species"]
-
+    @subjects = @subjects.where(light: params["light"])                                                if params["light"]
 
     # Sort
     case params[:sort]
