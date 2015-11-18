@@ -91,7 +91,7 @@ namespace :import do
 
     ActiveRecord::Base.connection.execute <<-SQL
       DELETE FROM consensus;
-      COPY consensus(zooniverse_id,season,site_id,frames,time_of_day,classifications,crowd_says,total_species,total_animals,crowd_says_if_multi,retire_reason,counters_keys,counters_values,species_counts_keys,species_counts_values,behavior_counters_keys,behavior_counters_values,aggregate_species_names,aggregate_species_counts) FROM '#{Rails.root.join("data/consensus-detailed.csv")}' DELIMITER ',' CSV HEADER;
+      COPY consensus(zooniverse_id,season,site_id,roll_id,frames,time_of_day,classifications,crowd_says,total_species,total_animals,crowd_says_if_multi,retire_reason,counters_keys,counters_values,species_counts_keys,species_counts_values,behavior_counters_keys,behavior_counters_values,aggregate_species_names,aggregate_species_counts) FROM '#{Rails.root.join("data/consensus-detailed.csv")}' DELIMITER ',' CSV HEADER;
     SQL
 
     puts "Done"
