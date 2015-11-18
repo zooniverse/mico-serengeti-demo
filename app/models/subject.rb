@@ -64,7 +64,7 @@ class Subject < ActiveRecord::Base
   end
 
   def fixed_time
-    if self.site_id=="G04" and self.roll_id=="R3"
+    if self.consensus.site_id=="G04" and self.consensus.roll_id=="R3"
       self.image_timestamp += 60.minutes
     end
     self.image_timestamp.in_time_zone("Africa/Nairobi")
@@ -75,7 +75,7 @@ class Subject < ActiveRecord::Base
   end
 
   def light
-    just_the_time = Time.parse(self.fixed_time)
+    just_the_time = Time.parse(self.fixed_time.strftime "%H:%M")
 
     # using average dawn, dusk, sunrise, sunset times from http://www.gaisma.com/en/location/dar-es-salaam.html ,
     # with a 2 hour tolerance, generate time of day as "day", "night", or "twilight"
@@ -101,16 +101,16 @@ class Subject < ActiveRecord::Base
     end_of_day = Time.parse("11:59:59")
     start_of_day = Time.parse("00:00:00")
 
-    case just_the_time
-    when (start_of_day..beginning_of_morning_twilight)
+    case just_the_time.to_i
+    when (start_of_day.to_i..beginning_of_morning_twilight.to_i)
       "night"
-    when (beginning_of_morning_twilight..end_of_morning_twilight)
+    when (beginning_of_morning_twilight.to_i..end_of_morning_twilight.to_i)
       "twilight"
-    when (end_of_morning_twilight..beginning_of_evening_twilight)
+    when (end_of_morning_twilight.to_i..beginning_of_evening_twilight.to_i)
       "day"
-    when (beginning_of_evening_twilight..end_of_evening_twilight)
+    when (beginning_of_evening_twilight.to_i..end_of_evening_twilight.to_i)
       "twilight"
-    when (end_of_evening_twilight..end_of_day)
+    when (end_of_evening_twilight.to_i..end_of_day.to_i)
       "night"
     else
       "night"
