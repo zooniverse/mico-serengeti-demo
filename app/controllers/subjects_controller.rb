@@ -14,6 +14,7 @@ class SubjectsController < ApplicationController
     @subjects = @subjects.where("comments_count <= ?", params["number_of_comments_max"])               if params["number_of_comments_max"]
     @subjects = @subjects.where(zooniverse_dominant_species: params["species"])                        if params["species"]
     @subjects = @subjects.joins(:consensus).where(consensus: {site_id: params["site_id"]})             if params["site_id"]
+    @subjects = @subjects.joins(:consensus).where(consensus: {roll_id: params["roll_id"]})             if params["roll_id"]
     @subjects = @subjects.joins(:consensus).where(consensus: {total_animals: params["total_animals"]}) if params["total_animals"]
     @subjects = @subjects.joins(:consensus).where(consensus: {total_species: params["total_species"]}) if params["total_species"]
 
