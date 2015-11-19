@@ -38,8 +38,20 @@
             <%= "#{subject.zooniverse_id} - #{subject.image_index}" %>
           </span>
         </div>
-        Species: <%= subject.zooniverse_dominant_species %><br>
-        Status: <%= subject.mico_status %><br>
+        <div class="image-counter-overlay">
+            <span class="label unboxed-label" title="Species present (according to the Zooniverse crowd)">
+            <i class="fa fa-dot-circle-o"></i>
+            <% if subject.zooniverse_dominant_species.include? ";" %>
+              Multiple Species
+            <% else %>
+              <%= "#{subject.zooniverse_dominant_species.titleize}" %>
+            <% end %>
+            </span>
+            <span class="label unboxed-label" title="MICO Image Analysis Status">
+            <i class="fa fa-gears"></i>
+            <%= "#{subject.mico_status.titleize}" %>
+            </span>
+        </div>
       </li>
     <% end %>
     </ul>

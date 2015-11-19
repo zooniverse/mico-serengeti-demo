@@ -17,6 +17,19 @@
 #resub-box {
   margin-top:10px;
 }
+#resub-box div {
+  text-align:center;
+}
+
+#resub-box p.small-sub {
+  color: #999999;
+  font-size: x-small;
+  text-align: center;
+}
+
+#resub-box + hr {
+  margin-top:5px;
+}
 
 .result-counts {
   color: #999999;
@@ -27,7 +40,9 @@
 
 #resub-box a.button.tiny,
 #resub-box p,
-#resub-box h1 {
+#resub-box h1,
+#resub-box h2,
+#resub-box h3 {
   margin-bottom:0px;
   margin-top:0px;
 }
