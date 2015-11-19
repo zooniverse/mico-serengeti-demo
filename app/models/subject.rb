@@ -48,6 +48,7 @@ class Subject < ActiveRecord::Base
 
   def set_mico_attributes(detection)
     self.mico_id = detection.id
+    self.mico_url = detection.mico_url
     self.mico_data = detection.attributes
 
     if mico_data.fetch("status") == "finished"
