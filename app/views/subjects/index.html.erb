@@ -1,10 +1,45 @@
-<div class="row">
+<div id="filters-section">
+  <div id="filters-box" class="row">
+    <div id="zoo-filters" class="filters-row">
+      <div class="filter-row-label">Apply Zooniverse filters:</div>
+      <a href="#" data-options="align:right" data-dropdown="drop-species" class="button">Species present &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-total-animals" class="button">Total animals
+        present &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-total-species" class="button">Total species
+        present &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-comments" class="button">Comments present &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-site-id" class="button">Site ID &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-roll-code" class="button">Roll Code &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-light" class="button">Light &raquo;</a>
+    </div>
+    <div id="mico-filters" class="filters-row">
+      <div class="filter-row-label">Apply MICO filters:</div>
+      <a href="#" data-options="align:right" data-dropdown="drop-regions" class="button">Animals found via image
+        analysis &raquo;</a>
+      <a href="#" data-options="align:right" disabled="disabled" data-dropdown="drop-entities" class="button">Entities found via comment
+        analysis &raquo;</a>
+      <a href="#" data-options="align:right" disabled="disabled" data-dropdown="drop-dataset" class="button">Validation dataset
+        used &raquo;</a>
+    </div>
+  </div>
+  <hr class="slim no-bottom">
+  <div id="filters-drawer-row" class="row">
+    <div class="filter-row-label">Current filters:<br/>(click to remove)</div>
+    <div id="filters-drawer">No filters currently applied.</div>
+  </div>
+</div>
+<hr class="slim no-top">
+<div id="resub-box" class="row">
   <div class="small-12 columns">
-    <%= paginate @subjects %>
 
-    <ul id="subjects-list-thumbs" class="small-block-grid-4">
+    <div class="result-counts">Showing <%= number_with_delimiter(@subjects.count,:delimiter => ',') %> of <%=
+      number_with_delimiter(@subjects.total_count,:delimiter=>',') %> subjects.
+    </div>
+    <div class="pagination-controls"><%= paginate @subjects %></div>
+
     <% if @subjects.any? %>
-    <% @subjects.each do |subject| %>
+    <ul id="subjects-list-thumbs" class="small-block-grid-4">
+      <% @subjects.each do |subject| %>
       <li>
                 <span class="label unboxed-label" title="EXIF Timestamp of Image converted to UTC+3">
             <i class="fa fa-clock-o"></i>
@@ -18,7 +53,8 @@
             <i class="fa fa-hdd-o"></i>
             <%= "#{subject.consensus.roll_id}" %>
           </span>
-        <%= link_to(image_tag(subject.thumb_url, { :title => "#{subject.zooniverse_id}:#{subject.image_index}"}), subject) %>
+        <%= link_to(image_tag(subject.thumb_url, { :title => "#{subject.zooniverse_id}:#{subject.image_index}"}),
+        subject) %>
 
         <div class="image-counter-overlay">
           <span class="label" title="Number of regions found by the platform">
@@ -36,13 +72,497 @@
             <%= "#{subject.zooniverse_id} - #{subject.image_index}" %>
           </span>
         </div>
-        Species: <%= subject.zooniverse_dominant_species %><br>
-        Status: <%= subject.mico_status %><br>
+        <div class="image-counter-overlay">
+            <span class="label unboxed-label" title="Species present (according to the Zooniverse crowd)">
+            <i class="fa fa-dot-circle-o"></i>
+            <% if subject.zooniverse_dominant_species.include? ";" %>
+              Multiple Species
+            <% else %>
+              <%= "#{subject.zooniverse_dominant_species.titleize}" %>
+            <% end %>
+            </span>
+            <span class="label unboxed-label" title="MICO Image Analysis Status">
+            <i class="fa fa-gears"></i>
+            <%= "#{subject.mico_status.titleize}" %>
+            </span>
+        </div>
       </li>
-    <% end %>
-    <% else %>
-    <li>No matching subjects found. Try removing a filter.</li>
-    <% end %>
+      <% end %>
     </ul>
+    <% else %>
+    <div class="result-counts">No matching subjects found. Try removing a filter.</div>
+    <% end %>
+
+
+    <div class="pagination-controls"><%= paginate @subjects %></div>
+    <div>&nbsp;</div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#filters-drawer").select2();
+  });
+</script>
+
+<ul id="drop-species" class="tiny content f-dropdown acc-zoo" data-dropdown-content>
+  <li><a data-value="blank">Blank (no animals present)</a></li>
+  <li><a data-value="multi">Mutiple Species</a></li>
+  <li class="divider"></li>
+  <li><a data-value="ostrich">Ostrich</a></li>
+  <li><a data-value="buffalo">Buffalo</a></li>
+  <li><a data-value="warthog">Warthog</a></li>
+  <li><a data-value="wildebeest">Wildebeest</a></li>
+  <li><a data-value="elephant">Elephant</a></li>
+  <li class="divider"></li>
+  <li><a data-value="human">Human</a></li>
+  <li class="divider"></li>
+  <li><a data-value="aardvark">Aardvark</a></li>
+  <li><a data-value="aardwolf">Aardwolf</a></li>
+  <li><a data-value="baboon">Baboon</a></li>
+  <li><a data-value="bat">Bat</a></li>
+  <li><a data-value="batearedfox">Bat-eared fox</a></li>
+  <li><a data-value="otherbird">Bird (other)</a></li>
+  <li><a data-value="bushbuck">Bushbuck</a></li>
+  <li><a data-value="caracal">Caracal</a></li>
+  <li><a data-value="cattle">Cattle</a></li>
+  <li><a data-value="cheetah">Cheetah</a></li>
+  <li><a data-value="civet">Civet</a></li>
+  <li><a data-value="dikdik">Dik-dik</a></li>
+  <li><a data-value="duiker">Duiker</a></li>
+  <li><a data-value="eland">Eland</a></li>
+  <li><a data-value="gazellegrants">Grant's gazelle</a></li>
+  <li><a data-value="gazellethomsons">Thomson's gazelle</a></li>
+  <li><a data-value="genet">Genet</a></li>
+  <li><a data-value="giraffe">Giraffe</a></li>
+  <li><a data-value="guineafowl">Guineafowl</a></li>
+  <li><a data-value="hare">Hare</a></li>
+  <li><a data-value="hartebeest">Hartebeest</a></li>
+  <li><a data-value="hippopotamus">Hippopotamus</a></li>
+  <li><a data-value="honeybadger">Honey badger</a></li>
+  <li><a data-value="hyenaspotted">Spotted hyena</a></li>
+  <li><a data-value="hyenastriped">Striped hyena</a></li>
+  <li><a data-value="impala">Impala</a></li>
+  <li><a data-value="insectspider">Insect</a></li>
+  <li><a data-value="jackal">Jackal</a></li>
+  <li><a data-value="koribustard">Kori bustard</a></li>
+  <li><a data-value="leopard">Leopard</a></li>
+  <li><a data-value="lionfemale">Lion (female)</a></li>
+  <li><a data-value="lionmale">Lion (male)</a></li>
+  <li><a data-value="mongoose">Mongoose</a></li>
+  <li><a data-value="porcupine">Porcupine</a></li>
+  <li><a data-value="reedbuck">Reedbuck</a></li>
+  <li><a data-value="reptiles">Reptiles</a></li>
+  <li><a data-value="rhinoceros">Rhinoceros</a></li>
+  <li><a data-value="rodents">Rodents</a></li>
+  <li><a data-value="secretarybird">Secretary bird</a></li>
+  <li><a data-value="serval">Serval</a></li>
+  <li><a data-value="insectspider">Spider</a></li>
+  <li><a data-value="steenbok">Steenbok</a></li>
+  <li><a data-value="topi">Topi</a></li>
+  <li><a data-value="vervetmonkey">Vervet monkey</a></li>
+  <li><a data-value="vulture">Vulture</a></li>
+  <li><a data-value="waterbuck">Waterbuck</a></li>
+  <li><a data-value="wildcat">Wildcat</a></li>
+  <li><a data-value="zebra">Zebra</a></li>
+  <li><a data-value="zorilla">Zorilla</a></li>
+</ul>
+<ul id="drop-regions" class="tiny content f-dropdown" data-dropdown-content>
+  <li><a data-value="0">No animals found</a></li>
+  <li><a data-value="1">1 animal found</a></li>
+  <li><a data-value="2">2 animals found</a></li>
+  <li class="divider"></li>
+  <li><a data-value="1+">1 or more animals found</a></li>
+  <li><a data-value="0-5">0 to 5 animals found</a></li>
+  <li><a data-value="1-5">1 to 5 animals found</a></li>
+  <li><a data-value="6-10">6 to 10 animals found</a></li>
+  <li><a data-value="1-10">1 to 10 animals found</a></li>
+  <li><a data-value="10+">10 or more animals found</a></li>
+  <li><a data-value="15-20">15 to 20 animals found</a></li>
+  <li><a data-value="20-25">20 to 25 animals found</a></li>
+  <li><a data-value="25+">25 or more animals found</a></li>
+  <li class="divider"></li>
+  <li><a data-value="3">3 animals found</a></li>
+  <li><a data-value="4">4 animals found</a></li>
+  <li><a data-value="5">5 animals found</a></li>
+  <li><a data-value="6">6 animals found</a></li>
+  <li><a data-value="7">7 animals found</a></li>
+  <li><a data-value="8">8 animals found</a></li>
+  <li><a data-value="9">9 animals found</a></li>
+  <li><a data-value="10">10 animals found</a></li>
+  <li><a data-value="11">11 animals found</a></li>
+  <li><a data-value="12">12 animals found</a></li>
+  <li><a data-value="13">13 animals found</a></li>
+  <li><a data-value="14">14 animals found</a></li>
+  <li><a data-value="15">15 animals found</a></li>
+  <li><a data-value="16">16 animals found</a></li>
+  <li><a data-value="17">17 animals found</a></li>
+  <li><a data-value="18">18 animals found</a></li>
+  <li><a data-value="19">19 animals found</a></li>
+  <li><a data-value="20">20 animals found</a></li>
+  <li><a data-value="21">21 animals found</a></li>
+  <li><a data-value="22">22 animals found</a></li>
+  <li><a data-value="23">23 animals found</a></li>
+  <li><a data-value="24">24 animals found</a></li>
+  <li><a data-value="25">25 animals found</a></li>
+  <li><a data-value="26">26 animals found</a></li>
+  <li><a data-value="27">27 animals found</a></li>
+  <li><a data-value="28">28 animals found</a></li>
+  <li><a data-value="29">29 animals found</a></li>
+  <li><a data-value="30">30 animals found</a></li>
+</ul>
+<ul id="drop-total-animals" class="tiny content f-dropdown" data-dropdown-content>
+  <li><a data-value="0">No animals present</a></li>
+  <li><a data-value="1">1 animal present</a></li>
+  <li><a data-value="2">2 animals present</a></li>
+  <li class="divider"></li>
+  <li><a data-value="1+">1 or more animals present</a></li>
+  <li><a data-value="0-5">0 to 5 animals present</a></li>
+  <li><a data-value="1-5">1 to 5 animals present</a></li>
+  <li><a data-value="6-10">6 to 10 animals present</a></li>
+  <li><a data-value="1-10">1 to 10 animals present</a></li>
+  <li><a data-value="10+">10 or more animals present</a></li>
+  <li><a data-value="15-20">15 to 20 animals present</a></li>
+  <li><a data-value="20-25">20 to 25 animals present</a></li>
+  <li><a data-value="25+">25 or more animals present</a></li>
+  <li class="divider"></li>
+  <li><a data-value="3">3 animals present</a></li>
+  <li><a data-value="4">4 animals present</a></li>
+  <li><a data-value="5">5 animals present</a></li>
+  <li><a data-value="6">6 animals present</a></li>
+  <li><a data-value="7">7 animals present</a></li>
+  <li><a data-value="8">8 animals present</a></li>
+  <li><a data-value="9">9 animals present</a></li>
+  <li><a data-value="10">10 animals present</a></li>
+  <li><a data-value="11">11 animals present</a></li>
+  <li><a data-value="12">12 animals present</a></li>
+  <li><a data-value="13">13 animals present</a></li>
+  <li><a data-value="14">14 animals present</a></li>
+  <li><a data-value="15">15 animals present</a></li>
+  <li><a data-value="16">16 animals present</a></li>
+  <li><a data-value="17">17 animals present</a></li>
+  <li><a data-value="18">18 animals present</a></li>
+  <li><a data-value="19">19 animals present</a></li>
+  <li><a data-value="20">20 animals present</a></li>
+  <li><a data-value="21">21 animals present</a></li>
+  <li><a data-value="22">22 animals present</a></li>
+  <li><a data-value="23">23 animals present</a></li>
+  <li><a data-value="24">24 animals present</a></li>
+  <li><a data-value="25">25 animals present</a></li>
+  <li><a data-value="26">26 animals present</a></li>
+  <li><a data-value="27">27 animals present</a></li>
+  <li><a data-value="28">28 animals present</a></li>
+  <li><a data-value="29">29 animals present</a></li>
+  <li><a data-value="30">30 animals present</a></li>
+</ul>
+<ul id="drop-total-species" class="tiny content f-dropdown" data-dropdown-content>
+  <li><a data-value="0">No species present</a></li>
+  <li><a data-value="1">1 species present</a></li>
+  <li><a data-value="2">2 species present</a></li>
+  <li class="divider"></li>
+  <li><a data-value="1+">1 or more species present</a></li>
+  <li><a data-value="0-5">0 to 5 species present</a></li>
+  <li><a data-value="1-5">1 to 5 species present</a></li>
+  <li><a data-value="6-10">6 to 10 species present</a></li>
+  <li><a data-value="1-10">1 to 10 species present</a></li>
+  <li><a data-value="10+">10 or more species present</a></li>
+  <li><a data-value="15-20">15 to 20 species present</a></li>
+  <li><a data-value="20-25">20 to 25 species present</a></li>
+  <li><a data-value="25+">25 or more species present</a></li>
+  <li class="divider"></li>
+  <li><a data-value="3">3 species present</a></li>
+  <li><a data-value="4">4 species present</a></li>
+  <li><a data-value="5">5 species present</a></li>
+  <li><a data-value="6">6 species present</a></li>
+  <li><a data-value="7">7 species present</a></li>
+  <li><a data-value="8">8 species present</a></li>
+  <li><a data-value="9">9 species present</a></li>
+  <li><a data-value="10">10 species present</a></li>
+  <li><a data-value="11">11 species present</a></li>
+  <li><a data-value="12">12 species present</a></li>
+  <li><a data-value="13">13 species present</a></li>
+  <li><a data-value="14">14 species present</a></li>
+  <li><a data-value="15">15 species present</a></li>
+  <li><a data-value="16">16 species present</a></li>
+  <li><a data-value="17">17 species present</a></li>
+  <li><a data-value="18">18 species present</a></li>
+  <li><a data-value="19">19 species present</a></li>
+  <li><a data-value="20">20 species present</a></li>
+  <li><a data-value="21">21 species present</a></li>
+  <li><a data-value="22">22 species present</a></li>
+  <li><a data-value="23">23 species present</a></li>
+  <li><a data-value="24">24 species present</a></li>
+  <li><a data-value="25">25 species present</a></li>
+  <li><a data-value="26">26 species present</a></li>
+  <li><a data-value="27">27 species present</a></li>
+  <li><a data-value="28">28 species present</a></li>
+  <li><a data-value="29">29 species present</a></li>
+  <li><a data-value="30">30 species present</a></li>
+</ul>
+<ul id="drop-comments" class="tiny content f-dropdown" data-dropdown-content>
+  <li><a data-value="0">No comments present</a></li>
+  <li><a data-value="1">1 comment present</a></li>
+  <li><a data-value="2">2 comments present</a></li>
+  <li class="divider"></li>
+  <li><a data-value="1+">1 or more comments present</a></li>
+  <li><a data-value="0-5">0 to 5 comments present</a></li>
+  <li><a data-value="1-5">1 to 5 comments present</a></li>
+  <li><a data-value="6-10">6 to 10 comments present</a></li>
+  <li><a data-value="1-10">1 to 10 comments present</a></li>
+  <li><a data-value="10+">10 or more comments present</a></li>
+  <li><a data-value="11-25">11 to 25 comments present</a></li>
+  <li><a data-value="25+">25 or more species present</a></li>
+</ul>
+<ul id="drop-site-id" class="tiny content f-dropdown" data-dropdown-content>
+    <li><a data-value="B03">B03</a></li>
+    <li><a data-value="B04">B04</a></li>
+    <li><a data-value="B05">B05</a></li>
+    <li><a data-value="B06">B06</a></li>
+    <li><a data-value="B07">B07</a></li>
+    <li><a data-value="B08">B08</a></li>
+    <li><a data-value="B09">B09</a></li>
+    <li><a data-value="B10">B10</a></li>
+    <li><a data-value="B12">B12</a></li>
+    <li><a data-value="B13">B13</a></li>
+    <li><a data-value="C01">C01</a></li>
+    <li><a data-value="C02">C02</a></li>
+    <li><a data-value="C03">C03</a></li>
+    <li><a data-value="C04">C04</a></li>
+    <li><a data-value="C05">C05</a></li>
+    <li><a data-value="C06">C06</a></li>
+    <li><a data-value="C07">C07</a></li>
+    <li><a data-value="C08">C08</a></li>
+    <li><a data-value="C09">C09</a></li>
+    <li><a data-value="C10">C10</a></li>
+    <li><a data-value="C11">C11</a></li>
+    <li><a data-value="C12">C12</a></li>
+    <li><a data-value="C13">C13</a></li>
+    <li><a data-value="D02">D02</a></li>
+    <li><a data-value="D03">D03</a></li>
+    <li><a data-value="D04">D04</a></li>
+    <li><a data-value="D05">D05</a></li>
+    <li><a data-value="D06">D06</a></li>
+    <li><a data-value="D07">D07</a></li>
+    <li><a data-value="D08">D08</a></li>
+    <li><a data-value="D09">D09</a></li>
+    <li><a data-value="D10">D10</a></li>
+    <li><a data-value="D11">D11</a></li>
+    <li><a data-value="D12">D12</a></li>
+    <li><a data-value="D13">D13</a></li>
+    <li><a data-value="E01">E01</a></li>
+    <li><a data-value="E02">E02</a></li>
+    <li><a data-value="E03">E03</a></li>
+    <li><a data-value="E04">E04</a></li>
+    <li><a data-value="E05">E05</a></li>
+    <li><a data-value="E06">E06</a></li>
+    <li><a data-value="E07">E07</a></li>
+    <li><a data-value="E08">E08</a></li>
+    <li><a data-value="E09">E09</a></li>
+    <li><a data-value="E10">E10</a></li>
+    <li><a data-value="E11">E11</a></li>
+    <li><a data-value="E12">E12</a></li>
+    <li><a data-value="E13">E13</a></li>
+    <li><a data-value="F01">F01</a></li>
+    <li><a data-value="F02">F02</a></li>
+    <li><a data-value="F03">F03</a></li>
+    <li><a data-value="F04">F04</a></li>
+    <li><a data-value="F05">F05</a></li>
+    <li><a data-value="F06">F06</a></li>
+    <li><a data-value="F07">F07</a></li>
+    <li><a data-value="F08">F08</a></li>
+    <li><a data-value="F09">F09</a></li>
+    <li><a data-value="F10">F10</a></li>
+    <li><a data-value="F11">F11</a></li>
+    <li><a data-value="F12">F12</a></li>
+    <li><a data-value="F13">F13</a></li>
+    <li><a data-value="G01">G01</a></li>
+    <li><a data-value="G02">G02</a></li>
+    <li><a data-value="G03">G03</a></li>
+    <li><a data-value="G04">G04</a></li>
+    <li><a data-value="G05">G05</a></li>
+    <li><a data-value="G06">G06</a></li>
+    <li><a data-value="G07">G07</a></li>
+    <li><a data-value="G08">G08</a></li>
+    <li><a data-value="G09">G09</a></li>
+    <li><a data-value="G10">G10</a></li>
+    <li><a data-value="G11">G11</a></li>
+    <li><a data-value="G12">G12</a></li>
+    <li><a data-value="G13">G13</a></li>
+    <li><a data-value="H01">H01</a></li>
+    <li><a data-value="H02">H02</a></li>
+    <li><a data-value="H03">H03</a></li>
+    <li><a data-value="H04">H04</a></li>
+    <li><a data-value="H05">H05</a></li>
+    <li><a data-value="H06">H06</a></li>
+    <li><a data-value="H07">H07</a></li>
+    <li><a data-value="H08">H08</a></li>
+    <li><a data-value="H09">H09</a></li>
+    <li><a data-value="H10">H10</a></li>
+    <li><a data-value="H11">H11</a></li>
+    <li><a data-value="H12">H12</a></li>
+    <li><a data-value="H13">H13</a></li>
+    <li><a data-value="I01">I01</a></li>
+    <li><a data-value="I02">I02</a></li>
+    <li><a data-value="I03">I03</a></li>
+    <li><a data-value="I04">I04</a></li>
+    <li><a data-value="I05">I05</a></li>
+    <li><a data-value="I06">I06</a></li>
+    <li><a data-value="I07">I07</a></li>
+    <li><a data-value="I08">I08</a></li>
+    <li><a data-value="I09">I09</a></li>
+    <li><a data-value="I10">I10</a></li>
+    <li><a data-value="I11">I11</a></li>
+    <li><a data-value="I12">I12</a></li>
+    <li><a data-value="I13">I13</a></li>
+    <li><a data-value="J01">J01</a></li>
+    <li><a data-value="J02">J02</a></li>
+    <li><a data-value="J03">J03</a></li>
+    <li><a data-value="J04">J04</a></li>
+    <li><a data-value="J05">J05</a></li>
+    <li><a data-value="J06">J06</a></li>
+    <li><a data-value="J07">J07</a></li>
+    <li><a data-value="J08">J08</a></li>
+    <li><a data-value="J09">J09</a></li>
+    <li><a data-value="J10">J10</a></li>
+    <li><a data-value="J11">J11</a></li>
+    <li><a data-value="J12">J12</a></li>
+    <li><a data-value="J13">J13</a></li>
+    <li><a data-value="K02">K02</a></li>
+    <li><a data-value="K03">K03</a></li>
+    <li><a data-value="K04">K04</a></li>
+    <li><a data-value="K05">K05</a></li>
+    <li><a data-value="K06">K06</a></li>
+    <li><a data-value="K07">K07</a></li>
+    <li><a data-value="K08">K08</a></li>
+    <li><a data-value="K09">K09</a></li>
+    <li><a data-value="K10">K10</a></li>
+    <li><a data-value="K11">K11</a></li>
+    <li><a data-value="K12">K12</a></li>
+    <li><a data-value="K13">K13</a></li>
+    <li><a data-value="L01">L01</a></li>
+    <li><a data-value="L02">L02</a></li>
+    <li><a data-value="L03">L03</a></li>
+    <li><a data-value="L04">L04</a></li>
+    <li><a data-value="L05">L05</a></li>
+    <li><a data-value="L06">L06</a></li>
+    <li><a data-value="L07">L07</a></li>
+    <li><a data-value="L08">L08</a></li>
+    <li><a data-value="L09">L09</a></li>
+    <li><a data-value="L10">L10</a></li>
+    <li><a data-value="L11">L11</a></li>
+    <li><a data-value="L12">L12</a></li>
+    <li><a data-value="L13">L13</a></li>
+    <li><a data-value="M02">M02</a></li>
+    <li><a data-value="M03">M03</a></li>
+    <li><a data-value="M04">M04</a></li>
+    <li><a data-value="M05">M05</a></li>
+    <li><a data-value="M06">M06</a></li>
+    <li><a data-value="M07">M07</a></li>
+    <li><a data-value="M08">M08</a></li>
+    <li><a data-value="M09">M09</a></li>
+    <li><a data-value="M10">M10</a></li>
+    <li><a data-value="M11">M11</a></li>
+    <li><a data-value="M12">M12</a></li>
+    <li><a data-value="M13">M13</a></li>
+    <li><a data-value="N02">N02</a></li>
+    <li><a data-value="N03">N03</a></li>
+    <li><a data-value="N04">N04</a></li>
+    <li><a data-value="N05">N05</a></li>
+    <li><a data-value="N06">N06</a></li>
+    <li><a data-value="N07">N07</a></li>
+    <li><a data-value="N08">N08</a></li>
+    <li><a data-value="N09">N09</a></li>
+    <li><a data-value="N10">N10</a></li>
+    <li><a data-value="N11">N11</a></li>
+    <li><a data-value="N12">N12</a></li>
+    <li><a data-value="N13">N13</a></li>
+    <li><a data-value="O03">O03</a></li>
+    <li><a data-value="O04">O04</a></li>
+    <li><a data-value="O05">O05</a></li>
+    <li><a data-value="O06">O06</a></li>
+    <li><a data-value="O07">O07</a></li>
+    <li><a data-value="O08">O08</a></li>
+    <li><a data-value="O09">O09</a></li>
+    <li><a data-value="O10">O10</a></li>
+    <li><a data-value="O11">O11</a></li>
+    <li><a data-value="O12">O12</a></li>
+    <li><a data-value="O13">O13</a></li>
+    <li><a data-value="P03">P03</a></li>
+    <li><a data-value="P04">P04</a></li>
+    <li><a data-value="P05">P05</a></li>
+    <li><a data-value="P06">P06</a></li>
+    <li><a data-value="P07">P07</a></li>
+    <li><a data-value="P08">P08</a></li>
+    <li><a data-value="P09">P09</a></li>
+    <li><a data-value="P10">P10</a></li>
+    <li><a data-value="P11">P11</a></li>
+    <li><a data-value="P12">P12</a></li>
+    <li><a data-value="P13">P13</a></li>
+    <li><a data-value="Q04">Q04</a></li>
+    <li><a data-value="Q05">Q05</a></li>
+    <li><a data-value="Q06">Q06</a></li>
+    <li><a data-value="Q07">Q07</a></li>
+    <li><a data-value="Q08">Q08</a></li>
+    <li><a data-value="Q09">Q09</a></li>
+    <li><a data-value="Q10">Q10</a></li>
+    <li><a data-value="Q11">Q11</a></li>
+    <li><a data-value="Q12">Q12</a></li>
+    <li><a data-value="Q13">Q13</a></li>
+    <li><a data-value="R05">R05</a></li>
+    <li><a data-value="R06">R06</a></li>
+    <li><a data-value="R07">R07</a></li>
+    <li><a data-value="R08">R08</a></li>
+    <li><a data-value="R09">R09</a></li>
+    <li><a data-value="R10">R10</a></li>
+    <li><a data-value="R11">R11</a></li>
+    <li><a data-value="R12">R12</a></li>
+    <li><a data-value="R13">R13</a></li>
+    <li><a data-value="S05">S05</a></li>
+    <li><a data-value="S07">S07</a></li>
+    <li><a data-value="S08">S08</a></li>
+    <li><a data-value="S09">S09</a></li>
+    <li><a data-value="S10">S10</a></li>
+    <li><a data-value="S11">S11</a></li>
+    <li><a data-value="S12">S12</a></li>
+    <li><a data-value="S13">S13</a></li>
+    <li><a data-value="T08">T08</a></li>
+    <li><a data-value="T09">T09</a></li>
+    <li><a data-value="T10">T10</a></li>
+    <li><a data-value="T11">T11</a></li>
+    <li><a data-value="T12">T12</a></li>
+    <li><a data-value="T13">T13</a></li>
+    <li><a data-value="U09">U09</a></li>
+    <li><a data-value="U10">U10</a></li>
+    <li><a data-value="U11">U11</a></li>
+    <li><a data-value="U12">U12</a></li>
+    <li><a data-value="U13">U13</a></li>
+    <li><a data-value="V10">V10</a></li>
+    <li><a data-value="V11">V11</a></li>
+    <li><a data-value="V12">V12</a></li>
+    <li><a data-value="V13">V13</a></li>
+    <li><a data-value="tutorial">tutorial</a></li>
+</ul>
+<ul id="drop-roll-code" class="tiny content f-dropdown" data-dropdown-content>
+    <li><a data-value="R">R</a></li>
+    <li><a data-value="R!">R!</a></li>
+    <li><a data-value="r1">r1</a></li>
+    <li><a data-value="R1">R1</a></li>
+    <li><a data-value="R2">R2</a></li>
+    <li><a data-value="R03">R03</a></li>
+    <li><a data-value="R3">R3</a></li>
+    <li><a data-value="R4">R4</a></li>
+    <li><a data-value="R5">R5</a></li>
+    <li><a data-value="R6">R6</a></li>
+    <li><a data-value="R7">R7</a></li>
+    <li><a data-value="R8">R8</a></li>
+    <li><a data-value="R9">R9</a></li>
+    <li><a data-value="R10">R10</a></li>
+    <li><a data-value="R11">R11</a></li>
+    <li><a data-value="R12">R12</a></li>
+    <li><a data-value="tutorial">tutorial</a></li>
+</ul>
+<ul id="drop-light" class="tiny content f-dropdown" data-dropdown-content>
+    <li><a data-value="day">Day</a></li>
+    <li><a data-value="twilight">Twilight</a></li>
+    <li><a data-value="night">Night</a></li>
+</ul>

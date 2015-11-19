@@ -37,6 +37,7 @@ class Comment < ActiveRecord::Base
   def set_mico_attributes(detection)
     self.mico_id = detection.id
     self.mico_data = detection.attributes
+    self.mico_url = detection.mico_url
     self.mico_status = mico_data.fetch("status")
     self
   end

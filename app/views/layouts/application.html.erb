@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? yield(:title) : "Mico Serengeti Demo" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "MICO Snapshot Serengeti Demo" %></title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <%= stylesheet_link_tag    "application" %>
@@ -24,16 +24,18 @@
 
       <section class="top-bar-section">
         <ul class="left">
-          <li><%= link_to "Overview", subjects_path %></li>
+          <li><%= link_to "All Subjects", subjects_path %></li>
           <li><%= link_to "Worker Queue", '/que', :target => "_blank" %></li>
           <li><%= link_to "MICO Broker", 'http://demo1.mico-project.eu:8080/broker/', :target => "_blank" %></li>
-          <li><%= link_to "Select Extractor", 'http://demo1.mico-project.eu:8080/mico-configuration/', :target => "_blank" %></li>
+          <li><%= link_to "Change Extractor", 'http://demo1.mico-project.eu:8080/mico-configuration/', :target => "_blank" %></li>
           <li><%= link_to "Validation Report", 'https://docs.google.com/document/d/1uUkP1cpKh8ZcRrVWQpUo19-ppZqejkSrEx2_5QUlLaY', :target => "_blank" %></li>
           <li><%= link_to "Testing Results", 'https://docs.google.com/document/d/1a1A5-jHIUjqR6ka3dWLQeeBfJM4AfRFdQoEwPREaJQo',:target => "_blank" %></li>
+          <li><%= link_to "Snapshot Serengeti", 'https://www.snapshotserengeti.org/',:target => "_blank" %></li>
+
         </ul>
       </section>
     </nav>
-
+    <% if flash[:error] || flash[:alert] || flash[:notice] %>
     <div id="flash-messages" class="container">
       <div class="row">
         <div class="small-12 columns">
@@ -51,6 +53,7 @@
         </div>
       </div>
     </div>
+    <% end %>
 
     <%= yield %>
 
