@@ -7,6 +7,75 @@
   margin-bottom: 2em;
 }
 
+#filters-section {
+  font-size: small;
+  line-height: 1em;
+  padding:5px;
+  margin:0 auto;
+}
+#filters-section .filters-row:nth-child(2) {
+  margin-top: 5px;
+}
+
+#filters-section a {
+  font-size: small;
+  line-height: 1em;
+  padding: 5px 10px;
+  margin:0 auto;
+}
+
+ul.f-dropdown {
+  padding:0px !important;
+}
+
+#zoo-filters .button {
+  background-color: #778CBA;
+}
+
+#mico-filters .button {
+  background-color: #8CBA77;
+}
+
+ul.f-dropdown li.divider {
+  border-bottom: 1px #999999 solid;
+  margin-top:2px;
+  margin-bottom:2px;
+}
+
+#filters-section .filter-row-label {
+  display:inline-block;
+  padding:5px;
+  min-width:150px;
+  text-align:right;
+}
+
+#filters-drawer-row .filter-row-label {
+  line-height:15px !important;
+}
+
+hr.slim {
+  margin:10px auto;
+}
+
+hr.slim.no-top {
+  margin:0px auto 10px;
+}
+
+hr.slim.no-bottom {
+  margin:6px auto 0px;
+}
+
+#filters-section #filters-drawer-row {
+  margin-top:0px;
+}
+
+#filters-section #filters-drawer {
+  display:inline-block;
+  padding:5px;
+  text-align:left;
+  vertical-align: top;
+}
+
 #subjects-list-thumbs li img {
   border: solid 4px #FFFFFF;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);

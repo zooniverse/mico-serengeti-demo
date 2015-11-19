@@ -1,12 +1,45 @@
+<div id="filters-section">
+  <div id="filters-box" class="row">
+    <div id="zoo-filters" class="filters-row">
+      <div class="filter-row-label">Apply Zooniverse filters:</div>
+      <a href="#" data-options="align:right" data-dropdown="drop-species" class="button">Species present &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-total-animals" class="button">Total animals
+        present &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-total-species" class="button">Total species
+        present &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-comments" class="button">Comments present &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-site-id" class="button">Site ID &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-roll-code" class="button">Roll Code &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-light" class="button">Light &raquo;</a>
+    </div>
+    <div id="mico-filters" class="filters-row">
+      <div class="filter-row-label">Apply MICO filters:</div>
+      <a href="#" data-options="align:right" data-dropdown="drop-regions" class="button">Animals found via image
+        analysis &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-entities" class="button">Entities found via comment
+        analysis &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-dataset" class="button">Validation dataset
+        used &raquo;</a>
+    </div>
+  </div>
+  <hr class="slim no-bottom">
+  <div id="filters-drawer-row" class="row">
+    <div class="filter-row-label">Current filters:<br/>(click to remove)</div>
+    <div id="filters-drawer">No filters currently applied.</div>
+  </div>
+</div>
+<hr class="slim no-top">
 <div id="resub-box" class="row">
   <div class="small-12 columns">
 
-    <div class="result-counts">Showing <%= number_with_delimiter(@subjects.count,:delimiter => ',') %> of <%= number_with_delimiter(@subjects.total_count,:delimiter=>',') %> subjects. </div>
+    <div class="result-counts">Showing <%= number_with_delimiter(@subjects.count,:delimiter => ',') %> of <%=
+      number_with_delimiter(@subjects.total_count,:delimiter=>',') %> subjects.
+    </div>
     <div class="pagination-controls"><%= paginate @subjects %></div>
 
     <% if @subjects.any? %>
     <ul id="subjects-list-thumbs" class="small-block-grid-4">
-    <% @subjects.each do |subject| %>
+      <% @subjects.each do |subject| %>
       <li>
                 <span class="label unboxed-label" title="EXIF Timestamp of Image converted to UTC+3">
             <i class="fa fa-clock-o"></i>
@@ -20,7 +53,8 @@
             <i class="fa fa-hdd-o"></i>
             <%= "#{subject.consensus.roll_id}" %>
           </span>
-        <%= link_to(image_tag(subject.thumb_url, { :title => "#{subject.zooniverse_id}:#{subject.image_index}"}), subject) %>
+        <%= link_to(image_tag(subject.thumb_url, { :title => "#{subject.zooniverse_id}:#{subject.image_index}"}),
+        subject) %>
 
         <div class="image-counter-overlay">
           <span class="label" title="Number of regions found by the platform">
@@ -53,14 +87,117 @@
             </span>
         </div>
       </li>
-    <% end %>
+      <% end %>
     </ul>
     <% else %>
     <div class="result-counts">No matching subjects found. Try removing a filter.</div>
     <% end %>
 
 
-            <div class="pagination-controls"><%= paginate @subjects %></div>
-        <div>&nbsp;</div>
+    <div class="pagination-controls"><%= paginate @subjects %></div>
+    <div>&nbsp;</div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#filters-drawer").select2();
+  });
+</script>
+
+
+<ul id="drop-species" class="small content f-dropdown acc-zoo" data-dropdown-content>
+  <li><a data-value="blank">Blank (no animals present)</a></li>
+  <li><a data-value="multi">Mutiple Species</a></li>
+  <li class="divider"></li>
+  <li><a data-value="ostrich">Ostrich</a></li>
+  <li><a data-value="buffalo">Buffalo</a></li>
+  <li><a data-value="warthog">Warthog</a></li>
+  <li><a data-value="wildebeest">Wildebeest</a></li>
+  <li><a data-value="elephant">Elephant</a></li>
+  <li class="divider"></li>
+  <li><a data-value="human">Human</a></li>
+  <li class="divider"></li>
+  <li><a data-value="aardvark">Aardvark</a></li>
+  <li><a data-value="aardwolf">Aardwolf</a></li>
+  <li><a data-value="baboon">Baboon</a></li>
+  <li><a data-value="bat">Bat</a></li>
+  <li><a data-value="batearedfox">Bat-eared fox</a></li>
+  <li><a data-value="otherbird">Bird (other)</a></li>
+  <li><a data-value="bushbuck">Bushbuck</a></li>
+  <li><a data-value="caracal">Caracal</a></li>
+  <li><a data-value="cattle">Cattle</a></li>
+  <li><a data-value="cheetah">Cheetah</a></li>
+  <li><a data-value="civet">Civet</a></li>
+  <li><a data-value="dikdik">Dik-dik</a></li>
+  <li><a data-value="duiker">Duiker</a></li>
+  <li><a data-value="eland">Eland</a></li>
+  <li><a data-value="gazellegrants">Grant's gazelle</a></li>
+  <li><a data-value="gazellethomsons">Thomson's gazelle</a></li>
+  <li><a data-value="genet">Genet</a></li>
+  <li><a data-value="giraffe">Giraffe</a></li>
+  <li><a data-value="guineafowl">Guineafowl</a></li>
+  <li><a data-value="hare">Hare</a></li>
+  <li><a data-value="hartebeest">Hartebeest</a></li>
+  <li><a data-value="hippopotamus">Hippopotamus</a></li>
+  <li><a data-value="honeybadger">Honey badger</a></li>
+  <li><a data-value="hyenaspotted">Spotted hyena</a></li>
+  <li><a data-value="hyenastriped">Striped hyena</a></li>
+  <li><a data-value="impala">Impala</a></li>
+  <li><a data-value="insectspider">Insect</a></li>
+  <li><a data-value="jackal">Jackal</a></li>
+  <li><a data-value="koribustard">Kori bustard</a></li>
+  <li><a data-value="leopard">Leopard</a></li>
+  <li><a data-value="lionfemale">Lion (female)</a></li>
+  <li><a data-value="lionmale">Lion (male)</a></li>
+  <li><a data-value="mongoose">Mongoose</a></li>
+  <li><a data-value="porcupine">Porcupine</a></li>
+  <li><a data-value="reedbuck">Reedbuck</a></li>
+  <li><a data-value="reptiles">Reptiles</a></li>
+  <li><a data-value="rhinoceros">Rhinoceros</a></li>
+  <li><a data-value="rodents">Rodents</a></li>
+  <li><a data-value="secretarybird">Secretary bird</a></li>
+  <li><a data-value="serval">Serval</a></li>
+  <li><a data-value="insectspider">Spider</a></li>
+  <li><a data-value="steenbok">Steenbok</a></li>
+  <li><a data-value="topi">Topi</a></li>
+  <li><a data-value="vervetmonkey">Vervet monkey</a></li>
+  <li><a data-value="vulture">Vulture</a></li>
+  <li><a data-value="waterbuck">Waterbuck</a></li>
+  <li><a data-value="wildcat">Wildcat</a></li>
+  <li><a data-value="zebra">Zebra</a></li>
+  <li><a data-value="zorilla">Zorilla</a></li>
+</ul>
+<ul id="drop-regions-exact" class="small content f-dropdown" data-dropdown-content>
+  <li><a data-value="0">No regions found</a></li>
+  <li><a data-value="1">1 region found</a></li>
+  <li><a data-value="2">2 regions found</a></li>
+  <li><a data-value="3">3 regions found</a></li>
+  <li><a data-value="4">4 regions found</a></li>
+  <li><a data-value="5">5 regions found</a></li>
+  <li><a data-value="6">6 regions found</a></li>
+  <li><a data-value="7">7 regions found</a></li>
+  <li><a data-value="8">8 regions found</a></li>
+  <li><a data-value="9">9 regions found</a></li>
+  <li><a data-value="10">10 regions found</a></li>
+  <li><a data-value="11">11 regions found</a></li>
+  <li><a data-value="12">12 regions found</a></li>
+  <li><a data-value="13">13 regions found</a></li>
+  <li><a data-value="14">14 regions found</a></li>
+  <li><a data-value="15">15 regions found</a></li>
+  <li><a data-value="16">16 regions found</a></li>
+  <li><a data-value="17">17 regions found</a></li>
+  <li><a data-value="18">18 regions found</a></li>
+  <li><a data-value="19">19 regions found</a></li>
+  <li><a data-value="20">20 regions found</a></li>
+  <li><a data-value="21">21 regions found</a></li>
+  <li><a data-value="22">22 regions found</a></li>
+  <li><a data-value="23">23 regions found</a></li>
+  <li><a data-value="24">24 regions found</a></li>
+  <li><a data-value="25">25 regions found</a></li>
+  <li><a data-value="26">26 regions found</a></li>
+  <li><a data-value="27">27 regions found</a></li>
+  <li><a data-value="28">28 regions found</a></li>
+  <li><a data-value="29">29 regions found</a></li>
+  <li><a data-value="30">30 regions found</a></li>
+</ul>
