@@ -1,9 +1,11 @@
-<div class="row">
+<div id="resub-box" class="row">
   <div class="small-12 columns">
-    <%= paginate @subjects %>
 
-    <ul id="subjects-list-thumbs" class="small-block-grid-4">
+    <div class="result-counts">Showing <%= number_with_delimiter(@subjects.count,:delimiter => ',') %> of <%= number_with_delimiter(@subjects.total_count,:delimiter=>',') %> subjects. </div>
+    <div class="pagination-controls"><%= paginate @subjects %></div>
+
     <% if @subjects.any? %>
+    <ul id="subjects-list-thumbs" class="small-block-grid-4">
     <% @subjects.each do |subject| %>
       <li>
                 <span class="label unboxed-label" title="EXIF Timestamp of Image converted to UTC+3">
@@ -40,9 +42,13 @@
         Status: <%= subject.mico_status %><br>
       </li>
     <% end %>
-    <% else %>
-    <li>No matching subjects found. Try removing a filter.</li>
-    <% end %>
     </ul>
+    <% else %>
+    <div class="result-counts">No matching subjects found. Try removing a filter.</div>
+    <% end %>
+
+
+            <div class="pagination-controls"><%= paginate @subjects %></div>
+        <div>&nbsp;</div>
   </div>
 </div>

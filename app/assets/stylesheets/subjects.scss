@@ -14,6 +14,24 @@
   height: 161px;
 }
 
+#resub-box {
+  margin-top:10px;
+}
+
+.result-counts {
+  color: #999999;
+  font-size: 1em;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+#resub-box a.button.tiny,
+#resub-box p,
+#resub-box h1 {
+  margin-bottom:0px;
+  margin-top:0px;
+}
+
 #subject {
   position: relative;
   overflow: hidden;
