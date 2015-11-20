@@ -1,3 +1,6 @@
+<script type="text/javascript">
+  document.body.style.cursor='wait';
+</script>
 <div id="filters-section">
   <div id="filters-box" class="row">
     <div id="zoo-filters" class="filters-row">
@@ -7,13 +10,14 @@
         present &raquo;</a>
       <a href="#" data-options="align:right" data-dropdown="drop-total-species" class="button">Total species
         present &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-comments" class="button">Comments present &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-number-of-comments" class="button">Comments present &raquo;</a>
       <a href="#" data-options="align:right" data-dropdown="drop-site-id" class="button">Site ID &raquo;</a>
       <a href="#" data-options="align:right" data-dropdown="drop-roll-code" class="button">Roll Code &raquo;</a>
       <a href="#" data-options="align:right" data-dropdown="drop-light" class="button">Light &raquo;</a>
     </div>
     <div id="mico-filters" class="filters-row">
       <div class="filter-row-label">Apply MICO filters:</div>
+      <a href="#" data-options="align:right" data-dropdown="drop-status" class="button">Image analysis status &raquo;</a>
       <a href="#" data-options="align:right" data-dropdown="drop-regions" class="button">Animals found via image
         analysis &raquo;</a>
       <a href="#" data-options="align:right" disabled="disabled" data-dropdown="drop-entities" class="button">Entities found via comment
@@ -24,8 +28,8 @@
   </div>
   <hr class="slim no-bottom">
   <div id="filters-drawer-row" class="row">
-    <div class="filter-row-label">Current filters:<br/>(click to remove)</div>
-    <div id="filters-drawer">No filters currently applied.</div>
+    <div class="filter-row-label small-1 columns">Current filters:<br/>(click to remove)</div>
+    <div id="filters-drawer" class="small-10 columns"></div>
   </div>
 </div>
 <hr class="slim no-top">
@@ -33,7 +37,7 @@
   <div class="small-12 columns">
 
     <div class="result-counts">Showing <%= number_with_delimiter(@subjects.count,:delimiter => ',') %> of <%=
-      number_with_delimiter(@subjects.total_count,:delimiter=>',') %> subjects.
+      number_with_delimiter(@subjects.total_count,:delimiter=>',') %> <span id="subject-count-end-of-sentence">subjects.</span>
     </div>
     <div class="pagination-controls"><%= paginate @subjects %></div>
 
@@ -99,15 +103,16 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  $(document).ready(function () {
-    $("#filters-drawer").select2();
-  });
-</script>
-
+<ul id="drop-status" class="tiny content f-dropdown acc-mico" data-dropdown-content>
+  <li><a data-value="unprocessed">Not yet analysed</a></li>
+  <li><a data-value="submitted">Processing (Submitted)</a></li>
+  <li><a data-value="failed">Failed</a></li>
+  <li><a data-value="finished">Succeeded (Finished)</a></li>
+  <li><a data-value="zfailed">Failed (Old)</a></li>
+</ul>
 <ul id="drop-species" class="tiny content f-dropdown acc-zoo" data-dropdown-content>
   <li><a data-value="blank">Blank (no animals present)</a></li>
-  <li><a data-value="multi">Mutiple Species</a></li>
+  <li><a data-value="multi">Multiple Species</a></li>
   <li class="divider"></li>
   <li><a data-value="ostrich">Ostrich</a></li>
   <li><a data-value="buffalo">Buffalo</a></li>
@@ -299,7 +304,7 @@
   <li><a data-value="29">29 species present</a></li>
   <li><a data-value="30">30 species present</a></li>
 </ul>
-<ul id="drop-comments" class="tiny content f-dropdown" data-dropdown-content>
+<ul id="drop-number-of-comments" class="tiny content f-dropdown" data-dropdown-content>
   <li><a data-value="0">No comments present</a></li>
   <li><a data-value="1">1 comment present</a></li>
   <li><a data-value="2">2 comments present</a></li>
@@ -566,3 +571,46 @@
     <li><a data-value="twilight">Twilight</a></li>
     <li><a data-value="night">Night</a></li>
 </ul>
+
+<script type="text/javascript">
+  function renderFilters(filterManager)
+  {
+    $("#filters-drawer").html(filterManager.getFilterDrawerHTML());
+    if (filterManager.isFiltered()) {
+      html = "subjects [<a href=\"#\" id=\"remove-filters-link\">Clear all filters</a>]."
+      $("#subject-count-end-of-sentence").html(html);
+    }
+    else {
+      $("#subject-count-end-of-sentence").html("subjects.");
+    }
+  };
+
+  $(document).ready(function () {
+    filterManager = new FilterManager(window.location.search)
+    renderFilters(filterManager);
+
+    $('ul.f-dropdown a').on("click", function() {
+      input_id = $(this).parent().parent().attr("id");
+      val = $(this).data("value");
+      console.log ("trying to call setFilter "+input_id + ", "+ val);
+      filterManager.setFilter(input_id, val);
+      document.body.style.cursor='wait';
+      window.location.search = filterManager.getURLQueryString();
+    });
+
+    $(document).on('click', '#remove-filters-link', function() {
+      filterManager.removeAllFilters(renderFilters,filterManager);
+      $("div.result-counts").html("<span class='no-filters'>Applying new filter settings...</span>");
+      document.body.style.cursor='wait';
+      window.location.search = filterManager.getURLQueryString();
+    });
+
+    $(document).on('click', 'span.filter-pill', function() {
+      filterManager.removeFilterByQueryField($(this).data("query-field"),renderFilters,filterManager);
+      $("div.result-counts").html("<span class='no-filters'>Applying new filter settings...</span>");
+      document.body.style.cursor='wait';
+      window.location.search = filterManager.getURLQueryString();
+    });
+    document.body.style.cursor='default';
+  });
+</script>
