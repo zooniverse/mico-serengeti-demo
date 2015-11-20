@@ -11,23 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151118152718) do
+ActiveRecord::Schema.define(version: 20151120105748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "comments", id: false, force: :cascade do |t|
-    t.integer  "id",                       default: "nextval('comments_id_seq'::regclass)", null: false
+  create_table "comments", force: :cascade do |t|
     t.integer  "subject_id"
     t.string   "zooniverse_user_id"
     t.string   "zooniverse_discussion_id"
     t.string   "zooniverse_comment_id"
     t.text     "body"
-    t.datetime "created_at",                                                                null: false
-    t.datetime "updated_at",                                                                null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.string   "mico_id"
     t.string   "mico_status"
     t.jsonb    "mico_data"
+    t.string   "mico_url"
   end
 
   create_table "consensus", force: :cascade do |t|
