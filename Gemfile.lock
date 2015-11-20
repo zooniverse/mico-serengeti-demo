@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/zooniverse/mico-api-client
-  revision: cfe0b82c1e853f4752aa3068bd3a3083671ee646
+  revision: 8cf20a34e8a4f688270876d633765d448906ce4a
   specs:
-    mico-api-client (0.1.1)
+    mico-api-client (0.1.3)
       httparty
       netrc
 

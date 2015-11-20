@@ -184,3 +184,22 @@ div.sticky + div {
   background-color: rgba(255, 255, 128, 0.2) !important;
   border:1px solid black;
 }
+
+table tr td,
+table thead tr th {
+  padding: 0.3rem !important;
+  text-align: center;
+}
+
+table thead tr th {
+  line-height: 1rem !important;
+  border-bottom:1px #000000 solid;
+}
+
+table thead tr th:last-child {
+  border-right: 1px #000000 solid;
+}
+
+table {
+  border: 1px #000000 solid;
+}

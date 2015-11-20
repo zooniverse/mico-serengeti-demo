@@ -41,7 +41,7 @@
     <ul id="subjects-list-thumbs" class="small-block-grid-4">
       <% @subjects.each do |subject| %>
       <li>
-                <span class="label unboxed-label" title="EXIF Timestamp of Image converted to UTC+3">
+                <span class="label unboxed-label" title="EXIF Timestamp of image, converted to UTC+3">
             <i class="fa fa-clock-o"></i>
             <%= subject.image_timestamp.in_time_zone("Africa/Nairobi").strftime "%Y-%m-%d %H:%M" %>
           </span>
@@ -53,7 +53,7 @@
             <i class="fa fa-hdd-o"></i>
             <%= "#{subject.consensus.roll_id}" %>
           </span>
-        <%= link_to(image_tag(subject.thumb_url, { :title => "#{subject.zooniverse_id}:#{subject.image_index}"}),
+        <%= link_to(image_tag(subject.thumb_url, { :title => "Subject #{subject.zooniverse_id} frame #{subject.image_index}"}),
         subject) %>
 
         <div class="image-counter-overlay">
