@@ -1,23 +1,27 @@
 class SubjectsController < ApplicationController
   respond_to :html, :json
   def index
-    @subjects = Subject.where(image_index: 0)
+    @subjects = Subject.where(image_index: 0).includes(:consensus)
 
     # Filters
-    @subjects = @subjects.where(zooniverse_id: params["subject_id"])                                   if params["subject_id"]
-    @subjects = @subjects.where(mico_status: params["status"])                                         if params["status"]
-    @subjects = @subjects.where("mico_data -> 'objectsFound' = ?", params["number_of_regions"])        if params["number_of_regions"]
-    @subjects = @subjects.where("mico_data -> 'objectsFound' >= ?", params["number_of_regions_min"])   if params["number_of_regions_min"]
-    @subjects = @subjects.where("mico_data -> 'objectsFound' <= ?", params["number_of_regions_max"])   if params["number_of_regions_max"]
-    @subjects = @subjects.where(comments_count: params["number_of_comments"])                          if params["number_of_comments"]
-    @subjects = @subjects.where("comments_count >= ?", params["number_of_comments_min"])               if params["number_of_comments_min"]
-    @subjects = @subjects.where("comments_count <= ?", params["number_of_comments_max"])               if params["number_of_comments_max"]
-    @subjects = @subjects.where(zooniverse_dominant_species: params["species"])                        if params["species"]
-    @subjects = @subjects.joins(:consensus).where(consensus: {site_id: params["site_id"]})             if params["site_id"]
-    @subjects = @subjects.joins(:consensus).where(consensus: {roll_id: params["roll_id"]})             if params["roll_id"]
-    @subjects = @subjects.joins(:consensus).where(consensus: {total_animals: params["total_animals"]}) if params["total_animals"]
-    @subjects = @subjects.joins(:consensus).where(consensus: {total_species: params["total_species"]}) if params["total_species"]
-    @subjects = @subjects.where(light: params["light"])                                                if params["light"]
+    @subjects = @subjects.where(zooniverse_id: params["subject_id"])                                           if params["subject_id"]
+    @subjects = @subjects.where(mico_status: params["status"])                                                 if params["status"]
+    @subjects = @subjects.where("mico_data -> 'objectsFound' = ?", params["number_of_regions"])                if params["number_of_regions"]
+    @subjects = @subjects.where("mico_data -> 'objectsFound' >= ?", params["number_of_regions_min"])           if params["number_of_regions_min"]
+    @subjects = @subjects.where("mico_data -> 'objectsFound' <= ?", params["number_of_regions_max"])           if params["number_of_regions_max"]
+    @subjects = @subjects.where(comments_count: params["number_of_comments"])                                  if params["number_of_comments"]
+    @subjects = @subjects.where("comments_count >= ?", params["number_of_comments_min"])                       if params["number_of_comments_min"]
+    @subjects = @subjects.where("comments_count <= ?", params["number_of_comments_max"])                       if params["number_of_comments_max"]
+    @subjects = @subjects.where(zooniverse_dominant_species: params["species"])                                if params["species"]
+    @subjects = @subjects.joins(:consensus).where(consensus: {site_id: params["site_id"]})                     if params["site_id"]
+    @subjects = @subjects.joins(:consensus).where(consensus: {roll_id: params["roll_id"]})                     if params["roll_id"]
+    @subjects = @subjects.joins(:consensus).where(consensus: {total_animals: params["total_animals"]})         if params["total_animals"]
+    @subjects = @subjects.joins(:consensus).where("consensus.total_animals >= ?", params["total_animals_min"]) if params["total_animals_min"]
+    @subjects = @subjects.joins(:consensus).where("consensus.total_animals <= ?", params["total_animals_max"]) if params["total_animals_max"]
+    @subjects = @subjects.joins(:consensus).where(consensus: {total_species: params["total_species"]})         if params["total_species"]
+    @subjects = @subjects.joins(:consensus).where("consensus.total_species >= ?", params["total_species_min"]) if params["total_species_min"]
+    @subjects = @subjects.joins(:consensus).where("consensus.total_species <= ?", params["total_species_max"]) if params["total_species_max"]
+    @subjects = @subjects.where(light: params["light"])                                                        if params["light"]
 
     @subjects = @subjects.where(vr1_entire_dataset: true)                                              if params["vr1_entire_dataset"]
     @subjects = @subjects.where(vr1_daytime: true)                                                     if params["vr1_daytime"]

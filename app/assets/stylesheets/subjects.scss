@@ -10,7 +10,7 @@
 #filters-section {
   font-size: small;
   line-height: 1em;
-  padding:5px;
+  padding:5px 0px 0px;
   margin:0 auto;
 }
 #filters-section .filters-row:nth-child(2) {
@@ -28,11 +28,13 @@ ul.f-dropdown {
   padding:0px !important;
 }
 
-#zoo-filters .button {
+#zoo-filters .button,
+span.zoo-filter {
   background-color: #778CBA;
 }
 
-#mico-filters .button {
+#mico-filters .button,
+span.mico-filter {
   background-color: #8CBA77;
 }
 
@@ -51,6 +53,32 @@ ul.f-dropdown li.divider {
 
 #filters-drawer-row .filter-row-label {
   line-height:15px !important;
+}
+
+#filters-drawer-row #filters-drawer,
+#filters-drawer-row .filter-row-label,
+#filters-drawer-row .no-filters {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+span.no-filters {
+    padding: 5px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+    white-space:nowrap;
+}
+
+span.filter-pill {
+    border-radius: 15px;
+    color: #FFFFFF;
+    padding: 5px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+    white-space:nowrap;
+    cursor: image-url("erase.ico"), no-drop;
 }
 
 hr.slim {
@@ -73,7 +101,7 @@ hr.slim.no-bottom {
   display:inline-block;
   padding:5px;
   text-align:left;
-  vertical-align: top;
+  left: -18px;
 }
 
 #subjects-list-thumbs li img {
@@ -203,3 +231,4 @@ table thead tr th:last-child {
 table {
   border: 1px #000000 solid;
 }
+

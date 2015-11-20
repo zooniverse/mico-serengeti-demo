@@ -225,8 +225,7 @@ $(function () {
 
   $window.scroll(function() {
     $stickyEl.toggleClass('sticky', ($window.scrollTop() +topMargin) > elTop && $window.scrollTop() < tableEnd);
-    //console.log($window.scrollTop() +topMargin,elTop, tableEnd);
-    console.log ('setting height to '+$table.height());
+
     $pushDownEl.css('margin-top',$table.height()+$stickyEl.height()+topMargin);
     if ($window.scrollTop() >= tableEnd)
     {
