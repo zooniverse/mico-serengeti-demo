@@ -592,7 +592,6 @@
     $('ul.f-dropdown a').on("click", function() {
       input_id = $(this).parent().parent().attr("id");
       val = $(this).data("value");
-      console.log ("trying to call setFilter "+input_id + ", "+ val);
       filterManager.setFilter(input_id, val);
       document.body.style.cursor='wait';
       window.location.search = filterManager.getURLQueryString();
