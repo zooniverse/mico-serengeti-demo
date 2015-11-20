@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151120105748) do
+ActiveRecord::Schema.define(version: 20151120110028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,15 +74,37 @@ ActiveRecord::Schema.define(version: 20151120105748) do
     t.string   "mico_status"
     t.string   "mico_url"
     t.jsonb    "mico_data"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.integer  "comments_count",              default: 0, null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.integer  "comments_count",                   default: 0, null: false
     t.string   "zooniverse_dominant_species"
-    t.string   "subject_group_id",                        null: false
+    t.string   "subject_group_id",                             null: false
     t.datetime "image_timestamp"
     t.datetime "mico_submitted_at"
     t.datetime "mico_finished_at"
     t.string   "light"
+    t.boolean  "entire_dataset"
+    t.boolean  "daytime"
+    t.boolean  "nighttime"
+    t.boolean  "blank"
+    t.boolean  "non_blank"
+    t.boolean  "one_animal"
+    t.boolean  "simple"
+    t.boolean  "complex"
+    t.boolean  "single_species"
+    t.boolean  "only_buffalo"
+    t.boolean  "only_elephant"
+    t.boolean  "only_ostrich"
+    t.boolean  "only_warthog"
+    t.boolean  "only_wildebeest"
+    t.boolean  "only_other"
+    t.boolean  "multi_species"
+    t.boolean  "multi_including_buffalo"
+    t.boolean  "multi_including_elephant"
+    t.boolean  "multi_including_ostrich"
+    t.boolean  "multi_including_warthog"
+    t.boolean  "multi_including_wildebeest"
+    t.boolean  "multi_including_none_of_the_five"
   end
 
   add_index "subjects", ["mico_id"], name: "index_subjects_on_mico_id", unique: true, using: :btree
