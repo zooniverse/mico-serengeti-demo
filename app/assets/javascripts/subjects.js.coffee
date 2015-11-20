@@ -265,10 +265,7 @@ class window.FilterManager
   # remove a filter for a field (which may have been modified with -min or -max on the end)
   removeFilterByQueryField: (query_field, renderCallback, renderCallbackParameter) =>
     input_id = @getInputIdFromQueryField(query_field)
-    console.log @form_filters
-    console.log "removing "+input_id
     delete @form_filters[input_id]
-    console.log @form_filters
     @updateQueryParts()
     if typeof renderCallback == "function"
       renderCallback(renderCallbackParameter)
