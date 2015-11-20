@@ -18,7 +18,7 @@ class window.FilterManager
   setFormFiltersFromQueryParts: (query_parts) =>
     @form_filters = {}
     for query_field, val of query_parts
-      input_id = "drop-" + query_field.replace /\_/g,"-"
+      input_id = @getInputIdFromQueryField(query_field)
       @setFilter(input_id,val,false)
     @updateQueryParts()
 
@@ -49,7 +49,7 @@ class window.FilterManager
     switch status
       when "unprocessed" then "Image not yet analysed"
       when "finished" then "Image successfully analysed"
-      when "submitted" then "Image being processed"
+      when "submitting" then "Image being processed"
       when "failed" then "Image analysis failed"
       when "zfailed" then "Image analysis failed (old)"
       else
@@ -75,7 +75,8 @@ class window.FilterManager
       when "number_of_comments" then "drop-number-of-comments"
       when "number_of_comments_min" then "drop-number-of-comments-min"
       when "number_of_comments_max" then "drop-number-of-comments-max"
-        
+      when "species" then "drop-species"
+
   getQueryFieldFromModifiedInputId: (input_id) =>
     switch input_id
       when "drop-light" then "light"
@@ -103,41 +104,7 @@ class window.FilterManager
   updateQueryParts: () =>
     @query_parts = {}
     for input_id, val of @form_filters
-      switch input_id
-        when "drop-light"
-          @query_parts["light"] = val
-        when "drop-roll-code"
-          @query_parts["roll_id"] = val
-        when "drop-site-id"
-          @query_parts["site_id"] = val
-        when "drop-number-of-comments"
-          @query_parts["number_of_comments"] = val
-        when "drop-number-of-comments-min"
-          @query_parts["number_of_comments_min"] = val
-        when "drop-number-of-comments-max"
-          @query_parts["number_of_comments_max"] = val
-        when "drop-total-species"
-          @query_parts["total_species"] = val
-        when "drop-total-species-min"
-          @query_parts["total_species_min"] = val
-        when "drop-total-species-max"
-          @query_parts["total_species_max"] = val
-        when "drop-total-animals"
-          @query_parts["total_animals"] = val
-        when "drop-total-animals-min"
-          @query_parts["total_animals_min"] = val
-        when "drop-total-animals-max"
-          @query_parts["total_animals_max"] = val
-        when "drop-regions"
-          @query_parts["number_of_regions"] = val
-        when "drop-regions-min"
-          @query_parts["number_of_regions_min"] = val
-        when "drop-regions-max"
-          @query_parts["number_of_regions_max"] = val
-        when "drop-status"
-          @query_parts["status"] = val
-        when "drop-species"
-          @query_parts["species"] = val
+      @query_parts[@getQueryFieldFromModifiedInputId(input_id)] = val
 
   getHumanFriendlySpecies: (species, count = 2) ->
     if species in ['wildebeest', 'buffalo', 'impala', 'hartebeest', 'topi']
@@ -225,8 +192,8 @@ class window.FilterManager
           "exactly 1 animal present"
         else
           "exactly " + val + " animals present"
-      when "total_animals_min" then val + " or more species present"
-      when "total_animals_max" then val + " or fewer species present"
+      when "total_animals_min" then val + " or more animals present"
+      when "total_animals_max" then val + " or fewer animals present"
       when "site_id" then "site " + val
       when "roll_id" then "roll " + val
       when "light" then "taken during the " + val
@@ -235,7 +202,7 @@ class window.FilterManager
   getURLQueryString: =>
     @updateQueryParts()
     query_string = ""
-    for query_field,val of @query_parts
+    for query_field, val of @query_parts
       if query_string.length > 0
         query_string += "&"
       query_string += query_field + "=" + val

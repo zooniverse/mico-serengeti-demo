@@ -82,12 +82,12 @@
             <% if subject.zooniverse_dominant_species.include? ";" %>
               Multiple Species
             <% else %>
-              <%= "#{subject.zooniverse_dominant_species.titleize}" %>
+              <span class="species-front-page" data-species="<%= subject.zooniverse_dominant_species %>"><%= "#{subject.zooniverse_dominant_species}" %></span>
             <% end %>
             </span>
             <span class="label unboxed-label" title="MICO Image Analysis Status">
             <i class="fa fa-gears"></i>
-            <%= "#{subject.mico_status.titleize}" %>
+            <span class="status-front-page" data-status="<%= subject.mico_status %>"><%= "#{subject.mico_status}" %></span>
             </span>
         </div>
       </li>
@@ -105,7 +105,7 @@
 
 <ul id="drop-status" class="tiny content f-dropdown acc-mico" data-dropdown-content>
   <li><a data-value="unprocessed">Not yet analysed</a></li>
-  <li><a data-value="submitted">Processing (Submitted)</a></li>
+  <li><a data-value="submitting">Processing (Submitted)</a></li>
   <li><a data-value="failed">Failed</a></li>
   <li><a data-value="finished">Succeeded (Finished)</a></li>
   <li><a data-value="zfailed">Failed (Old)</a></li>
@@ -178,6 +178,7 @@
   <li><a data-value="2">2 animals found</a></li>
   <li class="divider"></li>
   <li><a data-value="1+">1 or more animals found</a></li>
+  <li><a data-value="2+">2 or more animals found</a></li>
   <li><a data-value="0-5">0 to 5 animals found</a></li>
   <li><a data-value="1-5">1 to 5 animals found</a></li>
   <li><a data-value="6-10">6 to 10 animals found</a></li>
@@ -222,6 +223,7 @@
   <li><a data-value="2">2 animals present</a></li>
   <li class="divider"></li>
   <li><a data-value="1+">1 or more animals present</a></li>
+  <li><a data-value="2+">2 or more animals present</a></li>
   <li><a data-value="0-5">0 to 5 animals present</a></li>
   <li><a data-value="1-5">1 to 5 animals present</a></li>
   <li><a data-value="6-10">6 to 10 animals present</a></li>
@@ -266,6 +268,7 @@
   <li><a data-value="2">2 species present</a></li>
   <li class="divider"></li>
   <li><a data-value="1+">1 or more species present</a></li>
+  <li><a data-value="2+">2 or more species present</a></li>
   <li><a data-value="0-5">0 to 5 species present</a></li>
   <li><a data-value="1-5">1 to 5 species present</a></li>
   <li><a data-value="6-10">6 to 10 species present</a></li>
@@ -310,13 +313,14 @@
   <li><a data-value="2">2 comments present</a></li>
   <li class="divider"></li>
   <li><a data-value="1+">1 or more comments present</a></li>
+  <li><a data-value="2+">2 or more comments present</a></li>
   <li><a data-value="0-5">0 to 5 comments present</a></li>
   <li><a data-value="1-5">1 to 5 comments present</a></li>
   <li><a data-value="6-10">6 to 10 comments present</a></li>
   <li><a data-value="1-10">1 to 10 comments present</a></li>
   <li><a data-value="10+">10 or more comments present</a></li>
   <li><a data-value="11-25">11 to 25 comments present</a></li>
-  <li><a data-value="25+">25 or more species present</a></li>
+  <li><a data-value="25+">25 or more comments present</a></li>
 </ul>
 <ul id="drop-site-id" class="tiny content f-dropdown" data-dropdown-content>
     <li><a data-value="B03">B03</a></li>
@@ -548,12 +552,8 @@
     <li><a data-value="tutorial">tutorial</a></li>
 </ul>
 <ul id="drop-roll-code" class="tiny content f-dropdown" data-dropdown-content>
-    <li><a data-value="R">R</a></li>
-    <li><a data-value="R!">R!</a></li>
-    <li><a data-value="r1">r1</a></li>
     <li><a data-value="R1">R1</a></li>
     <li><a data-value="R2">R2</a></li>
-    <li><a data-value="R03">R03</a></li>
     <li><a data-value="R3">R3</a></li>
     <li><a data-value="R4">R4</a></li>
     <li><a data-value="R5">R5</a></li>
@@ -564,6 +564,11 @@
     <li><a data-value="R10">R10</a></li>
     <li><a data-value="R11">R11</a></li>
     <li><a data-value="R12">R12</a></li>
+    <li class="divider"></li>
+    <li><a data-value="R">R</a></li>
+    <li><a data-value="R!">R!</a></li>
+    <li><a data-value="r1">r1</a></li>
+    <li><a data-value="R03">R03</a></li>
     <li><a data-value="tutorial">tutorial</a></li>
 </ul>
 <ul id="drop-light" class="tiny content f-dropdown" data-dropdown-content>
@@ -577,7 +582,7 @@
   {
     $("#filters-drawer").html(filterManager.getFilterDrawerHTML());
     if (filterManager.isFiltered()) {
-      html = "subjects [<a href=\"#\" id=\"remove-filters-link\">Clear all filters</a>]."
+      html = "matching subjects. [<a href=\"#\" id=\"remove-filters-link\">Clear all filters</a>]"
       $("#subject-count-end-of-sentence").html(html);
     }
     else {
@@ -610,6 +615,26 @@
       document.body.style.cursor='wait';
       window.location.search = filterManager.getURLQueryString();
     });
+
+    $(".species-front-page").each(function(){
+      var data = $(this).data("species");
+      data = filterManager.getHumanFriendlySpecies(data,1);
+      $(this).html(data.charAt(0).toUpperCase() + data.substr(1).toLowerCase());
+    });
+
+    $(".status-front-page").each(function(){
+      var data = $(this).data("status");
+      if (data) {
+        if (data=="zfailed") {
+          data = "failed (old)";
+        }
+        $(this).html(data.charAt(0).toUpperCase() + data.substr(1).toLowerCase());
+      }
+      else {
+        $(this).html("Unprocessed");
+      }
+    });
+
     document.body.style.cursor='default';
   });
 </script>
