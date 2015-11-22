@@ -140,7 +140,7 @@ class window.FilterManager
     else if species is 'lionmale'
       @pluralize(count, "male lion", "male lions")
     else if species is 'guineafowl'
-      "guinea fowl"
+      "guineafowl"
     else if species is 'koribustard'
       @pluralize(count, "kori bustard", "kori bustards")
     else if species is 'batearedfox'
