@@ -18,17 +18,16 @@
     <div id="mico-filters" class="filters-row">
       <div class="filter-row-label">Apply MICO filters:</div>
       <a href="#" data-options="align:right" data-dropdown="drop-status" class="button">Image analysis status &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-regions" class="button">Animals found via image
-        analysis &raquo;</a>
-      <a href="#" data-options="align:right" disabled="disabled" data-dropdown="drop-entities" class="button">Entities found via comment
-        analysis &raquo;</a>
-      <a href="#" data-options="align:right" disabled="disabled" data-dropdown="drop-dataset" class="button">Validation dataset
-        used &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-regions" class="button">Animals found &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-comment-status" class="button">Comment analysis status &raquo;</a>
+      <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-entities" class="button">Entities found &raquo;</a>
+      <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-sentiments" class="button">Sentiments found &raquo;</a>
+      <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-dataset" class="button">Test set used &raquo;</a>
     </div>
   </div>
   <hr class="slim no-bottom">
   <div id="filters-drawer-row" class="row">
-    <div class="filter-row-label small-1 columns">Current filters:<br/>(click to remove)</div>
+    <div class="filter-row-label small-1 columns"><span class="bold-label">Current filters:</span><br/>(click to remove)</div>
     <div id="filters-drawer" class="small-10 columns"></div>
   </div>
 </div>
@@ -109,6 +108,15 @@
   <li><a data-value="failed">Failed</a></li>
   <li><a data-value="finished">Succeeded (Finished)</a></li>
   <li><a data-value="zfailed">Failed (Old)</a></li>
+</ul>
+<ul id="drop-comment-status" class="small content f-dropdown acc-mico" data-dropdown-content>
+  <li><a data-value="has_no_data">Has NO comment analysis data</a></li>
+  <li><a data-value="has_data">Has comment analysis data</a></li>
+  <li class="divider"></li>
+  <li><a data-value="unprocessed">Not yet analysed</a></li>
+  <li><a data-value="submitting">Processing (Submitted)</a></li>
+  <li><a data-value="failed">Failed</a></li>
+  <li><a data-value="finished">Succeeded (Finished)</a></li>
 </ul>
 <ul id="drop-species" class="tiny content f-dropdown acc-zoo" data-dropdown-content>
   <li><a data-value="blank">Blank (no animals present)</a></li>

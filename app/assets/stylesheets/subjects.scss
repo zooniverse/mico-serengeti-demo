@@ -17,11 +17,19 @@
   margin-top: 5px;
 }
 
+.bold-label {
+  font-weight: bold;
+}
+
 #filters-section a {
   font-size: small;
   line-height: 1em;
   padding: 5px 10px;
-  margin:0 auto;
+  margin-top: 0px;
+  margin-right: 5px;
+  margin-left: 0px;
+  margin-bottom: 3px;
+  box-shadow: 2px 2px 2px #888888;
 }
 
 ul.f-dropdown {
@@ -51,6 +59,10 @@ ul.f-dropdown li.divider {
   text-align:right;
 }
 
+#filters-section a[disabled=disabled] {
+  cursor: not-allowed;
+}
+
 #filters-drawer-row .filter-row-label {
   line-height:15px !important;
 }
@@ -78,6 +90,7 @@ span.filter-pill {
     margin-bottom: 5px;
     display: inline-block;
     white-space:nowrap;
+    box-shadow: 2px 2px 2px #888888;
     cursor: image-url("erase.ico"), no-drop;
 }
 
