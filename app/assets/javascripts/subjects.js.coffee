@@ -11,7 +11,7 @@ class window.FilterManager
   getQueryPartsFromQueryString: (queryString) =>
     search = queryString.substring(1);
     if search != ""
-      JSON.parse '{"' + decodeURI(search).replace(/\"/g, '\\"').replace(/&/g, '","').replace(/\=/g,'":"') + '"}'
+      JSON.parse '{"' + decodeURI(search).replace(/\"/g, '\\"').replace(/&/g, '","').replace(/\=/g, '":"') + '"}'
     else
       {}
 
@@ -19,7 +19,7 @@ class window.FilterManager
     @form_filters = {}
     for query_field, val of query_parts
       input_id = @getInputIdFromQueryField(query_field)
-      @setFilter(input_id,val,false)
+      @setFilter(input_id, val, false)
     @updateQueryParts()
 
   isRange: (val) =>
@@ -31,19 +31,44 @@ class window.FilterManager
   isExact: (val) =>
     val? && !@isRange(val) && !@isMin(val)
 
-  setFilter: (input_id, val, update_query_parts=true) =>
-    if @isMin(val)
-      @form_filters[input_id+"-min"] = val.replace(/\+/g, '')
+  setFilter: (input_id, val, update_query_parts = true) =>
+    if (input_id == "drop-comment-status")
+      if val == "has_no_data"
+        @form_filters[input_id + "-has-no-data"] = val
+      else if val == "has_data"
+        @form_filters[input_id + "-has-data"] = val
+      else if val == "unprocessed"
+        @form_filters[input_id + "-unprocessed"] = val
+      else
+        @form_filters["drop-comment-status"] = val
+    else if (input_id == "drop-status")
+      if val == "unprocessed"
+        @form_filters[input_id + "-unprocessed"] = val
+      else
+        @form_filters[input_id] = val
+    else if @isMin(val)
+      @form_filters[input_id + "-min"] = val.replace(/\+/g, '')
     else if @isRange(val)
       min_and_max = val.split "-"
       min = min_and_max[0]
       max = min_and_max[1]
-      @form_filters[input_id+"-min"] = min
-      @form_filters[input_id+"-max"] = max
+      @form_filters[input_id + "-min"] = min
+      @form_filters[input_id + "-max"] = max
     else
       @form_filters[input_id] = val
     if update_query_parts
       @updateQueryParts()
+
+  getCommentAnalysisDisplayTextFromStatus: (comment_status) =>
+    switch comment_status
+      when "has_no_data" then "No comment analysis data stored"
+      when "has_data" then "Has comment analysis data stored"
+      when "unprocessed" then "Comments not yet analysed"
+      when "finished" then "Comments successfully analysed"
+      when "submitting" then "Comments being processed"
+      when "failed" then "Comment analysis failed"
+      else
+        "Comment analysis unclear"
 
   getImageAnalysisDisplayTextFromStatus: (status) =>
     switch status
@@ -58,6 +83,7 @@ class window.FilterManager
   getInputIdFromQueryField: (query_field) =>
     switch query_field
       when "status" then "drop-status"
+      when "status_unprocessed" then "drop-status-unprocessed"
       when "dataset" then "drop-dataset"
       when "entity" then "drop-entity"
       when "light" then "drop-light"
@@ -76,6 +102,10 @@ class window.FilterManager
       when "number_of_comments_min" then "drop-number-of-comments-min"
       when "number_of_comments_max" then "drop-number-of-comments-max"
       when "species" then "drop-species"
+      when "comment_status" then "drop-comment-status"
+      when "comment_status_unprocessed" then "drop-comment-status-unprocessed"
+      when "has_comment_analysis_data" then "drop-comment-status-has-data"
+      when "has_no_comment_analysis_data" then "drop-comment-status-has-no-data"
 
   getQueryFieldFromModifiedInputId: (input_id) =>
     switch input_id
@@ -85,9 +115,9 @@ class window.FilterManager
       when "drop-number-of-comments" then "number_of_comments"
       when "drop-number-of-comments-min" then "number_of_comments_min"
       when "drop-number-of-comments-max" then "number_of_comments_max"
-      when "drop-number-of-regions" then "number_of_regions"
-      when "drop-number-of-regions-min" then "number_of_regions_min"
-      when "drop-number-of-regions-max" then "number_of_regions_max"
+      when "drop-regions" then "number_of_regions"
+      when "drop-regions-min" then "number_of_regions_min"
+      when "drop-regions-max" then "number_of_regions_max"
       when "drop-total-animals" then "total_animals"
       when "drop-total-animals-min" then "total_animals_min"
       when "drop-total-animals-max" then "total_animals_max"
@@ -95,12 +125,17 @@ class window.FilterManager
       when "drop-total-species-min" then "total_species_min"
       when "drop-total-species-max" then "total_species_max"
       when "drop-status" then "status"
+      when "drop-status-unprocessed" then "status_unprocessed"
+      when "drop-comment-status" then "comment_status"
+      when "drop-comment-status-unprocessed" then "comment_status_unprocessed"
+      when "drop-comment-status-has-data" then "has_comment_analysis_data"
+      when "drop-comment-status-has-no-data" then "has_no_comment_analysis_data"
       when "drop-species" then "species"
 
   pluralize: (number, singular, plural) ->
-    if number > 1 or number is 0 then plural else singular        
-        
-  # update query parts from raw form inputs
+    if number > 1 or number is 0 then plural else singular
+
+# update query parts from raw form inputs
   updateQueryParts: () =>
     @query_parts = {}
     for input_id, val of @form_filters
@@ -140,7 +175,7 @@ class window.FilterManager
     else if species is 'lionmale'
       @pluralize(count, "male lion", "male lions")
     else if species is 'guineafowl'
-      "guinea fowl"
+      "guineafowl"
     else if species is 'koribustard'
       @pluralize(count, "kori bustard", "kori bustards")
     else if species is 'batearedfox'
@@ -160,7 +195,7 @@ class window.FilterManager
 
   getFilterClass: (query_field) =>
     switch query_field
-      when "status", "dataset", "number_of_regions", "number_of_regions_max","number_of_regions_min","entities"
+      when "status", "dataset", "number_of_regions", "number_of_regions_max", "number_of_regions_min", "entities", "comment_status", "comment_status_unprocessed", "has_no_comment_analysis_data", "has_comment_analysis_data"
         "mico-filter"
       else
         "zoo-filter"
@@ -197,7 +232,12 @@ class window.FilterManager
       when "site_id" then "site " + val
       when "roll_id" then "roll " + val
       when "light" then "taken during the " + val
+      when "has_no_comment_analysis_data" then @getCommentAnalysisDisplayTextFromStatus val
+      when "has_comment_analysis_data" then @getCommentAnalysisDisplayTextFromStatus val
+      when "comment_status" then @getCommentAnalysisDisplayTextFromStatus val
+      when "comment_status_unprocessed" then @getCommentAnalysisDisplayTextFromStatus val
       when "status" then @getImageAnalysisDisplayTextFromStatus val
+      when "status_unprocessed" then @getImageAnalysisDisplayTextFromStatus val
 
   getURLQueryString: =>
     @updateQueryParts()
@@ -213,7 +253,7 @@ class window.FilterManager
     html = ""
     if @isFiltered()
       for query_field, val of @query_parts
-        html += "<span data-query-field='"+ query_field + "' class='filter-pill " + @getFilterClass(query_field) + "'>"
+        html += "<span data-query-field='" + query_field + "' class='filter-pill " + @getFilterClass(query_field) + "'>"
         html += @getFilterDisplayText(query_field, val)
         html += "</span>"
     else
@@ -229,7 +269,7 @@ class window.FilterManager
     if typeof renderCallback == "function"
       renderCallback(renderCallbackParameter)
 
-  # remove a filter for a field (which may have been modified with -min or -max on the end)
+# remove a filter for a field (which may have been modified with -min or -max on the end)
   removeFilterByQueryField: (query_field, renderCallback, renderCallbackParameter) =>
     input_id = @getInputIdFromQueryField(query_field)
     delete @form_filters[input_id]
