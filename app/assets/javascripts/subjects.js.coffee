@@ -458,7 +458,7 @@ class window.FilterManager
             crowdData.dominantClassificationSoleSpeciesID = crowdData.dominantClassificationID
             crowdData.dominantClassificationSoleSpeciesName = @getHumanFriendlySpecies crowdData.dominantClassificationID
             crowdData.state = "one_sole_species_by_consensus"
-            crowdData.message = "The crowd has reached agreement that this subject contains one or more "+crowdData.dominantClassificationSoleSpeciesName
+            crowdData.message = "The crowd has reached agreement that this subject contains one or more "+crowdData.dominantClassificationSoleSpeciesName + '.'
           else
             crowdData.state = "several_species_by_consensus"
             crowdData.message = "The crowd has reached agreement on which species are present. " + @getConsensusSpeciesMessage(consensus)
