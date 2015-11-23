@@ -1,5 +1,6 @@
 class SubjectsController < ApplicationController
   respond_to :html, :json
+
   def index
     @subjects = Subject.where(image_index: 0).includes(:consensus).includes(:comments)
 
@@ -27,7 +28,6 @@ class SubjectsController < ApplicationController
     @subjects = @subjects.joins(:comments).where("comments.mico_data IS NOT NULL")                             if params["has_comment_analysis_data"]
     @subjects = @subjects.joins(:comments).where("comments.mico_status = ?", params["comment_status"])         if params["comment_status"]
     @subjects = @subjects.joins(:comments).where("comments.mico_status IS NULL")                               if params["comment_status_unprocessed"]
-
 
     # Sort
     case params[:sort]

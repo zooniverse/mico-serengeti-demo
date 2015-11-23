@@ -2,6 +2,12 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+SHORT_WORDS = ['and', 'to', 'the']
+
+CLASSIFICATION_DOMINANCE_THRESHOLD = 10
+CLASSIFICATION_COMPLETE_THRESHOLD = 25
+CLASSIFICATION_BLANK_THRESHOLD = 5
+
 class window.FilterManager
 
   constructor: (query_string) ->
@@ -132,66 +138,11 @@ class window.FilterManager
       when "drop-comment-status-has-no-data" then "has_no_comment_analysis_data"
       when "drop-species" then "species"
 
-  pluralize: (number, singular, plural) ->
-    if number > 1 or number is 0 then plural else singular
-
-# update query parts from raw form inputs
+  # update query parts from raw form inputs
   updateQueryParts: () =>
     @query_parts = {}
     for input_id, val of @form_filters
       @query_parts[@getQueryFieldFromModifiedInputId(input_id)] = val
-
-  getHumanFriendlySpecies: (species, count = 2) ->
-    if species in ['wildebeest', 'buffalo', 'impala', 'hartebeest', 'topi']
-      species
-    else if species in ['elephant', 'warthog', 'reedbuck', 'human', 'giraffe', 'waterbuck',
-                        'aardvark', 'bushbuck', 'cheetah', 'baboon', 'jackal', 'serval',
-                        'bat', 'caracal', 'civet', 'duiker', 'genet', 'hare', 'leopard',
-                        'mongoose', 'porcupine', 'steenbok', 'eland', 'vulture', 'wildcat',
-                        'zorilla', 'zebra']
-      @pluralize(count, species, species + 's')
-    else if species in ['hippopotamus', 'rhinoceros', 'ostrich']
-      @pluralize(count, species, species + 'es')
-    else if species is 'cattle'
-      @pluralize(count, 'cow', 'cattle')
-    else if species in ['reptiles', 'rodents']
-      @pluralize(count, species.slice(0, -1), species)
-    else if species is 'gazellethomsons'
-      @pluralize(count, "Thomson's gazelle", "Thomson's gazelles")
-    else if species is 'gazellegrants'
-      @pluralize(count, "Grant's gazelle", "Grant's gazelles")
-    else if species is 'otherbird'
-      @pluralize(count, "bird (other)", "birds (other)")
-    else if species is 'dikdik'
-      @pluralize(count, "dik-dik", "dik-diks")
-    else if species is 'honeybadger'
-      @pluralize(count, "honey badger", "honey badgers")
-    else if species is 'hyenaspotted'
-      "spotted hyena"
-    else if species is 'hyenastriped'
-      "striped hyena"
-    else if species is 'lionfemale'
-      @pluralize(count, "female lion", "female lions")
-    else if species is 'lionmale'
-      @pluralize(count, "male lion", "male lions")
-    else if species is 'guineafowl'
-      "guineafowl"
-    else if species is 'koribustard'
-      @pluralize(count, "kori bustard", "kori bustards")
-    else if species is 'batearedfox'
-      @pluralize(count, "bat-eared fox", "bat-eared foxes")
-    else if species is 'aardwolf'
-      @pluralize(count, "aardwolf", "aardwolves")
-    else if species is 'secretarybird'
-      @pluralize(count, "secretary bird", "secretary birds")
-    else if species is 'insectspider'
-      @pluralize(count, "spider or insect", "spiders or insects")
-    else if species is 'vervetmonkey'
-      @pluralize(count, "vervet monkey", "vervet monkeys")
-    else if species is 'blank'
-      'blank'
-    else
-      @pluralize(count, species, species + 's')
 
   getFilterClass: (query_field) =>
     switch query_field
@@ -276,3 +227,187 @@ class window.FilterManager
     @updateQueryParts()
     if typeof renderCallback == "function"
       renderCallback(renderCallbackParameter)
+
+  @getCountersEntryFromKeysAndValuesArray: (counters_keys, counters_values) =>
+    counters = {}
+    counters_keys = counters_keys.split ";"
+    counters_values = counters_values.split ";"
+    for key, index in counters_keys
+      value = parseInt(counters_values[index])
+      counters[key]=value
+    counters
+
+  @pluralize: (number, singular, plural) ->
+    if number > 1 or number is 0 then plural else singular
+
+  @getHumanFriendlySpecies: (species, count = 2) ->
+    if species in ['wildebeest', 'buffalo', 'impala', 'hartebeest', 'topi']
+      species
+    else if species in ['elephant', 'warthog', 'reedbuck', 'human', 'giraffe', 'waterbuck',
+                        'aardvark', 'bushbuck', 'cheetah', 'baboon', 'jackal', 'serval',
+                        'bat', 'caracal', 'civet', 'duiker', 'genet', 'hare', 'leopard',
+                        'mongoose', 'porcupine', 'steenbok', 'eland', 'vulture', 'wildcat',
+                        'zorilla', 'zebra']
+      @pluralize(count, species, species + 's')
+    else if species in ['hippopotamus', 'rhinoceros', 'ostrich']
+      @pluralize(count, species, species + 'es')
+    else if species is 'cattle'
+      @pluralize(count, 'cow', 'cattle')
+    else if species in ['reptiles', 'rodents']
+      @pluralize(count, species.slice(0, -1), species)
+    else if species is 'gazellethomsons'
+      @pluralize(count, "Thomson's gazelle", "Thomson's gazelles")
+    else if species is 'gazellegrants'
+      @pluralize(count, "Grant's gazelle", "Grant's gazelles")
+    else if species is 'otherbird'
+      @pluralize(count, "bird (other)", "birds (other)")
+    else if species is 'dikdik'
+      @pluralize(count, "dik-dik", "dik-diks")
+    else if species is 'honeybadger'
+      @pluralize(count, "honey badger", "honey badgers")
+    else if species is 'hyenaspotted'
+      "spotted hyena"
+    else if species is 'hyenastriped'
+      "striped hyena"
+    else if species is 'lionfemale'
+      @pluralize(count, "female lion", "female lions")
+    else if species is 'lionmale'
+      @pluralize(count, "male lion", "male lions")
+    else if species is 'guineafowl'
+      "guineafowl"
+    else if species is 'koribustard'
+      @pluralize(count, "kori bustard", "kori bustards")
+    else if species is 'batearedfox'
+      @pluralize(count, "bat-eared fox", "bat-eared foxes")
+    else if species is 'aardwolf'
+      @pluralize(count, "aardwolf", "aardwolves")
+    else if species is 'secretarybird'
+      @pluralize(count, "secretary bird", "secretary birds")
+    else if species is 'insectspider'
+      @pluralize(count, "spider or insect", "spiders or insects")
+    else if species is 'vervetmonkey'
+      @pluralize(count, "vervet monkey", "vervet monkeys")
+    else if species is 'blank'
+      'blank'
+    else
+      @pluralize(count, species, species + 's')
+
+  @buildCrowdData: (subject, consensus) =>
+    crowdData = {}
+    classification_count = consensus.classifications
+    counters = @getCountersEntryFromKeysAndValuesArray consensus.counters_keys, consensus.counters_values
+    crowdData.allClassificationData = @getAllClassifications counters
+    crowdData.maxClassificationID = @getMaxClassificationID counters
+    crowdData.maxClassificationData = {}
+    crowdData.maxClassificationData.voters = 0
+    crowdData.active = false
+    if (crowdData.maxClassificationID)
+      crowdData.maxClassificationVoters = counters[crowdData.maxClassificationID]
+      crowdData.maxClassificationData = @getClassificationDataFromCountersEntry crowdData.maxClassificationID, crowdData.maxClassificationVoters
+      crowdData.maxClassificationNumberOfDifferentSpecies = crowdData.maxClassificationData.speciesData.length
+      console.log (counters);
+      crowdData.dominantClassificationID = @getDominantClassificationID counters, CLASSIFICATION_DOMINANCE_THRESHOLD
+      console.log (crowdData.dominantClassificationID);
+      if classification_count >= CLASSIFICATION_COMPLETE_THRESHOLD
+        crowdData.state = "complete"
+        crowdData.message = "This subject has been completely classified"
+      else if classification_count == 0
+        crowdData.active = true
+        crowdData.state = "unclassified"
+        crowdData.message = "This subject has yet to be classified"
+        crowdData.min_classifications_needed = CLASSIFICATION_DOMINANCE_THRESHOLD
+      else if crowdData.dominantClassificationID
+        crowdData.dominantClassificationVoters = counters[crowdData.dominantClassificationID]
+        crowdData.dominantClassificationData = @getClassificationDataFromCountersEntry crowdData.dominantClassificationID, crowdData.dominantClassificationVoters
+        crowdData.dominantClassificationNumberOfDifferentSpecies = Object.keys(crowdData.dominantClassificationData.speciesData).length
+        if crowdData.dominantClassificationID == 'blank'
+          crowdData.state = "blank_by_consensus"
+          crowdData.message = "The crowd has reached agreement that there are no animals present in this subject"
+        else
+          if crowdData.dominantClassificationNumberOfDifferentSpecies == 1
+            crowdData.dominantClassificationSoleSpeciesID = crowdData.dominantClassificationID
+            crowdData.dominantClassificationSoleSpeciesName = @getHumanFriendlySpecies crowdData.dominantClassificationID
+            crowdData.state = "one_sole_species_by_consensus"
+            crowdData.message = "The crowd has reached agreement that this subject contains one or more "+crowdData.dominantClassificationSoleSpeciesName
+          else
+            crowdData.state = "several_species_by_consensus"
+            crowdData.message = "The crowd has reached agreement that this subject contains the following species"
+      else
+        if counters.hasOwnProperty 'blank'
+          if Object.keys(counters).length == 1
+            if counters['blank'] < CLASSIFICATION_BLANK_THRESHOLD
+              crowdData.active = true
+              crowdData.state = "active_but_nearly_blank"
+              crowdData.message = "The crowd is still classifying this subject, but so far it appears to contain no animals"
+              crowdData.min_classifications_needed = CLASSIFICATION_BLANK_THRESHOLD - counters['blank']
+            else
+              crowdData.state = "unanimously_blank"
+              crowdData.message = "The crowd unanimously agrees that this subject contains no animals"
+          else
+            if Object.keys(counters).length == 2
+              crowdData.active = true
+              crowdData.state = "active_either_blank_or_agreed_animals"
+              crowdData.message = "The crowd is still classifying this subject. There is disagreement as to whether any animals are present, but not as to which species are present"
+              crowdData.min_classifications_needed = CLASSIFICATION_DOMINANCE_THRESHOLD - crowdData.maxClassificationData.voters
+            else
+              crowdData.active = true
+              crowdData.state = "active_either_blank_or_uncertain_animals"
+              crowdData.message = "The crowd is still classifying this subject. There is disagreement as to whether any animals are present, and as to which species are present"
+              crowdData.min_classifications_needed = CLASSIFICATION_DOMINANCE_THRESHOLD - crowdData.maxClassificationData.voters
+        else
+          if Object.keys(counters).length == 1
+            crowdData.active = true
+            crowdData.state = "active_but_agreed_animals"
+            crowdData.message = "The crowd is still classifying this subject. There does seem to be one or more animals present. So far, there is agreement upon which species are present"
+            crowdData.min_classifications_needed = CLASSIFICATION_DOMINANCE_THRESHOLD - crowdData.maxClassificationData.voters
+          else
+            crowdData.active = true
+            crowdData.state = "active_but_uncertain_animals"
+            crowdData.message = "The crowd is still classifying this subject. There does seem to be one or more animals present. There is disagreement as to which species are present"
+            crowdData.min_classifications_needed = CLASSIFICATION_DOMINANCE_THRESHOLD - crowdData.maxClassificationData.voters
+    else
+      crowdData.active = true
+      crowdData.state = "active_unknown"
+      crowdData.message = "This image has not yet been classified by anyone. Nothing is known about this image"
+      crowdData.min_classifications_needed = CLASSIFICATION_DOMINANCE_THRESHOLD
+    crowdData
+
+  @getMaxClassificationID: (metadata_counters) ->
+    for maxKey of metadata_counters
+      break
+    for key of metadata_counters
+      console.log 'inspecting key '+key
+      if metadata_counters.hasOwnProperty key
+        console.log 'key exists'
+        if metadata_counters[key] > metadata_counters[maxKey]
+          maxKey = key
+    maxKey
+
+  @getDominantClassificationID: (metadata_counters, threshold = CLASSIFICATION_DOMINANCE_THRESHOLD) ->
+    maxClassification = @getMaxClassificationID metadata_counters
+    console.log "max classification is "+maxClassification
+    if metadata_counters[maxClassification] >= threshold
+      maxClassification
+    else
+      false
+
+  @getSpeciesDataForClassificationID: (classificationID) ->
+    specieses = classificationID.split '-'
+    speciesData = {}
+    for species in specieses
+        speciesId = species
+        speciesName = @getHumanFriendlySpecies species
+        speciesData[speciesId] = speciesName
+    speciesData
+
+  @getClassificationDataFromCountersEntry: (combinedClassificationID, voters) ->
+    classification = {}
+    classification.speciesData = @getSpeciesDataForClassificationID combinedClassificationID
+    classification.voters = voters
+    classification
+
+  @getAllClassifications: (metadata_counters) ->
+    classifications = []
+    for combinedClassificationID, voters of metadata_counters
+      classifications.push @getClassificationDataFromCountersEntry combinedClassificationID, voters
+    classifications
