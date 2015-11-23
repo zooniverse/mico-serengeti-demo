@@ -2,21 +2,33 @@
 
 <hr>
 
-<div class="row">
-  <div class="small-8 columns left-side">
+<div>
+  <div id="subject-section">
     <%= render partial: 'subject_image_and_info' %>
   </div>
 
-  <div id="metadata" class="small-4 columns">
-    <%= render partial: 'regions_table' %>
-  </div>
-</div>
+  <div id="metadata-section">
+    <ul class="tabs" data-tab>
+      <li class="tab-title active"><a href="#side-regions">Analysis Results</a></li>
+      <li class="tab-title"><a href="#side-comments">Comments</a></li>
+      <li class="tab-title"><a href="#side-zoodata">Zoo data</a></li>
+      <li class="tab-title"><a href="#side-debug">Debug</a></li>
+    </ul>
+    <div class="tabs-content">
+      <div class="content active" id="side-regions">
+        <%= render partial: 'regions_table' %>
+      </div>
+      <div class="content" id="side-comments">
+        <%= render partial: 'comments' %>
+      </div>
+      <div class="content" id="side-zoodata">
+        <%= render partial: 'zooniverse_data' %>
+      </div>
+      <div class="content" id="side-debug">
+        <%= render partial: 'debug' %>
+      </div>
+    </div>
 
-<hr>
-
-<div class="row">
-  <div class="small-12 columns">
-    <%= render partial: 'comments' %>
   </div>
 </div>
 
@@ -79,16 +91,6 @@ $(function () {
   var $pushDownEl = $('#zoo_data');
   var topMargin = 160;
   var lesserTopMargin = 30;
-
-  $window.scroll(function() {
-    $stickyEl.toggleClass('sticky', ($window.scrollTop() +topMargin) > elTop && $window.scrollTop() < tableEnd);
-
-    $pushDownEl.css('margin-top',$table.height()+$stickyEl.height()+topMargin);
-    if ($window.scrollTop() >= tableEnd)
-    {
-      $pushDownEl.css('margin-top',$table.height()-$stickyEl.height()+lesserTopMargin);
-    }
-  });
 });
 </script>
 

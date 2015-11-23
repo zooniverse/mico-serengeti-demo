@@ -160,6 +160,7 @@ hr.slim.no-bottom {
 #subject {
   position: relative;
   overflow: hidden;
+  width: 600px;
 }
 
 .unboxed-label {
@@ -245,3 +246,56 @@ table {
   border: 1px #000000 solid;
 }
 
+$subject-section-width: 700px;
+
+#subject-section {
+  position: absolute;
+  top: 138px;
+  left: 0px;
+  bottom: 0;
+  width: $subject-section-width;
+  background: #fff;
+  overflow: scroll;
+  padding: 10px;
+}
+
+#metadata-section {
+ position: absolute;
+  top: 138px;
+  left: $subject-section-width;
+  bottom: 0;
+  right: 0;
+  background: #eee;
+  overflow: scroll;
+  padding: 10px;
+}
+
+#metadata-section .tabs {
+  border-bottom: 1px #000000 solid;
+  background: #ccc;
+  padding: 10px 10px 0 10px;
+  margin: -10px -10px 0 -10px;
+}
+
+#metadata-section .tabs .tab-title {
+  margin-right: 0.5rem;
+}
+
+
+#metadata-section .tabs .tab-title > a {
+  font-size: 0.7rem;
+  padding: 0.5rem 1rem;
+}
+
+#metadata-section .tabs .tab-title > a {
+  font-size: 0.7rem;
+  padding: 0.5rem 1rem;
+}
+
+#metadata-section .tabs .tab-title.active {
+  font-weight: bold;
+}
+
+.comment {
+  background-color: white;
+}
