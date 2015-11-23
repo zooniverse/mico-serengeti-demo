@@ -329,9 +329,18 @@ div.classifications div.classification span.voters-label {
   display: block;
 }
 
+div.blank-classification {
+   height: 200px;
+}
+
+div#crowd_data h3 {
+  text-align: center;
+  margin-top: 20px;
+}
+
 div.classifications div.classification div.species-list div.species {
-  height: 90px;
-  display: inline-block;
+  height: 30px;
+  display: block;
   text-align: center;
   margin-right: 10px;
 }

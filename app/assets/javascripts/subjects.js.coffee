@@ -300,7 +300,7 @@ class window.FilterManager
       species_list = (specieses.slice(0, -1).join ", ") + " and " + specieses.slice().pop()
     else
       species_list = specieses[0]
-    "<br/> By consensus, this subject contains "+species_list
+    "<br/> By consensus, this subject contains "+species_list+'.'
 
   @buildCrowdData: (subject, consensus) =>
     crowdData = {}

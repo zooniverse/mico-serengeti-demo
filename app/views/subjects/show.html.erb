@@ -24,7 +24,7 @@
       <% end %>
     </div>
     <div id="crowd_data">
-      <h3>What the crowd thinks:</h3>
+      <h3>Zooniverse Crowd Opinion:</h3>
       <div class="classifications">
           <div id="crowd-thinks-summary" class="summary">
           </div>
@@ -231,21 +231,13 @@ $(function () {
     }
   });
 
-  var $window = $(window);
-  var $stickyEl = $('#subject');
-  var $table = $('#regions-data')
-  var elTop = $stickyEl.offset().top;
-  var tableEnd = $table.offset().top+$table.height();
-  var $pushDownEl = $('#zoo_data');
-  var topMargin = 160;
-  var lesserTopMargin = 30;
-
   crowdData = FilterManager.buildCrowdData(subject, consensus);
   $("#crowd-thinks-summary").addClass(crowdData.state);
   $("#crowd-thinks-summary").html(crowdData.message);
-  $("#crowd-thinks-status").addClass(crowdData.state);
+  $("#crowd-thinks-status").addClass("active-"+crowdData.active);
   if (crowdData.active) {
     $("#crowd-thinks-status #active-value").html("Awaiting Further Classifications");
+
   }
   else {
     $("#crowd-thinks-status #active-value").html("Classified");
@@ -260,6 +252,9 @@ $(function () {
   for (index in crowdData.allClassificationData) {
     classification = crowdData.allClassificationData[index];
     html += "<div class = 'classification";
+    if (Object.keys(classification.speciesData)[0] == "blank") {
+      html += " blank-classification";
+    }
     if (classification.voters == crowdData.maxClassificationVoters) {
       html += " biggest";
     }
