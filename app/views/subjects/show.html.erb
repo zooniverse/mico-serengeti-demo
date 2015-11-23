@@ -241,7 +241,6 @@ $(function () {
   var lesserTopMargin = 30;
 
   crowdData = FilterManager.buildCrowdData(subject, consensus);
-  console.log(crowdData);
   $("#crowd-thinks-summary").addClass(crowdData.state);
   $("#crowd-thinks-summary").html(crowdData.message);
   $("#crowd-thinks-status").addClass(crowdData.state);
@@ -269,7 +268,6 @@ $(function () {
     html += "<span class='voters-label'>voted for</span>";
     html += "<div class='species-list'>";
     for (species in classification.speciesData) {
-      console.log
       speciesName = classification.speciesData[species];
       if (species == "blank") {
         html += "<div class='species'><span class='no-animals-present'>No<br/>Animals<br/>Present</span></div>";
