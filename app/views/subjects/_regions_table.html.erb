@@ -1,0 +1,23 @@
+<table id="regions-data" style="width: 100%">
+  <thead>
+    <th>Region</th>
+    <!-- <th>Location</th> -->
+    <th>Species</th>
+    <th>Confidence</th>
+  </thead>
+
+  <tbody>
+    <% @subject.regions.each do |region| %>
+      <tr class="hover-row" data-region="<%= region.id %>">
+        <td><%= region.id %></td>
+        <!-- <td><%= region.x %>,<%= region.y %> / <%= region.width %>x<%= region.height %>px</td> -->
+        <td><%= region.animal %></td>
+        <td><%= region.confidence.round(4) %></td>
+      </tr>
+    <% end %>
+
+    <% if @subject.regions.empty? %>
+      <tr><td colspan="5">(no regions)</td></tr>
+    <% end %>
+  </tbody>
+</table>

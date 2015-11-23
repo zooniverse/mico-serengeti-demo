@@ -1,139 +1,14 @@
-<div id="resub-box" class="row">
-  <div class="small-4 header-right">
-    <p>
-      MICO Image Analysis: <strong><%= @subject.status.titleize %></strong><br/>
-      <% if @subject.status=="unprocessed" %>
-        <%= link_to "Submit this image to MICO platform", mico_submit_subject_path(@subject), method: :post, class: "button tiny" %>
-      <% else %>
-        <%= link_to "Resubmit this image to MICO platform", mico_submit_subject_path(@subject), method: :post, class: "button tiny" %>
-      <% end %>
-    </p>
-    <p class="small-sub">Please <%= link_to "ensure", 'http://demo1.mico-project.eu:8080/mico-configuration/', :target => "_blank" %> an <span style="font-family: 'Courier New', courier, monospace;">animal-detection</span> extractor is active.</p>
-  </div>
-  <div class="small-7 columns">
-    <h3>Subject <a title="View this subject on Snapshot Serengeti Talk" target="_blank" href="http://talk.snapshotserengeti.org/#/subjects/<%= @subject.zooniverse_id %>"><%= @subject.zooniverse_id %></a><br/>Frame <%= @subject.image_index %></h3>
-  </div>
-</div>
+<%= render partial: 'resubmit_box' %>
 
 <hr>
 
 <div class="row">
   <div class="small-8 columns left-side">
-    <div id="subject">
-      <%= image_tag @subject.image_url %>
-      <% @subject.regions.each do |region| %>
-        <%= content_tag :div, content_tag(:div,"#{region.id}"), id: "region-overlay-#{region.id}", :data => { :region => region.id }, class: ["region"], style: "top: #{region.y}px; left: #{region.x}px; width: #{region.width}px; height: #{region.height}px" %>
-      <% end %>
-    </div>
-    <div id="zoo_data">
-      <h4>Zooniverse user-data based aggregation results</h4>
-      <table style="width: 100%">
-        <tbody>
-          <tr>
-            <th>Dominant Species</th>
-            <td><%= @subject.zooniverse_dominant_species %></td>
-          </tr>
-          <tr>
-            <th>season</th>
-            <td><%= @subject.consensus.season %></td>
-          </tr>
-          <tr>
-            <th>site_id</th>
-            <td><%= @subject.consensus.site_id %></td>
-          </tr>
-          <tr>
-            <th>frames</th>
-            <td><%= @subject.consensus.frames %></td>
-          </tr>
-          <tr>
-            <th>time_of_day</th>
-            <td><%= @subject.consensus.time_of_day %></td>
-          </tr>
-          <tr>
-            <th>classifications</th>
-            <td><%= @subject.consensus.classifications %></td>
-          </tr>
-          <tr>
-            <th>crowd_says</th>
-            <td><%= @subject.consensus.crowd_says %></td>
-          </tr>
-          <tr>
-            <th>total_species</th>
-            <td><%= @subject.consensus.total_species %></td>
-          </tr>
-          <tr>
-            <th>total_animals</th>
-            <td><%= @subject.consensus.total_animals %></td>
-          </tr>
-          <tr>
-            <th>crowd_says_if_multi</th>
-            <td><%= @subject.consensus.crowd_says_if_multi %></td>
-          </tr>
-          <tr>
-            <th>retire_reason</th>
-            <td><%= @subject.consensus.retire_reason %></td>
-          </tr>
-          <tr>
-            <th>counters_keys</th>
-            <td><%= @subject.consensus.counters_keys %></td>
-          </tr>
-          <tr>
-            <th>counters_values</th>
-            <td><%= @subject.consensus.counters_values %></td>
-          </tr>
-          <tr>
-            <th>species_counts_keys</th>
-            <td><%= @subject.consensus.species_counts_keys %></td>
-          </tr>
-          <tr>
-            <th>species_counts_values</th>
-            <td><%= @subject.consensus.species_counts_values %></td>
-          </tr>
-          <tr>
-            <th>behavior_counters_keys</th>
-            <td><%= @subject.consensus.behavior_counters_keys %></td>
-          </tr>
-          <tr>
-            <th>behavior_counters_values</th>
-            <td><%= @subject.consensus.behavior_counters_values %></td>
-          </tr>
-          <tr>
-            <th>aggregate_species_names</th>
-            <td><%= @subject.consensus.aggregate_species_names %></td>
-          </tr>
-          <tr>
-            <th>aggregate_species_counts</th>
-            <td><%= @subject.consensus.aggregate_species_counts %></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <%= render partial: 'subject_image_and_info' %>
   </div>
 
   <div id="metadata" class="small-4 columns">
-    <table id="regions-data" style="width: 100%">
-      <thead>
-        <th>Region</th>
-        <!-- <th>Location</th> -->
-        <th>Species</th>
-        <th>Confidence</th>
-      </thead>
-
-      <tbody>
-        <% @subject.regions.each do |region| %>
-          <tr class="hover-row" data-region="<%= region.id %>">
-            <td><%= region.id %></td>
-            <!-- <td><%= region.x %>,<%= region.y %> / <%= region.width %>x<%= region.height %>px</td> -->
-            <td><%= region.animal %></td>
-            <td><%= region.confidence.round(4) %></td>
-          </tr>
-        <% end %>
-
-        <% if @subject.regions.empty? %>
-          <tr><td colspan="5">(no regions)</td></tr>
-        <% end %>
-      </tbody>
-    </table>
+    <%= render partial: 'regions_table' %>
   </div>
 </div>
 
@@ -141,49 +16,11 @@
 
 <div class="row">
   <div class="small-12 columns">
-    <h4>Comments</h4>
-    <% @subject.comments.each do |comment| %>
-      <div class="panel">
-        <p><%= comment.body %></p>
-        <p>
-          <% if comment.entities.present? %>
-            <strong>Entities:</strong>
-            <% comment.entities.each do |entity| %>
-            <%= link_to entity["label"], entity["uri"], class: 'label round' %>
-            <% end %>
-            <br>
-          <% else %>
-            <strong>No entities found</strong><br>
-          <% end %>
-
-          <% if comment.topics.present? %>
-            <strong>Topics:</strong>
-            <% comment.topics.each do |topic| %>
-            <%= link_to topic["label"], topic["uri"], class: 'label round' %>
-            <% end %>
-            <br>
-          <% end %>
-
-          <% if comment.mico_data["sentiment"] %>
-            <strong>Sentiment:</strong>
-
-            <% if comment.mico_data["sentiment"] > 0 %>
-            <span style="color: green" %><%= comment.mico_data["sentiment"].round(2) %> (positive)</span>
-            <% elsif comment.mico_data["sentiment"] < 0 %>
-            <span style="color: red" %><%= comment.mico_data["sentiment"].round(2) %> (negative)</span>
-            <% else %>
-            <span style="color: gray" %><%= comment.mico_data["sentiment"].round(2) %> (neutral)</span>
-            <% end %>
-          <% end %>
-        </p>
-
-      </div>
-    <% end %>
+    <%= render partial: 'comments' %>
   </div>
 </div>
 
 <script type="text/javascript">
-
 $(function () {
   var timeouts = [];
   $(".hover-row").on({
@@ -252,11 +89,6 @@ $(function () {
       $pushDownEl.css('margin-top',$table.height()-$stickyEl.height()+lesserTopMargin);
     }
   });
-
-
-
 });
-
-
 </script>
 

@@ -1,0 +1,38 @@
+<h4>Comments</h4>
+<% @subject.comments.each do |comment| %>
+  <div class="panel">
+    <p><%= comment.body %></p>
+    <p>
+      <% if comment.entities.present? %>
+        <strong>Entities:</strong>
+        <% comment.entities.each do |entity| %>
+        <%= link_to entity["label"], entity["uri"], class: 'label round' %>
+        <% end %>
+        <br>
+      <% else %>
+        <strong>No entities found</strong><br>
+      <% end %>
+
+      <% if comment.topics.present? %>
+        <strong>Topics:</strong>
+        <% comment.topics.each do |topic| %>
+        <%= link_to topic["label"], topic["uri"], class: 'label round' %>
+        <% end %>
+        <br>
+      <% end %>
+
+      <% if comment.mico_data["sentiment"] %>
+        <strong>Sentiment:</strong>
+
+        <% if comment.mico_data["sentiment"] > 0 %>
+        <span style="color: green" %><%= comment.mico_data["sentiment"].round(2) %> (positive)</span>
+        <% elsif comment.mico_data["sentiment"] < 0 %>
+        <span style="color: red" %><%= comment.mico_data["sentiment"].round(2) %> (negative)</span>
+        <% else %>
+        <span style="color: gray" %><%= comment.mico_data["sentiment"].round(2) %> (neutral)</span>
+        <% end %>
+      <% end %>
+    </p>
+
+  </div>
+<% end %>
