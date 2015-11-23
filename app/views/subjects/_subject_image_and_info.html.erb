@@ -28,7 +28,7 @@ $(function () {
   crowdData = FilterManager.buildCrowdData(subject, consensus);
   $("#crowd-thinks-summary").addClass(crowdData.state);
   $("#crowd-thinks-summary").html(crowdData.message);
-  $("#crowd-thinks-status").addClass(crowdData.active);
+  $("#crowd-thinks-status").addClass("active-"+crowdData.active);
   if (crowdData.active) {
     $("#crowd-thinks-status #active-value").html("Awaiting Further Classifications");
 
