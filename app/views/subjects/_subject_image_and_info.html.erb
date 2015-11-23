@@ -3,4 +3,74 @@
   <% @subject.regions.each do |region| %>
     <%= content_tag :div, content_tag(:div,"#{region.id}"), id: "region-overlay-#{region.id}", :data => { :region => region.id }, class: ["region"], style: "top: #{region.y}px; left: #{region.x}px; width: #{region.width}px; height: #{region.height}px" %>
   <% end %>
+  <div id="crowd_data">
+    <h3>Zooniverse Crowd Opinion:</h3>
+    <div class="classifications">
+        <div id="crowd-thinks-summary" class="summary">
+        </div>
+        <div id ="crowd-thinks-status" class="active">
+            <span id="active-value"></span>
+            <span id="active-more-needed" class="active-more-needed"></span>
+        </div>
+        <div id="crowd-classifications">
+        </div>
+    </div>
+  </div>
 </div>
+<script type="text/javascript">
+
+$(function () {
+
+  window.subject = <%= @subject.to_json.html_safe %>;
+  window.comments = <%= @subject.comments.to_json.html_safe %>;
+  window.consensus = <%= @subject.consensus.to_json.html_safe %>;
+
+  crowdData = FilterManager.buildCrowdData(subject, consensus);
+  $("#crowd-thinks-summary").addClass(crowdData.state);
+  $("#crowd-thinks-summary").html(crowdData.message);
+  $("#crowd-thinks-status").addClass(crowdData.active);
+  if (crowdData.active) {
+    $("#crowd-thinks-status #active-value").html("Awaiting Further Classifications");
+
+  }
+  else {
+    $("#crowd-thinks-status #active-value").html("Classified");
+  }
+  if(crowdData.min_classifications_needed) {
+    $("#crowd-thinks-status #active-more-needed").html("At least "+crowdData.min_classifications_needed+" more classifications are needed.");
+  }
+  else {
+    $("#crowd-thinks-status #active-more-needed").hide();
+  }
+  html = ""; // classifications div html
+  for (index in crowdData.allClassificationData) {
+    classification = crowdData.allClassificationData[index];
+    html += "<div class = 'classification";
+    if (Object.keys(classification.speciesData)[0] == "blank") {
+      html += " blank-classification";
+    }
+    if (classification.voters == crowdData.maxClassificationVoters) {
+      html += " biggest";
+    }
+    html += "'>";
+    html += "<span class='voters'>" + classification.voters + "</span>";
+    html += "<span class='voters-label'>voted for</span>";
+    html += "<div class='species-list'>";
+    for (species in classification.speciesData) {
+      speciesName = classification.speciesData[species];
+      if (species == "blank") {
+        html += "<div class='species'><span class='no-animals-present'>No<br/>Animals<br/>Present</span></div>";
+      }
+      else {
+        html += "<div class='species'>" + speciesName + "</div>";
+        html += "<div class='species-image " + species + "'></div>";
+      }
+    }
+    html += "</div>"; // close species list div
+    html += "</div>"; // close classification div
+  }
+  $("#crowd-classifications").html(html);
+
+});
+
+</script>
