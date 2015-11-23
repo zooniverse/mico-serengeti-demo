@@ -11,6 +11,7 @@
     <ul class="tabs" data-tab>
       <li class="tab-title active"><a href="#side-regions">Analysis Results</a></li>
       <li class="tab-title"><a href="#side-comments">Comments</a></li>
+      <li class="tab-title"><a href="#side-zoodata">Zoo data</a></li>
       <li class="tab-title"><a href="#side-debug">Debug</a></li>
     </ul>
     <div class="tabs-content">
@@ -19,6 +20,9 @@
       </div>
       <div class="content" id="side-comments">
         <%= render partial: 'comments' %>
+      </div>
+      <div class="content" id="side-zoodata">
+        <%= render partial: 'zooniverse_data' %>
       </div>
       <div class="content" id="side-debug">
         <%= render partial: 'debug' %>
