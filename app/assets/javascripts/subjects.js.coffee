@@ -60,6 +60,8 @@ class window.FilterManager
       max = min_and_max[1]
       @form_filters[input_id + "-min"] = min
       @form_filters[input_id + "-max"] = max
+    else if (input_id == "drop-dataset")
+      @form_filters[input_id + "-" + val] = true
     else
       @form_filters[input_id] = val
     if update_query_parts
@@ -112,6 +114,29 @@ class window.FilterManager
       when "comment_status_unprocessed" then "drop-comment-status-unprocessed"
       when "has_comment_analysis_data" then "drop-comment-status-has-data"
       when "has_no_comment_analysis_data" then "drop-comment-status-has-no-data"
+      when "vr1_entire_dataset" then "drop-dataset-vr1_entire_dataset"
+      when "vr1_daytime" then "drop-dataset-vr1_daytime"
+      when "vr1_nighttime" then "drop-dataset-vr1_nighttime"
+      when "vr1_blank" then "drop-dataset-vr1_blank"
+      when "vr1_non_blank" then "drop-dataset-vr1_non_blank"
+      when "vr1_one_animal" then "drop-dataset-vr1_one_animal"
+      when "vr1_simple" then "drop-dataset-vr1_simple"
+      when "vr1_complex" then "drop-dataset-vr1_complex"
+      when "vr1_single_species" then "drop-dataset-vr1_single_species"
+      when "vr1_only_buffalo" then "drop-dataset-vr1_only_buffalo"
+      when "vr1_only_elephant" then "drop-dataset-vr1_only_elephant"
+      when "vr1_only_ostrich" then "drop-dataset-vr1_only_ostrich"
+      when "vr1_only_warthog" then "drop-dataset-vr1_only_warthog"
+      when "vr1_only_wildebeest" then "drop-dataset-vr1_only_wildebeest"
+      when "vr1_only_other" then "drop-dataset-vr1_only_other"
+      when "vr1_multi_species" then "drop-dataset-vr1_multi_species"
+      when "vr1_multi_including_buffalo" then "drop-dataset-vr1_multi_including_buffalo"
+      when "vr1_multi_including_elephant" then "drop-dataset-vr1_multi_including_elephant"
+      when "vr1_multi_including_ostrich" then "drop-dataset-vr1_multi_including_ostrich"
+      when "vr1_multi_including_warthog" then "drop-dataset-vr1_multi_including_warthog"
+      when "vr1_multi_including_wildebeest" then "drop-dataset-vr1_multi_including_wildebeest"
+      when "vr1_multi_including_none_of_the_five" then "drop-dataset-vr1_multi_including_none_of_the_five"
+
 
   getQueryFieldFromModifiedInputId: (input_id) =>
     switch input_id
@@ -137,12 +162,86 @@ class window.FilterManager
       when "drop-comment-status-has-data" then "has_comment_analysis_data"
       when "drop-comment-status-has-no-data" then "has_no_comment_analysis_data"
       when "drop-species" then "species"
+      when "drop-dataset-vr1_entire_dataset" then "vr1_entire_dataset"
+      when "drop-dataset-vr1_daytime" then "vr1_daytime"
+      when "drop-dataset-vr1_nighttime" then "vr1_nighttime"
+      when "drop-dataset-vr1_blank" then "vr1_blank"
+      when "drop-dataset-vr1_non_blank" then "vr1_non_blank"
+      when "drop-dataset-vr1_one_animal" then "vr1_one_animal"
+      when "drop-dataset-vr1_simple" then "vr1_simple"
+      when "drop-dataset-vr1_complex" then "vr1_complex"
+      when "drop-dataset-vr1_single_species" then "vr1_single_species"
+      when "drop-dataset-vr1_only_buffalo" then "vr1_only_buffalo"
+      when "drop-dataset-vr1_only_elephant" then "vr1_only_elephant"
+      when "drop-dataset-vr1_only_ostrich" then "vr1_only_ostrich"
+      when "drop-dataset-vr1_only_warthog" then "vr1_only_warthog"
+      when "drop-dataset-vr1_only_wildebeest" then "vr1_only_wildebeest"
+      when "drop-dataset-vr1_only_other" then "vr1_only_other"
+      when "drop-dataset-vr1_multi_species" then "vr1_multi_species"
+      when "drop-dataset-vr1_multi_including_buffalo" then "vr1_multi_including_buffalo"
+      when "drop-dataset-vr1_multi_including_elephant" then "vr1_multi_including_elephant"
+      when "drop-dataset-vr1_multi_including_ostrich" then "vr1_multi_including_ostrich"
+      when "drop-dataset-vr1_multi_including_warthog" then "vr1_multi_including_warthog"
+      when "drop-dataset-vr1_multi_including_wildebeest" then "vr1_multi_including_wildebeest"
+      when "drop-dataset-vr1_multi_including_none_of_the_five" then "vr1_multi_including_none_of_the_five"
 
-  # update query parts from raw form inputs
+# update query parts from raw form inputs
   updateQueryParts: () =>
     @query_parts = {}
     for input_id, val of @form_filters
       @query_parts[@getQueryFieldFromModifiedInputId(input_id)] = val
+
+  getHumanFriendlySpecies: (species, count = 2) ->
+    if species in ['wildebeest', 'buffalo', 'impala', 'hartebeest', 'topi']
+      species
+    else if species in ['elephant', 'warthog', 'reedbuck', 'human', 'giraffe', 'waterbuck',
+                        'aardvark', 'bushbuck', 'cheetah', 'baboon', 'jackal', 'serval',
+                        'bat', 'caracal', 'civet', 'duiker', 'genet', 'hare', 'leopard',
+                        'mongoose', 'porcupine', 'steenbok', 'eland', 'vulture', 'wildcat',
+                        'zorilla', 'zebra']
+      @pluralize(count, species, species + 's')
+    else if species in ['hippopotamus', 'rhinoceros', 'ostrich']
+      @pluralize(count, species, species + 'es')
+    else if species is 'cattle'
+      @pluralize(count, 'cow', 'cattle')
+    else if species in ['reptiles', 'rodents']
+      @pluralize(count, species.slice(0, -1), species)
+    else if species is 'gazellethomsons'
+      @pluralize(count, "Thomson's gazelle", "Thomson's gazelles")
+    else if species is 'gazellegrants'
+      @pluralize(count, "Grant's gazelle", "Grant's gazelles")
+    else if species is 'otherbird'
+      @pluralize(count, "bird (other)", "birds (other)")
+    else if species is 'dikdik'
+      @pluralize(count, "dik-dik", "dik-diks")
+    else if species is 'honeybadger'
+      @pluralize(count, "honey badger", "honey badgers")
+    else if species is 'hyenaspotted'
+      "spotted hyena"
+    else if species is 'hyenastriped'
+      "striped hyena"
+    else if species is 'lionfemale'
+      @pluralize(count, "female lion", "female lions")
+    else if species is 'lionmale'
+      @pluralize(count, "male lion", "male lions")
+    else if species is 'guineafowl'
+      "guineafowl"
+    else if species is 'koribustard'
+      @pluralize(count, "kori bustard", "kori bustards")
+    else if species is 'batearedfox'
+      @pluralize(count, "bat-eared fox", "bat-eared foxes")
+    else if species is 'aardwolf'
+      @pluralize(count, "aardwolf", "aardwolves")
+    else if species is 'secretarybird'
+      @pluralize(count, "secretary bird", "secretary birds")
+    else if species is 'insectspider'
+      @pluralize(count, "spider or insect", "spiders or insects")
+    else if species is 'vervetmonkey'
+      @pluralize(count, "vervet monkey", "vervet monkeys")
+    else if species is 'blank'
+      'blank'
+    else
+      @pluralize(count, species, species + 's')
 
   getFilterClass: (query_field) =>
     switch query_field
@@ -189,6 +288,29 @@ class window.FilterManager
       when "comment_status_unprocessed" then @getCommentAnalysisDisplayTextFromStatus val
       when "status" then @getImageAnalysisDisplayTextFromStatus val
       when "status_unprocessed" then @getImageAnalysisDisplayTextFromStatus val
+      when "vr1_entire_dataset" then "Entire dataset"
+      when "vr1_daytime" then "Daytime"
+      when "vr1_nighttime" then "Nighttime"
+      when "vr1_blank" then "Blank"
+      when "vr1_non_blank" then "Non-blank"
+      when "vr1_one_animal" then "One animal"
+      when "vr1_simple" then "Simple (2-5 animals)"
+      when "vr1_complex" then "Complex (6+ animals)"
+      when "vr1_single_species" then "Single species"
+      when "vr1_only_buffalo" then "Only buffalo"
+      when "vr1_only_elephant" then "Only elephants"
+      when "vr1_only_ostrich" then "Only ostriches"
+      when "vr1_only_warthog" then "Only warthogs"
+      when "vr1_only_wildebeest" then "Only wildebeest"
+      when "vr1_only_other" then "Only a single species, not listed above"
+      when "vr1_multi_species" then "Multiple species"
+      when "vr1_multi_including_buffalo" then "Multiple species, including buffalo"
+      when "vr1_multi_including_elephant" then "Multiple species, including elephants"
+      when "vr1_multi_including_ostrich" then "Multiple species, including ostriches"
+      when "vr1_multi_including_warthog" then "Multiple species, including warthogs"
+      when "vr1_multi_including_wildebeest" then "Multiple species, including wildebeest"
+      when "vr1_multi_including_none_of_the_five" then "Multiple species, including none of the above"
+      else query_field
 
   getURLQueryString: =>
     @updateQueryParts()

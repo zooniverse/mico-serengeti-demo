@@ -1,0 +1,16 @@
+<div id="resub-box" class="row">
+  <div class="small-8 columns">
+    <h3>Subject <a title="View this subject on Snapshot Serengeti Talk" target="_blank" href="http://talk.snapshotserengeti.org/#/subjects/<%= @subject.zooniverse_id %>"><%= @subject.zooniverse_id %></a><br/>Frame <%= @subject.image_index %></h3>
+  </div>
+  <div class="small-4 columns">
+    <p>
+      MICO Image Analysis: <strong><%= @subject.status.titleize %></strong><br/>
+      <% if @subject.status=="unprocessed" %>
+        <%= link_to "Submit this image to MICO platform", mico_submit_subject_path(@subject), method: :post, class: "button tiny" %>
+      <% else %>
+        <%= link_to "Resubmit this image to MICO platform", mico_submit_subject_path(@subject), method: :post, class: "button tiny" %>
+      <% end %>
+    </p>
+    <p class="small-sub">Please <%= link_to "ensure", 'http://demo1.mico-project.eu:8080/mico-configuration/', :target => "_blank" %> an <span style="font-family: 'Courier New', courier, monospace;">animal-detection</span> extractor is active.</p>
+  </div>
+</div>

@@ -22,7 +22,7 @@
       <a href="#" data-options="align:right" data-dropdown="drop-comment-status" class="button">Comment analysis status &raquo;</a>
       <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-entities" class="button">Entities found &raquo;</a>
       <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-sentiments" class="button">Sentiments found &raquo;</a>
-      <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-dataset" class="button">Test set used &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-dataset" class="button">Test set used &raquo;</a>
     </div>
   </div>
   <hr class="slim no-bottom">
@@ -583,6 +583,32 @@
     <li><a data-value="day">Day</a></li>
     <li><a data-value="twilight">Twilight</a></li>
     <li><a data-value="night">Night</a></li>
+</ul>
+<ul id="drop-dataset" class="tiny content f-dropdown" data-dropdown-content>
+    <li><a data-value="vr1_entire_dataset">Entire dataset</a></li>
+    <li><a data-value="vr1_daytime">Daytime</a></li>
+    <li><a data-value="vr1_nighttime">Nighttime</a></li>
+    <li><a data-value="vr1_blank">Blank</a></li>
+    <li><a data-value="vr1_non_blank">Non-blank</a></li>
+    <li><a data-value="vr1_one_animal">One animal</a></li>
+    <li><a data-value="vr1_simple">Simple (2-5 animals)</a></li>
+    <li><a data-value="vr1_complex">Complex (6+ animals)</a></li>
+    <li class="divider"></li>
+    <li><a data-value="vr1_single_species">Single species</a></li>
+    <li><a data-value="vr1_only_buffalo">Only buffalo</a></li>
+    <li><a data-value="vr1_only_elephant">Only elephants</a></li>
+    <li><a data-value="vr1_only_ostrich">Only ostriches</a></li>
+    <li><a data-value="vr1_only_warthog">Only warthogs</a></li>
+    <li><a data-value="vr1_only_wildebeest">Only wildebeest</a></li>
+    <li><a data-value="vr1_only_other">Only a single species, not listed above</a></li>
+    <li class="divider"></li>
+    <li><a data-value="vr1_multi_species">Multiple species</a></li>
+    <li><a data-value="vr1_multi_including_buffalo">Multiple species, including buffalo</a></li>
+    <li><a data-value="vr1_multi_including_elephant">Multiple species, including elephants</a></li>
+    <li><a data-value="vr1_multi_including_ostrich">Multiple species, including ostriches</a></li>
+    <li><a data-value="vr1_multi_including_warthog">Multiple species, including warthogs</a></li>
+    <li><a data-value="vr1_multi_including_wildebeest">Multiple species, including wildebeest</a></li>
+    <li><a data-value="vr1_multi_including_none_of_the_five">Multiple species, including none of the above</a></li>
 </ul>
 
 <script type="text/javascript">
