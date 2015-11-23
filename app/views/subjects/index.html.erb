@@ -652,7 +652,7 @@
 
     $(".species-front-page").each(function(){
       var data = $(this).data("species");
-      data = filterManager.getHumanFriendlySpecies(data,1);
+      data = FilterManager.getHumanFriendlySpecies(data,1);
       $(this).html(data.charAt(0).toUpperCase() + data.substr(1).toLowerCase());
     });
 

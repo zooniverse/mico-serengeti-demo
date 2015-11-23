@@ -160,7 +160,6 @@ hr.slim.no-bottom {
 #subject {
   position: relative;
   overflow: hidden;
-  width: 600px;
 }
 
 .unboxed-label {
@@ -298,4 +297,345 @@ $subject-section-width: 700px;
 
 .comment {
   background-color: white;
+}
+.classifications {
+  margin-bottom: 0px;
+  display: table;
+}
+
+.classifications div.active {
+  padding: 5px;
+  margin: 10px 0px 10px;
+  color: #FFFFFF;
+  text-align: center;
+  display: table;
+  padding: 5px 20px;
+  margin: 10px auto;
+}
+
+.classifications div.active > span {
+  display: table-cell;
+  vertical-align: middle;
+  margin: auto;
+}
+
+.classifications div.active #active-more-needed {
+  display: block;
+  padding: 5px;
+  text-align: center;
+}
+
+.classifications div.active #active-value {
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 7px;
+  float: left;
+}
+
+.classifications div.active.active-false {
+  background-color: #60ac39;
+}
+
+.classifications div.active.active-true {
+  background-color: #CC0000;
+}
+
+div.classifications {
+  margin: auto;
+  text-align: center;
+}
+
+div.classifications div.classification {
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #dddddd;
+  padding: 10px;
+  margin-left: 0px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+div.classifications div.classification.biggest {
+  background-color: #ffe562;
+  font-size: 15px;
+}
+
+div.classifications div.classification.biggest span.voters {
+  font-size: 45px;
+}
+
+div.classifications div.classification.biggest div.species {
+  font-size: 15px;
+}
+
+div.classifications div.classification span.voters {
+  font-size: 35px;
+  display: block;
+  padding: 0px 5px;
+}
+
+div.classifications div.classification span.voters-label {
+  margin-bottom: 8px;
+  display: block;
+}
+
+div.blank-classification {
+   height: 200px;
+}
+
+div#crowd_data h3 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+div.classifications div.classification div.species-list div.species {
+  height: 30px;
+  display: block;
+  text-align: center;
+  margin-right: 10px;
+}
+
+div.classifications div.classification div.species-list div.species .no-animals-present {
+  font-weight: bold;
+  text-align: center;
+  height: 90px;
+  width: 75px;
+  display: table-cell;
+  vertical-align: middle;
+  margin: auto;
+}
+
+div.classifications div.classification div.species-list div.species .species-name {
+  font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  display: block;
+  margin-bottom: 5px;
+}
+
+div.classifications div.species-image {
+  background-image: url("http://static.zooniverse.org/www.snapshotserengeti.org/images/animal-thumbnails-cache-bust.jpg");
+  height: 68px;
+  width: 68px;
+  display: inline-block;
+}
+
+.species-list div.aardvark {
+  background-position: -2px -0px;
+}
+
+.species-list div.aardwolf {
+  background-position: -2px -72px;
+}
+
+.species-list div.baboon {
+  background-position: -2px -144px;
+}
+
+.species-list div.batearedfox {
+  background-position: -2px -216px;
+}
+
+.species-list div.otherbird {
+  background-position: -2px -3312px;
+}
+
+.species-list div.buffalo {
+  background-position: -2px -288px;
+}
+
+.species-list div.bushbuck {
+  background-position: -2px -360px;
+}
+
+.species-list div.caracal {
+  background-position: -2px -432px;
+}
+
+.species-list div.cheetah {
+  background-position: -2px -504px;
+}
+
+.species-list div.civet {
+  background-position: -2px -576px;
+}
+
+.species-list div.dikdik {
+  background-position: -2px -648px;
+}
+
+.species-list div.eland {
+  background-position: -2px -720px;
+}
+
+.species-list div.elephant {
+  background-position: -2px -792px;
+}
+
+.species-list div.gazellegrants {
+  background-position: -2px -864px;
+}
+
+.species-list div.gazellethomsons {
+  background-position: -2px -936px;
+}
+
+.species-list div.genet {
+  background-position: -2px -1008px;
+}
+
+.species-list div.giraffe {
+  background-position: -2px -1080px;
+}
+
+.species-list div.guineafowl {
+  background-position: -2px -1152px;
+}
+
+.species-list div.hare {
+  background-position: -2px -1224px;
+}
+
+.species-list div.hartebeest {
+  background-position: -2px -1296px;
+}
+
+.species-list div.hippopotamus {
+  background-position: -2px -1368px;
+}
+
+.species-list div.honeybadger {
+  background-position: -2px -1440px;
+}
+
+.species-list div.hyenaspotted {
+  background-position: -2px -1512px;
+}
+
+.species-list div.hyenastriped {
+  background-position: -2px -1584px;
+}
+
+.species-list div.impala {
+  background-position: -2px -1656px;
+}
+
+.species-list div.jackal {
+  background-position: -2px -1728px;
+}
+
+.species-list div.koribustard {
+  background-position: -2px -1800px;
+}
+
+.species-list div.leopard {
+  background-position: -2px -1872px;
+}
+
+.species-list div.lionfemale {
+  background-position: -2px -1944px;
+}
+
+.species-list div.lionmale {
+  background-position: -2px -2016px;
+}
+
+.species-list div.mongoose {
+  background-position: -2px -2088px;
+}
+
+.species-list div.ostrich {
+  background-position: -2px -2160px;
+}
+
+.species-list div.porcupine {
+  background-position: -2px -2232px;
+}
+
+.species-list div.reedbuck {
+  background-position: -2px -2304px;
+}
+
+.species-list div.reptiles {
+  background-position: -2px -2376px;
+}
+
+.species-list div.rhinoceros {
+  background-position: -2px -2448px;
+}
+
+.species-list div.rodents {
+  background-position: -2px -2520px;
+}
+
+.species-list div.secretarybird {
+  background-position: -2px -2592px;
+}
+
+.species-list div.serval {
+  background-position: -2px -2664px;
+}
+
+.species-list div.topi {
+  background-position: -2px -2736px;
+}
+
+.species-list div.vervetmonkey {
+  background-position: -2px -2808px;
+}
+
+.species-list div.warthog {
+  background-position: -2px -2880px;
+}
+
+.species-list div.waterbuck {
+  background-position: -2px -2952px;
+}
+
+.species-list div.wildcat {
+  background-position: -2px -3024px;
+}
+
+.species-list div.wildebeest {
+  background-position: -2px -3096px;
+}
+
+.species-list div.zebra {
+  background-position: -2px -3168px;
+}
+
+.species-list div.zorilla {
+  background-position: -2px -3240px;
+}
+
+.species-list div.human {
+  background-position: -2px -3384px;
+}
+
+.species-list div.duiker {
+  background-position: -2px -3456px;
+}
+
+.species-list div.steenbok {
+  background-position: -2px -3528px;
+}
+
+.species-list div.cattle {
+  background-position: -2px -3600px;
+}
+
+.species-list div.bat {
+  background-position: -2px -3672px;
+}
+
+.species-list div.insectspider {
+  background-position: -2px -3744px;
+}
+
+.species-list div.vulture {
+  background-position: -2px -3816px;
+}
+
+div.species :last-child {
+  margin-right: 0px;
 }
