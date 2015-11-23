@@ -1,6 +1,6 @@
 <h4>Comments</h4>
 <% @subject.comments.each do |comment| %>
-  <div class="panel">
+  <div class="panel comment">
     <p><%= comment.body %></p>
     <p>
       <% if comment.entities.present? %>
