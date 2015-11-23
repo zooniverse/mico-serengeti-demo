@@ -293,8 +293,8 @@ class window.FilterManager
       when "vr1_blank" then "Blank"
       when "vr1_non_blank" then "Non-blank"
       when "vr1_one_animal" then "One animal"
-      when "vr1_simple" then "Simple (2-5 animals"
-      when "vr1_complex" then "Complex (6+ animals"
+      when "vr1_simple" then "Simple (2-5 animals)"
+      when "vr1_complex" then "Complex (6+ animals)"
       when "vr1_single_species" then "Single species"
       when "vr1_only_buffalo" then "Only buffalo"
       when "vr1_only_elephant" then "Only elephants"
@@ -308,7 +308,7 @@ class window.FilterManager
       when "vr1_multi_including_ostrich" then "Multiple species, including ostriches"
       when "vr1_multi_including_warthog" then "Multiple species, including warthogs"
       when "vr1_multi_including_wildebeest" then "Multiple species, including wildebeest"
-      when "vr1_multi_including_none_of_the_five" then "Multiple species, including not listed above"
+      when "vr1_multi_including_none_of_the_five" then "Multiple species, including none of the above"
       else query_field
 
   getURLQueryString: =>
