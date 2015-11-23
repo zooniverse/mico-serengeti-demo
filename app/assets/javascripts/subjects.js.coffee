@@ -159,7 +159,7 @@ class window.FilterManager
         else if val == "multi"
           "multiple species present"
         else
-          "1 or more " + @getHumanFriendlySpecies(val) + " present"
+          "1 or more " + FilterManager.getHumanFriendlySpecies(val) + " present"
       when "number_of_regions"
         if val == 1
           "exactly 1 animal found"
