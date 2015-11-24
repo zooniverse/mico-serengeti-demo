@@ -1,5 +1,5 @@
 <div id="zoo_data">
-  <h4>Zooniverse user-data based aggregation results</h4>
+  <h5>Subject metadata according to Zooniverse volunteers:</h5>
   <table style="width: 100%">
     <tbody>
       <tr>
@@ -81,3 +81,41 @@
     </tbody>
   </table>
 </div>
+<script type="text/javascript">
+  function relayoutPage() {
+      // set top of crowd data bit according to height of image
+      h = $("div#subject img").height()+65;
+      $("div#crowd_data").css('top', h);
+
+      // set width of opinions row according to widths of classifications
+      var n = $('div#crowd-classifications div.classification').length;
+      var spacing_width = n * 10;
+      var box_widths = 0;
+      $('div#crowd-classifications div.classification').each(function() {
+        box_widths += $(this).outerWidth( true );
+      });
+
+      $("div#crowd-classifications").css('width',box_widths+(spacing_width/2));
+
+      var maxHeight = -1;
+      // set height of opinions row according to max height classification plus a bit.
+      $('div#crowd-classifications div.classification').each(function() {
+        console.log($(this).height());
+        if ($(this).height() > maxHeight) {
+          maxHeight = $(this).height();
+        }
+      });
+
+      console.log(maxHeight);
+      h = maxHeight + 500;
+      console.log(h);
+      $('div#crowd-classifications').css('height',h);
+  }
+
+  $(function () {
+
+    $("#subject img").on("load",relayoutPage);
+    $(".tab-title a").on("click",relayoutPage);
+
+  });
+</script>

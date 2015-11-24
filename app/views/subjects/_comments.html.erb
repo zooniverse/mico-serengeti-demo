@@ -1,4 +1,9 @@
-<h4>Comments</h4>
+<h5>Zooniverse volunteer comments and MICO text analysis:</h5>
+<% if @subject.comments.length == 0 %>
+  <div class="panel comment">
+    <p>No comments exist. <a href="http://talk.snapshotserengeti.org/#/subjects/<%= @subject.zooniverse_id %>">View talk page </a>for this subject.</p>
+  </div>
+<% end %>
 <% @subject.comments.each do |comment| %>
   <div class="panel comment">
     <p><%= comment.body %></p>
