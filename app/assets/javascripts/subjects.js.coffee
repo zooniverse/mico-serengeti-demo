@@ -53,6 +53,11 @@ class window.FilterManager
         @form_filters[input_id + "-unprocessed"] = val
       else
         @form_filters[input_id] = val
+    else if (input_id == "drop-species")
+      if val == "target"
+        @form_filters[input_id + "-target"] = val
+      else
+        @form_filters[input_id] = val
     else if @isMin(val)
       @form_filters[input_id + "-min"] = val.replace(/\+/g, '')
     else if @isRange(val)
@@ -111,6 +116,7 @@ class window.FilterManager
       when "number_of_comments_min" then "drop-number-of-comments-min"
       when "number_of_comments_max" then "drop-number-of-comments-max"
       when "species" then "drop-species"
+      when "species_target" then "drop-species-target"
       when "comment_status" then "drop-comment-status"
       when "comment_status_unprocessed" then "drop-comment-status-unprocessed"
       when "has_comment_analysis_data" then "drop-comment-status-has-data"
@@ -163,6 +169,7 @@ class window.FilterManager
       when "drop-comment-status-has-data" then "has_comment_analysis_data"
       when "drop-comment-status-has-no-data" then "has_no_comment_analysis_data"
       when "drop-species" then "species"
+      when "drop-species-target" then "species_target"
       when "drop-dataset-vr1_entire_dataset" then "vr1_entire_dataset"
       when "drop-dataset-vr1_daytime" then "vr1_daytime"
       when "drop-dataset-vr1_nighttime" then "vr1_nighttime"
@@ -260,6 +267,7 @@ class window.FilterManager
           "multiple species present"
         else
           "1 or more " + FilterManager.getHumanFriendlySpecies(val) + " present"
+      when "species_target" then "contains any of MICO's target 5 species"
       when "number_of_regions"
         if val == 1
           "exactly 1 animal found"
