@@ -119,11 +119,7 @@ class Subject < ActiveRecord::Base
   end
 
   def entities_count
-    e = 0
-    for c in self.comments do
-      e += c.entities.size
-    end
-    e
+    comments.flat_map(&:entities).size
   end
 
   def set_light
