@@ -24,7 +24,7 @@ class window.FilterManager
   setFormFiltersFromQueryParts: (query_parts) =>
     @form_filters = {}
     for query_field, val of query_parts
-      if query_field != "page" && query_field != "sort"
+      if query_field != "page" && query_field != "sort" && query_field != "per_page"
         input_id = @getInputIdFromQueryField(query_field)
         @setFilter(input_id, val, false)
     @updateQueryParts()
@@ -103,6 +103,9 @@ class window.FilterManager
       when "light" then "drop-light"
       when "roll_id" then "drop-roll-code"
       when "site_id" then "drop-site-id"
+      when "entities_found" then "drop-entities-found"
+      when "entities_found_min" then "drop-entities-found-min"
+      when "entities_found_max" then "drop-entities-found-max"
       when "number_of_regions" then "drop-regions"
       when "number_of_regions_min" then "drop-regions-min"
       when "number_of_regions_max" then "drop-regions-max"
@@ -153,6 +156,9 @@ class window.FilterManager
       when "drop-number-of-comments" then "number_of_comments"
       when "drop-number-of-comments-min" then "number_of_comments_min"
       when "drop-number-of-comments-max" then "number_of_comments_max"
+      when "drop-entities-found" then "entities_found"
+      when "drop-entities-found-min" then "entities_found_min"
+      when "drop-entities-found-max" then "entities_found_max"
       when "drop-regions" then "number_of_regions"
       when "drop-regions-min" then "number_of_regions_min"
       when "drop-regions-max" then "number_of_regions_max"
@@ -253,7 +259,7 @@ class window.FilterManager
 
   getFilterClass: (query_field) =>
     switch query_field
-      when "status", "dataset", "number_of_regions", "number_of_regions_max", "number_of_regions_min", "entities", "comment_status", "comment_status_unprocessed", "has_no_comment_analysis_data", "has_comment_analysis_data"
+      when "status", "dataset", "number_of_regions", "number_of_regions_max", "number_of_regions_min", "entities", "comment_status", "comment_status_unprocessed", "has_no_comment_analysis_data", "has_comment_analysis_data","entities_found","entities_found_max","entities_found_min"
         "mico-filter"
       else
         if query_field.substring(0,4) == "vr1_"
@@ -271,6 +277,13 @@ class window.FilterManager
         else
           "1 or more " + FilterManager.getHumanFriendlySpecies(val) + " present"
       when "species_target" then "contains any of MICO's target 5 species"
+      when "entities_found"
+        if val == 1
+          "exactly 1 entity found"
+        else
+          "exactly " + val + " entities found"
+      when "entities_found_min" then val + " or more entities found"
+      when "entities_found_max" then val + " or fewer entities found"
       when "number_of_regions"
         if val == 1
           "exactly 1 animal found"

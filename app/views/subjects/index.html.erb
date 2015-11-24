@@ -21,7 +21,7 @@
       <a href="#" title="Number of rectangular regions identified by MICO animal detectors" data-options="align:right" data-dropdown="drop-regions" class="button">Animals found &raquo;</a>
       <a href="#" title="Latest saved status of comment analysis by MICO platform" data-options="align:right" data-dropdown="drop-comment-status" class="button">Comment analysis status &raquo;</a>
       <a href="#" title="Test datasets used in Validation Report" data-options="align:right" data-dropdown="drop-dataset" class="button">Test set used &raquo;</a>
-      <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-entities" class="button">Entities found &raquo;</a>
+      <a href="#" title="Number of entities found by MICO comment analysis" data-options="align:right" data-dropdown="drop-entities-found" class="button">Entities found &raquo;</a>
       <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-sentiments" class="button">Sentiments found &raquo;</a>
     </div>
   </div>
@@ -186,49 +186,94 @@
   <li><a data-value="zorilla">Zorilla</a></li>
 </ul>
 <ul id="drop-regions" class="tiny content f-dropdown" data-dropdown-content>
-  <li><a data-value="0">No animals found</a></li>
-  <li><a data-value="1">1 animal found</a></li>
-  <li><a data-value="2">2 animals found</a></li>
+  <li><a data-value="0">No regions found</a></li>
+  <li><a data-value="1">1 region found</a></li>
+  <li><a data-value="2">2 regions found</a></li>
   <li class="divider"></li>
-  <li><a data-value="1+">1 or more animals found</a></li>
-  <li><a data-value="2+">2 or more animals found</a></li>
-  <li><a data-value="0-5">0 to 5 animals found</a></li>
-  <li><a data-value="1-5">1 to 5 animals found</a></li>
-  <li><a data-value="6-10">6 to 10 animals found</a></li>
-  <li><a data-value="1-10">1 to 10 animals found</a></li>
-  <li><a data-value="10+">10 or more animals found</a></li>
-  <li><a data-value="15-20">15 to 20 animals found</a></li>
-  <li><a data-value="20-25">20 to 25 animals found</a></li>
-  <li><a data-value="25+">25 or more animals found</a></li>
+  <li><a data-value="1+">1 or more regions found</a></li>
+  <li><a data-value="2+">2 or more regions found</a></li>
+  <li><a data-value="0-5">0 to 5 regions found</a></li>
+  <li><a data-value="1-5">1 to 5 regions found</a></li>
+  <li><a data-value="6-10">6 to 10 regions found</a></li>
+  <li><a data-value="1-10">1 to 10 regions found</a></li>
+  <li><a data-value="10+">10 or more regions found</a></li>
+  <li><a data-value="15-20">15 to 20 regions found</a></li>
+  <li><a data-value="20-25">20 to 25 regions found</a></li>
+  <li><a data-value="25+">25 or more regions found</a></li>
   <li class="divider"></li>
-  <li><a data-value="3">3 animals found</a></li>
-  <li><a data-value="4">4 animals found</a></li>
-  <li><a data-value="5">5 animals found</a></li>
-  <li><a data-value="6">6 animals found</a></li>
-  <li><a data-value="7">7 animals found</a></li>
-  <li><a data-value="8">8 animals found</a></li>
-  <li><a data-value="9">9 animals found</a></li>
-  <li><a data-value="10">10 animals found</a></li>
-  <li><a data-value="11">11 animals found</a></li>
-  <li><a data-value="12">12 animals found</a></li>
-  <li><a data-value="13">13 animals found</a></li>
-  <li><a data-value="14">14 animals found</a></li>
-  <li><a data-value="15">15 animals found</a></li>
-  <li><a data-value="16">16 animals found</a></li>
-  <li><a data-value="17">17 animals found</a></li>
-  <li><a data-value="18">18 animals found</a></li>
-  <li><a data-value="19">19 animals found</a></li>
-  <li><a data-value="20">20 animals found</a></li>
-  <li><a data-value="21">21 animals found</a></li>
-  <li><a data-value="22">22 animals found</a></li>
-  <li><a data-value="23">23 animals found</a></li>
-  <li><a data-value="24">24 animals found</a></li>
-  <li><a data-value="25">25 animals found</a></li>
-  <li><a data-value="26">26 animals found</a></li>
-  <li><a data-value="27">27 animals found</a></li>
-  <li><a data-value="28">28 animals found</a></li>
-  <li><a data-value="29">29 animals found</a></li>
-  <li><a data-value="30">30 animals found</a></li>
+  <li><a data-value="3">3 regions found</a></li>
+  <li><a data-value="4">4 regions found</a></li>
+  <li><a data-value="5">5 regions found</a></li>
+  <li><a data-value="6">6 regions found</a></li>
+  <li><a data-value="7">7 regions found</a></li>
+  <li><a data-value="8">8 regions found</a></li>
+  <li><a data-value="9">9 regions found</a></li>
+  <li><a data-value="10">10 regions found</a></li>
+  <li><a data-value="11">11 regions found</a></li>
+  <li><a data-value="12">12 regions found</a></li>
+  <li><a data-value="13">13 regions found</a></li>
+  <li><a data-value="14">14 regions found</a></li>
+  <li><a data-value="15">15 regions found</a></li>
+  <li><a data-value="16">16 regions found</a></li>
+  <li><a data-value="17">17 regions found</a></li>
+  <li><a data-value="18">18 regions found</a></li>
+  <li><a data-value="19">19 regions found</a></li>
+  <li><a data-value="20">20 regions found</a></li>
+  <li><a data-value="21">21 regions found</a></li>
+  <li><a data-value="22">22 regions found</a></li>
+  <li><a data-value="23">23 regions found</a></li>
+  <li><a data-value="24">24 regions found</a></li>
+  <li><a data-value="25">25 regions found</a></li>
+  <li><a data-value="26">26 regions found</a></li>
+  <li><a data-value="27">27 regions found</a></li>
+  <li><a data-value="28">28 regions found</a></li>
+  <li><a data-value="29">29 regions found</a></li>
+  <li><a data-value="30">30 regions found</a></li>
+</ul>
+<ul id="drop-entities-found" class="tiny content f-dropdown" data-dropdown-content>
+  <li><a data-value="0">No entities found</a></li>
+  <li><a data-value="1">1 entity found</a></li>
+  <li><a data-value="2">2 entities found</a></li>
+  <li class="divider"></li>
+  <li><a data-value="1+">1 or more entities found</a></li>
+  <li><a data-value="2+">2 or more entities found</a></li>
+  <li><a data-value="0-5">0 to 5 entities found</a></li>
+  <li><a data-value="1-5">1 to 5 entities found</a></li>
+  <li><a data-value="6-10">6 to 10 entities found</a></li>
+  <li><a data-value="1-10">1 to 10 entities found</a></li>
+  <li><a data-value="10+">10 or more entities found</a></li>
+  <li><a data-value="15-20">15 to 20 entities found</a></li>
+  <li><a data-value="20-25">20 to 25 entities found</a></li>
+  <li><a data-value="25+">25 or more entities found</a></li>
+  <li class="divider"></li>
+  <li><a data-value="3">3 entities found</a></li>
+  <li><a data-value="4">4 entities found</a></li>
+  <li><a data-value="5">5 entities found</a></li>
+  <li><a data-value="6">6 entities found</a></li>
+  <li><a data-value="7">7 entities found</a></li>
+  <li><a data-value="8">8 entities found</a></li>
+  <li><a data-value="9">9 entities found</a></li>
+  <li><a data-value="10">10 entities found</a></li>
+  <li><a data-value="11">11 entities found</a></li>
+  <li><a data-value="12">12 entities found</a></li>
+  <li><a data-value="13">13 entities found</a></li>
+  <li><a data-value="14">14 entities found</a></li>
+  <li><a data-value="15">15 entities found</a></li>
+  <li><a data-value="16">16 entities found</a></li>
+  <li><a data-value="17">17 entities found</a></li>
+  <li><a data-value="18">18 entities found</a></li>
+  <li><a data-value="19">19 entities found</a></li>
+  <li><a data-value="20">20 entities found</a></li>
+  <li><a data-value="21">21 entities found</a></li>
+  <li><a data-value="22">22 entities found</a></li>
+  <li><a data-value="23">23 entities found</a></li>
+  <li><a data-value="24">24 entities found</a></li>
+  <li><a data-value="25">25 entities found</a></li>
+  <li><a data-value="26">26 entities found</a></li>
+  <li><a data-value="27">27 entities found</a></li>
+  <li><a data-value="28">28 entities found</a></li>
+  <li><a data-value="29">29 entities found</a></li>
+  <li><a data-value="30">30 entities found</a></li>
 </ul>
 <ul id="drop-total-animals" class="tiny content f-dropdown" data-dropdown-content>
   <li><a data-value="0">No animals present</a></li>
