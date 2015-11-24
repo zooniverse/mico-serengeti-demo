@@ -17,6 +17,7 @@ class SubjectsController < ApplicationController
     @subjects = @subjects.joins(:comments).where("comments.mico_data->'sentiment'!='null' AND (comments.mico_data->>'sentiment')::float > 0.0")    if params["sentiment_positive"]
     @subjects = @subjects.joins(:comments).where("comments.mico_data->'sentiment'!='null' AND (comments.mico_data->>'sentiment')::float < 0.0")    if params["sentiment_negative"]
     @subjects = @subjects.joins(:comments).where("comments.mico_data->'sentiment'!='null' AND (comments.mico_data->>'sentiment')::float = 0.0")    if params["sentiment_neutral"]
+    @subjects = @subjects.joins(:comments).where("comments.mico_data->'sentiment'!='null'")                    if params["sentiment_any"]
     @subjects = @subjects.where(comments_count: params["number_of_comments"])                                  if params["number_of_comments"]
     @subjects = @subjects.where("comments_count >= ?", params["number_of_comments_min"])                       if params["number_of_comments_min"]
     @subjects = @subjects.where("comments_count <= ?", params["number_of_comments_max"])                       if params["number_of_comments_max"]
