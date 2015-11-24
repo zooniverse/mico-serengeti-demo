@@ -118,6 +118,10 @@ class Subject < ActiveRecord::Base
     end
   end
 
+  def entities_count
+    comments.flat_map(&:entities).size
+  end
+
   def set_light
     self.light = light()
     self
