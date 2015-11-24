@@ -3,8 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #flash-messages {
-  margin-top: 2em;
-  margin-bottom: 2em;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 #filters-section {
@@ -20,6 +20,12 @@
 
 .bold-label {
   font-weight: bold;
+}
+
+
+#side-comments a.label.round:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
 }
 
 #filters-section a {

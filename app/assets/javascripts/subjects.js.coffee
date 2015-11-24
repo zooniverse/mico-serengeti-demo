@@ -48,6 +48,8 @@ class window.FilterManager
         @form_filters[input_id + "-unprocessed"] = val
       else
         @form_filters["drop-comment-status"] = val
+    else if (input_id == "drop-sentiment")
+      @form_filters[input_id + "-" + val] = val
     else if (input_id == "drop-status")
       if val == "unprocessed"
         @form_filters[input_id + "-unprocessed"] = val
@@ -100,6 +102,9 @@ class window.FilterManager
       when "status_unprocessed" then "drop-status-unprocessed"
       when "dataset" then "drop-dataset"
       when "entity" then "drop-entity"
+      when "sentiment_neutral" then "drop-sentiment-neutral"
+      when "sentiment_positive" then "drop-sentiment-positive"
+      when "sentiment_negative" then "drop-sentiment-negative"
       when "light" then "drop-light"
       when "roll_id" then "drop-roll-code"
       when "site_id" then "drop-site-id"
@@ -159,6 +164,9 @@ class window.FilterManager
       when "drop-entities-found" then "entities_found"
       when "drop-entities-found-min" then "entities_found_min"
       when "drop-entities-found-max" then "entities_found_max"
+      when "drop-sentiment-negative" then "sentiment_negative"
+      when "drop-sentiment-positive" then "sentiment_positive"
+      when "drop-sentiment-neutral" then "sentiment_neutral"
       when "drop-regions" then "number_of_regions"
       when "drop-regions-min" then "number_of_regions_min"
       when "drop-regions-max" then "number_of_regions_max"
@@ -259,7 +267,10 @@ class window.FilterManager
 
   getFilterClass: (query_field) =>
     switch query_field
-      when "status", "dataset", "number_of_regions", "number_of_regions_max", "number_of_regions_min", "entities", "comment_status", "comment_status_unprocessed", "has_no_comment_analysis_data", "has_comment_analysis_data","entities_found","entities_found_max","entities_found_min"
+      when "status", "dataset", "number_of_regions", "number_of_regions_max", "number_of_regions_min", "entities",  \
+           "comment_status", "comment_status_unprocessed", "has_no_comment_analysis_data", \
+           "has_comment_analysis_data","entities_found","entities_found_max","entities_found_min", \
+           "sentiment_neutral","sentiment_positive","sentiment_negative"
         "mico-filter"
       else
         if query_field.substring(0,4) == "vr1_"
@@ -284,6 +295,9 @@ class window.FilterManager
           "exactly " + val + " entities found"
       when "entities_found_min" then val + " or more entities found"
       when "entities_found_max" then val + " or fewer entities found"
+      when "sentiment_positive" then "positive sentiment(s) found"
+      when "sentiment_negative" then "negative sentiment(s) found"
+      when "sentiment_neutral" then "neutral sentiment(s) found"
       when "number_of_regions"
         if val == 1
           "exactly 1 animal found"
