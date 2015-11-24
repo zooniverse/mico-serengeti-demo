@@ -5,22 +5,22 @@
   <div id="filters-box" class="row">
     <div id="zoo-filters" class="filters-row">
       <div class="filter-row-label">Apply Zooniverse filters:</div>
-      <a href="#" data-options="align:right" data-dropdown="drop-species" class="button">Species present &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-total-animals" class="button">Total animals
+      <a href="#" title="Which species are present, according to Zooniverse volunteers" data-options="align:right" data-dropdown="drop-species" class="button">Species present &raquo;</a>
+      <a href="#" title="Number of animals present, according to Zooniverse volunteers" data-options="align:right" data-dropdown="drop-total-animals" class="button">Total animals
         present &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-total-species" class="button">Total species
+      <a href="#" title="Number of different species present, according to Zooniverse volunteers" data-options="align:right" data-dropdown="drop-total-species" class="button">Total species
         present &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-number-of-comments" class="button">Comments present &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-site-id" class="button">Site ID &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-roll-code" class="button">Roll Code &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-light" class="button">Light &raquo;</a>
+      <a href="#" title="Number of comments present" data-options="align:right" data-dropdown="drop-number-of-comments" class="button">Comments present &raquo;</a>
+      <a href="#" title="The identifier for the site at which the image was taken" data-options="align:right" data-dropdown="drop-site-id" class="button">Site ID &raquo;</a>
+      <a href="#" title="The identifier for the SD card upon which the image was captured" data-options="align:right" data-dropdown="drop-roll-code" class="button">Roll Code &raquo;</a>
+      <a href="#" title="The type of light in the image, approximated based on average sunset and sunrise times" data-options="align:right" data-dropdown="drop-light" class="button">Light &raquo;</a>
     </div>
     <div id="mico-filters" class="filters-row">
       <div class="filter-row-label">Apply MICO filters:</div>
-      <a href="#" data-options="align:right" data-dropdown="drop-status" class="button">Image analysis status &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-regions" class="button">Animals found &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-comment-status" class="button">Comment analysis status &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-dataset" class="button">Test set used &raquo;</a>
+      <a href="#" title="Latest saved status of image analysis by MICO platform" data-options="align:right" data-dropdown="drop-status" class="button">Image analysis status &raquo;</a>
+      <a href="#" title="Number of rectangular regions identified by MICO animal detectors" data-options="align:right" data-dropdown="drop-regions" class="button">Animals found &raquo;</a>
+      <a href="#" title="Latest saved status of comment analysis by MICO platform" data-options="align:right" data-dropdown="drop-comment-status" class="button">Comment analysis status &raquo;</a>
+      <a href="#" title="Test datasets used in Validation Report" data-options="align:right" data-dropdown="drop-dataset" class="button">Test set used &raquo;</a>
       <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-entities" class="button">Entities found &raquo;</a>
       <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-sentiments" class="button">Sentiments found &raquo;</a>
     </div>
@@ -107,12 +107,8 @@
   <li><a data-value="submitting">Processing (Submitted)</a></li>
   <li><a data-value="failed">Failed</a></li>
   <li><a data-value="finished">Succeeded (Finished)</a></li>
-  <li><a data-value="zfailed">Failed (Old)</a></li>
 </ul>
 <ul id="drop-comment-status" class="small content f-dropdown acc-mico" data-dropdown-content>
-  <li><a data-value="has_no_data">Has NO comment analysis data</a></li>
-  <li><a data-value="has_data">Has comment analysis data</a></li>
-  <li class="divider"></li>
   <li><a data-value="unprocessed">Not yet analysed</a></li>
   <li><a data-value="submitting">Processing (Submitted)</a></li>
   <li><a data-value="failed">Failed</a></li>
