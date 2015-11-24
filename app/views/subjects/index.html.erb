@@ -20,9 +20,9 @@
       <a href="#" data-options="align:right" data-dropdown="drop-status" class="button">Image analysis status &raquo;</a>
       <a href="#" data-options="align:right" data-dropdown="drop-regions" class="button">Animals found &raquo;</a>
       <a href="#" data-options="align:right" data-dropdown="drop-comment-status" class="button">Comment analysis status &raquo;</a>
+      <a href="#" data-options="align:right" data-dropdown="drop-dataset" class="button">Test set used &raquo;</a>
       <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-entities" class="button">Entities found &raquo;</a>
       <a href="#" title="Not yet available" data-options="align:right" disabled="disabled" data-dropdown="drop-sentiments" class="button">Sentiments found &raquo;</a>
-      <a href="#" data-options="align:right" data-dropdown="drop-dataset" class="button">Test set used &raquo;</a>
     </div>
   </div>
   <hr class="slim no-bottom">
@@ -584,12 +584,15 @@
     <li><a data-value="twilight">Twilight</a></li>
     <li><a data-value="night">Night</a></li>
 </ul>
-<ul id="drop-dataset" class="tiny content f-dropdown" data-dropdown-content>
+<ul id="drop-dataset" class="small content f-dropdown" data-dropdown-content>
     <li><a data-value="vr1_entire_dataset">Entire dataset</a></li>
+    <li class="divider"></li>
     <li><a data-value="vr1_daytime">Daytime</a></li>
     <li><a data-value="vr1_nighttime">Nighttime</a></li>
+    <li class="divider"></li>
     <li><a data-value="vr1_blank">Blank</a></li>
     <li><a data-value="vr1_non_blank">Non-blank</a></li>
+    <li class="divider"></li>
     <li><a data-value="vr1_one_animal">One animal</a></li>
     <li><a data-value="vr1_simple">Simple (2-5 animals)</a></li>
     <li><a data-value="vr1_complex">Complex (6+ animals)</a></li>
@@ -608,7 +611,7 @@
     <li><a data-value="vr1_multi_including_ostrich">Multiple species, including ostriches</a></li>
     <li><a data-value="vr1_multi_including_warthog">Multiple species, including warthogs</a></li>
     <li><a data-value="vr1_multi_including_wildebeest">Multiple species, including wildebeest</a></li>
-    <li><a data-value="vr1_multi_including_none_of_the_five">Multiple species, including none of the above</a></li>
+    <li><a data-value="vr1_multi_including_none_of_the_five">Multiple species, inc. none of the above</a></li>
 </ul>
 
 <script type="text/javascript">
