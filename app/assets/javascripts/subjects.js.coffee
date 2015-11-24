@@ -24,8 +24,9 @@ class window.FilterManager
   setFormFiltersFromQueryParts: (query_parts) =>
     @form_filters = {}
     for query_field, val of query_parts
-      input_id = @getInputIdFromQueryField(query_field)
-      @setFilter(input_id, val, false)
+      if query_field != "page" && query_field != "sort"
+        input_id = @getInputIdFromQueryField(query_field)
+        @setFilter(input_id, val, false)
     @updateQueryParts()
 
   isRange: (val) =>
