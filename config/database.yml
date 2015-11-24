@@ -24,10 +24,10 @@ default: &default
 
 development:
   <<: *default
-  host: localhost
+  host: postgres
   port: 5432
-  user: marten
-  password: 
+  user: micodemo
+  password: micodemo
   database: mico-serengeti-demo_development
 
 # Warning: The database defined as "test" will be erased and
