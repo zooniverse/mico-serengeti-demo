@@ -35,25 +35,6 @@
         </ul>
       </section>
     </nav>
-    <% if flash[:error] || flash[:alert] || flash[:notice] %>
-    <div id="flash-messages" class="container">
-      <div class="row">
-        <div class="small-12 columns">
-          <% if flash[:error] %>
-          <div class="alert-box alert"><%= flash[:error] %></div>
-          <% end %>
-
-          <%if flash[:notice] %>
-          <div class="alert-box info"><%= flash[:notice] %></div>
-          <% end %>
-
-          <%if flash[:alert] %>
-          <div class="alert-box warning"><%= flash[:alert] %></div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-    <% end %>
 
     <%= yield %>
 
