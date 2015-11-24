@@ -118,6 +118,14 @@ class Subject < ActiveRecord::Base
     end
   end
 
+  def entities_count
+    e = 0
+    for c in self.comments do
+      e += c.entities.size
+    end
+    e
+  end
+
   def set_light
     self.light = light()
     self
