@@ -256,7 +256,10 @@ class window.FilterManager
       when "status", "dataset", "number_of_regions", "number_of_regions_max", "number_of_regions_min", "entities", "comment_status", "comment_status_unprocessed", "has_no_comment_analysis_data", "has_comment_analysis_data"
         "mico-filter"
       else
-        "zoo-filter"
+        if query_field.substring(0,4) == "vr1_"
+          "mico-filter"
+        else
+          "zoo-filter"
 
   getFilterDisplayText: (query_field, val) =>
     switch query_field
