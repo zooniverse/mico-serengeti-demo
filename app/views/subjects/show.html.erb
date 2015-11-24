@@ -1,18 +1,27 @@
-<%= render partial: 'resubmit_box' %>
-
-<hr>
-
+<script type="text/javascript">
+  console.log ('first');
+  $('html').ajaxStart(function() {
+      $(this).css({'cursor' : 'wait'});
+  }).ajaxStop(function() {
+      $(this).css({'cursor' : 'default'});
+  });
+</script>
 <div>
   <div id="subject-section">
-    <%= render partial: 'subject_image_and_info' %>
+    <%= render partial: 'subject_image_and_regions' %>
+    <%= render partial: 'crowd_says_visualisation' %>
   </div>
 
   <div id="metadata-section">
+    <%= render partial: 'resubmit_box' %>
+
+    <hr>
+
     <ul class="tabs" data-tab>
-      <li class="tab-title active"><a href="#side-regions">Analysis Results</a></li>
-      <li class="tab-title"><a href="#side-comments">Comments</a></li>
-      <li class="tab-title"><a href="#side-zoodata">Zoo data</a></li>
-      <li class="tab-title"><a href="#side-debug">Debug</a></li>
+      <li class="tab-title active"><a href="#side-regions">Visual Analysis</a></li>
+      <li class="tab-title"><a href="#side-comments">Text Analysis</a></li>
+      <li class="tab-title"><a href="#side-zoodata">Zooniverse Data</a></li>
+      <li class="tab-title"><a href="#side-debug">Debug Info</a></li>
     </ul>
     <div class="tabs-content">
       <div class="content active" id="side-regions">
@@ -34,6 +43,7 @@
 
 <script type="text/javascript">
 $(function () {
+
   var timeouts = [];
   $(".hover-row").on({
     mouseenter: function (e) {

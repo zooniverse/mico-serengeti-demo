@@ -422,7 +422,12 @@ class window.FilterManager
       species_list = (specieses.slice(0, -1).join ", ") + " and " + specieses.slice().pop()
     else
       species_list = specieses[0]
-    "<br/> By consensus, this subject contains "+species_list+'.'
+
+    if species_list == "blank"
+      str = "Blank - No animals are present."
+    else
+      str = species_list+' are present.'
+    str[0].toUpperCase() + str[1..str.length-1]
 
   @buildCrowdData: (subject, consensus) =>
     crowdData = {}
@@ -440,7 +445,7 @@ class window.FilterManager
       crowdData.dominantClassificationID = @getDominantClassificationID counters, CLASSIFICATION_DOMINANCE_THRESHOLD
       if classification_count >= CLASSIFICATION_COMPLETE_THRESHOLD
         crowdData.state = "complete"
-        crowdData.message = "This subject has been completely classified." + @getConsensusSpeciesMessage(consensus)
+        crowdData.message = @getConsensusSpeciesMessage(consensus)
       else if classification_count == 0
         crowdData.active = true
         crowdData.state = "unclassified"
@@ -452,53 +457,53 @@ class window.FilterManager
         crowdData.dominantClassificationNumberOfDifferentSpecies = Object.keys(crowdData.dominantClassificationData.speciesData).length
         if crowdData.dominantClassificationID == 'blank'
           crowdData.state = "blank_by_consensus"
-          crowdData.message = "The crowd has reached agreement that there are no animals present in this subject."
+          crowdData.message = "No animals present."
         else
           if crowdData.dominantClassificationNumberOfDifferentSpecies == 1
             crowdData.dominantClassificationSoleSpeciesID = crowdData.dominantClassificationID
             crowdData.dominantClassificationSoleSpeciesName = @getHumanFriendlySpecies crowdData.dominantClassificationID
             crowdData.state = "one_sole_species_by_consensus"
-            crowdData.message = "The crowd has reached agreement that this subject contains one or more "+crowdData.dominantClassificationSoleSpeciesName + '.'
+            crowdData.message = "One or more "+crowdData.dominantClassificationSoleSpeciesName + ' present.'
           else
             crowdData.state = "several_species_by_consensus"
-            crowdData.message = "The crowd has reached agreement on which species are present. " + @getConsensusSpeciesMessage(consensus)
+            crowdData.message = @getConsensusSpeciesMessage(consensus)
       else
         if counters.hasOwnProperty 'blank'
           if Object.keys(counters).length == 1
             if counters['blank'] < CLASSIFICATION_BLANK_THRESHOLD
               crowdData.active = true
               crowdData.state = "active_but_nearly_blank"
-              crowdData.message = "The crowd is still classifying this subject, but so far it appears to contain no animals."
+              crowdData.message = "No animals have yet been found yet."
               crowdData.min_classifications_needed = CLASSIFICATION_BLANK_THRESHOLD - counters['blank']
             else
               crowdData.state = "unanimously_blank"
-              crowdData.message = "The crowd unanimously agrees that this subject contains no animals."
+              crowdData.message = "No animals present."
           else
             if Object.keys(counters).length == 2
               crowdData.active = true
               crowdData.state = "active_either_blank_or_agreed_animals"
-              crowdData.message = "The crowd is still classifying this subject. There is disagreement as to whether any animals are present, but not as to which species are present."
+              crowdData.message = @getConsensusSpeciesMessage(consensus)+" This is uncertain."
               crowdData.min_classifications_needed = CLASSIFICATION_DOMINANCE_THRESHOLD - crowdData.maxClassificationData.voters
             else
               crowdData.active = true
               crowdData.state = "active_either_blank_or_uncertain_animals"
-              crowdData.message = "The crowd is still classifying this subject. There is disagreement as to whether any animals are present, and as to which species are present."
+              crowdData.message = "Uncertain."
               crowdData.min_classifications_needed = CLASSIFICATION_DOMINANCE_THRESHOLD - crowdData.maxClassificationData.voters
         else
           if Object.keys(counters).length == 1
             crowdData.active = true
             crowdData.state = "active_but_agreed_animals"
-            crowdData.message = "The crowd is still classifying this subject. There does seem to be one or more animals present. So far, there is agreement upon which species are present." + @getConsensusSpeciesMessage(consensus)
+            crowdData.message = @getConsensusSpeciesMessage(consensus)+" This is uncertain."
             crowdData.min_classifications_needed = CLASSIFICATION_DOMINANCE_THRESHOLD - crowdData.maxClassificationData.voters
           else
             crowdData.active = true
             crowdData.state = "active_but_uncertain_animals"
-            crowdData.message = "The crowd is still classifying this subject. There does seem to be one or more animals present. There is disagreement as to which species are present."
+            crowdData.message = "Uncertain."
             crowdData.min_classifications_needed = CLASSIFICATION_DOMINANCE_THRESHOLD - crowdData.maxClassificationData.voters
     else
       crowdData.active = true
       crowdData.state = "active_unknown"
-      crowdData.message = "This subject has not yet been classified by anyone. Nothing is known about this image from the crowd's perspective."
+      crowdData.message = "Unknown - not yet classified."
       crowdData.min_classifications_needed = CLASSIFICATION_DOMINANCE_THRESHOLD
     crowdData
 

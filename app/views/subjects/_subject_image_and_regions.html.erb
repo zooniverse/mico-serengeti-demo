@@ -1,0 +1,8 @@
+<div id="subject">
+  <%= image_tag @subject.image_url %>
+  <div id="regions">
+    <% @subject.regions.each do |region| %>
+      <%= content_tag :div, content_tag(:div,"#{region.id}"), id: "region-overlay-#{region.id}", :data => { :region => region.id }, class: ["region"], style: "top: #{region.y}px; left: #{region.x}px; width: #{region.width}px; height: #{region.height}px" %>
+    <% end %>
+  </div>
+</div>

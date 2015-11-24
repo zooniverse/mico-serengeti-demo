@@ -1,8 +1,8 @@
 <div id="resub-box" class="row">
-  <div class="small-8 columns">
+  <div class="small-7 columns">
     <h3>Subject <a title="View this subject on Snapshot Serengeti Talk" target="_blank" href="http://talk.snapshotserengeti.org/#/subjects/<%= @subject.zooniverse_id %>"><%= @subject.zooniverse_id %></a><br/>Frame <%= @subject.image_index %></h3>
   </div>
-  <div class="small-4 columns">
+  <div class="small-5 columns">
     <p>
       MICO Image Analysis: <strong><%= @subject.status.titleize %></strong><br/>
       <% if @subject.status=="unprocessed" %>
