@@ -24,12 +24,16 @@
   <div class="small-5 columns">
     <p>
       MICO Image Analysis: <strong><%= @subject.status.titleize %></strong><br/>
+      <!--
       <% if @subject.status=="unprocessed" %>
         <%= link_to "Submit this image to MICO platform", mico_submit_subject_path(@subject), method: :post, class: "button tiny" %>
       <% else %>
         <%= link_to "Resubmit this image to MICO platform", mico_submit_subject_path(@subject), method: :post, class: "button tiny" %>
       <% end %>
+      -->
     </p>
+    <!--
     <p class="small-sub">Please <%= link_to "ensure", 'http://demo1.mico-project.eu:8080/mico-configuration/', :target => "_blank" %> an <span style="font-family: 'Courier New', courier, monospace;">animal-detection</span> extractor is active.</p>
+    -->
   </div>
 </div>
