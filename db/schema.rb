@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151120110338) do
+ActiveRecord::Schema.define(version: 20160527092143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,14 @@ ActiveRecord::Schema.define(version: 20151120110338) do
     t.string   "mico_status"
     t.jsonb    "mico_data"
     t.string   "mico_url"
+    t.string   "mico_2015_id"
+    t.string   "mico_2015_status"
+    t.string   "mico_2015_url"
+    t.jsonb    "mico_2015_data"
+    t.datetime "mico_2015_submitted_at"
+    t.datetime "mico_2015_finished_at"
+    t.datetime "mico_submitted_at"
+    t.datetime "mico_finished_at"
   end
 
   create_table "consensus", force: :cascade do |t|
@@ -105,6 +113,12 @@ ActiveRecord::Schema.define(version: 20151120110338) do
     t.boolean  "vr1_multi_including_warthog"
     t.boolean  "vr1_multi_including_wildebeest"
     t.boolean  "vr1_multi_including_none_of_the_five"
+    t.string   "mico_2015_id"
+    t.string   "mico_2015_status"
+    t.string   "mico_2015_url"
+    t.jsonb    "mico_2015_data"
+    t.datetime "mico_2015_submitted_at"
+    t.datetime "mico_2015_finished_at"
   end
 
   add_index "subjects", ["mico_id"], name: "index_subjects_on_mico_id", unique: true, using: :btree
