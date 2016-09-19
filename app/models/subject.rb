@@ -52,7 +52,7 @@ class Subject < ActiveRecord::Base
     self.mico_data = detection.attributes
 
     if mico_data.fetch("status") == "finished"
-      if mico_data.fetch("processingEnd").present?
+      if mico_data.key?("processingBegin")
         self.mico_status = "finished"
       else
         self.mico_status = "failed"
