@@ -6,7 +6,7 @@ class AnalyseSubjectJob < Que::Job
 
     ActiveRecord::Base.transaction do
       begin
-        Timeout.timeout(5.minutes) do
+        Timeout.timeout(10.minutes) do
           until subject.mico_status == 'finished' || subject.mico_status == "failed"
             subject.upsert_mico
             subject.mico_finished_at = Time.now if subject.finished?
