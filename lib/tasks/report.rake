@@ -36,8 +36,16 @@ namespace :report do
     end
   end
 
-  task :update_recommendations => :environment do
+  task :reload_recommendations => :environment do
     Subject.where("updated_at > ?", Time.local(2016, 11, 11)).find_each do |subject|
+      subject.mico_recommendation = subject.get_recommendation
+      subject.is_debated = subject.mico_recommendation["is_debated"]
+      subject.save!
+    end
+  end
+
+  task :get_new_recommendations => :environment do
+    Subject.where("is_debated IS NULL AND updated_at > ?", Time.local(2016, 11, 11)).find_each do |subject|
       subject.mico_recommendation = subject.get_recommendation
       subject.is_debated = subject.mico_recommendation["is_debated"]
       subject.save!
