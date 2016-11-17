@@ -64,6 +64,24 @@ class Subject < ActiveRecord::Base
     self
   end
 
+  def get_recommendation
+    return unless mico_id
+
+    subject_item_url  = mico_marmotta_item_url(mico_id).gsub("/", "!S")
+    comment_item_urls = comments.pluck(:mico_id).compact.map { |comment_mico_id| CGI.escape(mico_marmotta_item_url(comment_mico_id)) }
+    query = comment_item_urls.map {|i| "chatItem=#{i}" }.join("&")
+    path = "/showcase-webapp/reco/zoo/#{subject_item_url}/is_debated?#{query}"
+    puts "http://demo1.mico-project.eu:8080/#{path}"
+
+    response = Mico::Api::Client.get(path)
+    response.to_h
+  end
+
+  def mico_marmotta_item_url(id)
+    return unless id
+    "http://demo1.mico-project.eu:8080/marmotta/#{id}"
+  end
+
   def fixed_time
     if self.consensus.site_id=="G04" and self.consensus.roll_id=="R3"
       self.image_timestamp += 60.minutes
@@ -116,6 +134,14 @@ class Subject < ActiveRecord::Base
     else
       "night"
     end
+  end
+
+  def objects
+    mico_data.fetch('objects', [])
+  end
+
+  def detected_animals
+    objects.map { |o| o['animal'] }
   end
 
   def entities_count

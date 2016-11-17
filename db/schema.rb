@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160608095829) do
+ActiveRecord::Schema.define(version: 20161116163010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,9 +119,12 @@ ActiveRecord::Schema.define(version: 20160608095829) do
     t.jsonb    "mico_2015_data"
     t.datetime "mico_2015_submitted_at"
     t.datetime "mico_2015_finished_at"
+    t.jsonb    "mico_recommendation"
+    t.boolean  "is_debated"
   end
 
   add_index "subjects", ["image_index"], name: "index_subjects_on_image_index", using: :btree
+  add_index "subjects", ["is_debated"], name: "index_subjects_on_is_debated", using: :btree
   add_index "subjects", ["mico_id"], name: "index_subjects_on_mico_id", unique: true, using: :btree
   add_index "subjects", ["mico_status"], name: "index_subjects_on_mico_status", using: :btree
   add_index "subjects", ["zooniverse_dominant_species"], name: "index_subjects_on_zooniverse_dominant_species", using: :btree

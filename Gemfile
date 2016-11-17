@@ -22,6 +22,7 @@ gem 'mico-api-client', git: 'https://github.com/zooniverse/mico-api-client'
 gem 'ruby-progressbar'
 gem 'kaminari'
 gem 'descriptive_statistics'
+gem 'colorize'
 
 platforms :ruby do
   gem 'therubyracer', '~> 0.12'

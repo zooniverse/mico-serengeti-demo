@@ -35,4 +35,29 @@ namespace :report do
       csv << ["throughput #{k}", v]
     end
   end
+
+  task :update_recommendations => :environment do
+    Subject.where("updated_at > ?", Time.local(2016, 11, 11)).find_each do |subject|
+      subject.mico_recommendation = subject.get_recommendation
+      subject.is_debated = subject.mico_recommendation["is_debated"]
+      subject.save!
+    end
+  end
+
+  task :recommendations => :environment do
+    Subject.where.not(mico_recommendation: nil).find_each do |subject|
+      color  = subject.mico_recommendation["is_debated"] ? :yellow : :white
+      result = subject.mico_recommendation.inspect.colorize(color)
+      print subject.id
+      print " - "
+      puts result
+
+      puts "Animals: #{subject.detected_animals}"
+      subject.comments.each do |comment|
+        puts "Entities: #{comment.entity_labels}" unless comment.entities.empty?
+      end
+
+      puts "\n\n"
+    end
+  end
 end

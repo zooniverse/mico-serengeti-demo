@@ -48,4 +48,8 @@ class Comment < ActiveRecord::Base
   def entities
     mico_data["entities"] || []
   end
+
+  def entity_labels
+    entities.map { |e| e['label'] }
+  end
 end

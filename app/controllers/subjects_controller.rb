@@ -8,6 +8,7 @@ class SubjectsController < ApplicationController
     @subjects = @subjects.where(zooniverse_id: params["subject_id"])                                           if params["subject_id"]
     @subjects = @subjects.where("subjects.mico_status = ?", params["status"])                                  if params["status"]
     @subjects = @subjects.where("subjects.mico_status IS NULL")                                                if params["status_unprocessed"]
+    @subjects = @subjects.where("subjects.is_debated = ?", params["is_debated"])                               if params["is_debated"]
     @subjects = @subjects.where("subjects.mico_data -> 'objectsFound' = ?", params["number_of_regions"])       if params["number_of_regions"]
     @subjects = @subjects.where("subjects.mico_data -> 'objectsFound' >= ?", params["number_of_regions_min"])  if params["number_of_regions_min"]
     @subjects = @subjects.where("subjects.mico_data -> 'objectsFound' <= ?", params["number_of_regions_max"])  if params["number_of_regions_max"]

@@ -23,6 +23,20 @@ namespace :enqueue do
     puts ' done'
   end
 
+  task :reco, [:amount] => [:environment] do |t, args|
+    limit = args[:amount].to_i
+    ss = Subject.unsubmitted.joins(:comments).uniq {|i| i.id }.sort_by{|i| i.comments.size }.reverse
+    ss.first(limit).each do |subject|
+      print "Subject #{subject.id}   "
+      AnalyseSubjectJob.enqueue(subject.id)
+      subject.comments.each do |comment|
+        print "."
+        AnalyseCommentJob.enqueue(comment.id)
+      end
+      puts ' done'
+    end
+  end
+
   desc "Enqueue N unsubmitted subjects"
   task :subjects, [:amount] => [:environment] do |t, args|
     limit = args[:amount].to_i
