@@ -53,7 +53,7 @@ namespace :enqueue do
   end
 
   desc "Enqueue N unsubmitted comments"
-  task :subjects, [:amount] => [:environment] do |t, args|
+  task :comments, [:amount] => [:environment] do |t, args|
     limit = args[:amount].to_i
 
     puts "Enqueueing up to #{limit.inspect} comments"
