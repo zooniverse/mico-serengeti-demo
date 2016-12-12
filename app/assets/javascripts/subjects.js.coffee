@@ -50,6 +50,8 @@ class window.FilterManager
         @form_filters["drop-comment-status"] = val
     else if (input_id == "drop-sentiment")
       @form_filters[input_id + "-" + val] = val
+    else if (input_id == "drop-review")
+      @form_filters[input_id] = val
     else if (input_id == "drop-status")
       if val == "unprocessed"
         @form_filters[input_id + "-unprocessed"] = val
@@ -86,6 +88,14 @@ class window.FilterManager
       else
         "Comment analysis unclear"
 
+  getRecommendationDisplayTextFromStatus: (status) =>
+    switch status
+      when "unprocessed" then "Not yet analysed"
+      when "false" then "No review needed"
+      when "true" then "Expert review recommended"
+      else
+        "Recommendation status unclear"
+
   getImageAnalysisDisplayTextFromStatus: (status) =>
     switch status
       when "unprocessed" then "Image not yet analysed"
@@ -98,6 +108,7 @@ class window.FilterManager
 
   getInputIdFromQueryField: (query_field) =>
     switch query_field
+      when "is_debated" then "drop-review"
       when "status" then "drop-status"
       when "status_unprocessed" then "drop-status-unprocessed"
       when "dataset" then "drop-dataset"
@@ -178,6 +189,7 @@ class window.FilterManager
       when "drop-total-species" then "total_species"
       when "drop-total-species-min" then "total_species_min"
       when "drop-total-species-max" then "total_species_max"
+      when "drop-review" then "is_debated"
       when "drop-status" then "status"
       when "drop-status-unprocessed" then "status_unprocessed"
       when "drop-comment-status" then "comment_status"
@@ -269,7 +281,7 @@ class window.FilterManager
 
   getFilterClass: (query_field) =>
     switch query_field
-      when "status", "dataset", "number_of_regions", "number_of_regions_max", "number_of_regions_min", "entities",  \
+      when "is_debated", "status", "dataset", "number_of_regions", "number_of_regions_max", "number_of_regions_min", "entities",  \
            "comment_status", "comment_status_unprocessed", "has_no_comment_analysis_data", \
            "has_comment_analysis_data","entities_found","entities_found_max","entities_found_min", \
            "sentiment_neutral","sentiment_positive","sentiment_negative","sentiment_any"
@@ -328,6 +340,7 @@ class window.FilterManager
       when "has_comment_analysis_data" then @getCommentAnalysisDisplayTextFromStatus val
       when "comment_status" then @getCommentAnalysisDisplayTextFromStatus val
       when "comment_status_unprocessed" then @getCommentAnalysisDisplayTextFromStatus val
+      when "is_debated" then @getRecommendationDisplayTextFromStatus val
       when "status" then @getImageAnalysisDisplayTextFromStatus val
       when "status_unprocessed" then @getImageAnalysisDisplayTextFromStatus val
       when "vr1_entire_dataset" then "in '"+query_field.substr(4)+"' test set"

@@ -17,12 +17,13 @@
     </div>
     <div id="mico-filters" class="filters-row">
       <div class="filter-row-label">Apply MICO filters:</div>
-      <a href="#" title="Latest saved status of image analysis by MICO platform" data-options="align:right" data-dropdown="drop-status" class="button">Image analysis status &raquo;</a>
+      <a href="#" title="Does the platform recommend an expert review this?" data-options="align:right" data-dropdown="drop-review" class="button">Review needed &raquo;</a>
+      <a href="#" title="Latest saved status of image analysis by MICO platform" data-options="align:right" data-dropdown="drop-status" class="button">Image analysis &raquo;</a>
       <a href="#" title="Number of rectangular regions identified by MICO animal detectors" data-options="align:right" data-dropdown="drop-regions" class="button">Animals found &raquo;</a>
-      <a href="#" title="Latest saved status of comment analysis by MICO platform" data-options="align:right" data-dropdown="drop-comment-status" class="button">Comment analysis status &raquo;</a>
+      <a href="#" title="Latest saved status of comment analysis by MICO platform" data-options="align:right" data-dropdown="drop-comment-status" class="button">Comment analysis &raquo;</a>
       <a href="#" title="Test datasets used in Validation Report" data-options="align:right" data-dropdown="drop-dataset" class="button">Test set used &raquo;</a>
-      <a href="#" title="Number of entities found by MICO comment analysis" data-options="align:right" data-dropdown="drop-entities-found" class="button">Entities found &raquo;</a>
-      <a href="#" title="Sentiment(s) found by MICO comment analysis" data-options="align:right" data-dropdown="drop-sentiment" class="button">Sentiments found &raquo;</a>
+      <a href="#" title="Number of entities found by MICO comment analysis" data-options="align:right" data-dropdown="drop-entities-found" class="button">Entities &raquo;</a>
+      <a href="#" title="Sentiment(s) found by MICO comment analysis" data-options="align:right" data-dropdown="drop-sentiment" class="button">Sentiments &raquo;</a>
     </div>
   </div>
   <hr class="slim no-bottom">
@@ -110,6 +111,10 @@
   </div>
 </div>
 
+<ul id="drop-review" class="tiny content f-dropdown acc-mico" data-dropdown-content>
+  <li><a data-value="false">No review needed</a></li>
+  <li><a data-value="true">Expert review recommended</a></li>
+</ul>
 <ul id="drop-status" class="tiny content f-dropdown acc-mico" data-dropdown-content>
   <li><a data-value="unprocessed">Not yet analysed</a></li>
   <li><a data-value="submitting">Processing (Submitted)</a></li>
