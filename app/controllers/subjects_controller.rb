@@ -80,7 +80,7 @@ class SubjectsController < ApplicationController
     when "subject_id_asc"
       @subjects = @subjects.order("zooniverse_id ASC")
     else
-      @subjects = @subjects.order("subjects.mico_status ASC, subjects.mico_data -> 'objectsFound' DESC, comments_count DESC")
+      @subjects = @subjects.order("subjects.mico_status ASC")
     end
 
     # Pagination
